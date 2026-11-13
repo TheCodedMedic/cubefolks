@@ -1,0 +1,534 @@
+{
+ "CUTS": [
+  [
+   "s01_hook",
+   0,
+   "cut"
+  ],
+  [
+   "s02_hans",
+   1.13,
+   "whipR"
+  ],
+  [
+   "s03_kids",
+   2.23,
+   "whipL"
+  ],
+  [
+   "s04_name",
+   3.8009999999999997,
+   "whipR"
+  ],
+  [
+   "s05_hoof",
+   5.05,
+   "whipL"
+  ],
+  [
+   "s06_board",
+   6.715,
+   "whipR"
+  ],
+  [
+   "s07_five",
+   7.85,
+   "cut"
+  ],
+  [
+   "s08_root",
+   8.893,
+   "whipL"
+  ],
+  [
+   "s09_four",
+   10.43,
+   "cut"
+  ],
+  [
+   "s10_snort",
+   11.19,
+   "whipR"
+  ],
+  [
+   "s11_owner",
+   12.249,
+   "whipL"
+  ],
+  [
+   "s12_teacher",
+   12.99,
+   "whipR"
+  ],
+  [
+   "s13_swore",
+   14.29,
+   "whipL"
+  ],
+  [
+   "s14_eyeroll",
+   16.122000000000003,
+   "whipR"
+  ],
+  [
+   "s15_march",
+   17.51,
+   "whipL"
+  ],
+  [
+   "s16_signals",
+   19.079,
+   "whipR"
+  ],
+  [
+   "s17_helpers",
+   20.63,
+   "whipL"
+  ],
+  [
+   "s18_anything",
+   21.49,
+   "whipR"
+  ],
+  [
+   "s19_nothing",
+   22.387,
+   "cut"
+  ],
+  [
+   "s20_away",
+   23.194000000000003,
+   "whipL"
+  ],
+  [
+   "s21_strangers",
+   24.31,
+   "whipR"
+  ],
+  [
+   "s22_ask",
+   25.17,
+   "whipL"
+  ],
+  [
+   "s23_right",
+   26.252000000000002,
+   "whipR"
+  ],
+  [
+   "s24_meanwhile",
+   27.783,
+   "flash"
+  ],
+  [
+   "s25_oskar",
+   28.51,
+   "whipL"
+  ],
+  [
+   "s26_noticed",
+   29.59,
+   "whipR"
+  ],
+  [
+   "s27_asker",
+   30.964000000000002,
+   "whipL"
+  ],
+  [
+   "s28_shrug",
+   31.91,
+   "whipR"
+  ],
+  [
+   "s29_wrong",
+   33.13,
+   "whipL"
+  ],
+  [
+   "s30_blinders",
+   34.099000000000004,
+   "whipR"
+  ],
+  [
+   "s31_vanish",
+   35.57,
+   "whipL"
+  ],
+  [
+   "s32_yousee",
+   37.075,
+   "flash"
+  ],
+  [
+   "s33_cantcount",
+   37.77,
+   "whipR"
+  ],
+  [
+   "s34_us",
+   39.196000000000005,
+   "whipL"
+  ],
+  [
+   "s35_close",
+   40.59,
+   "whipR"
+  ],
+  [
+   "s36_eyes",
+   41.49,
+   "whipL"
+  ],
+  [
+   "s37_tense",
+   42.77,
+   "whipR"
+  ],
+  [
+   "s38_face",
+   43.61,
+   "cut"
+  ],
+  [
+   "s39_final",
+   45.333,
+   "flash"
+  ],
+  [
+   "s40_relax",
+   46.49,
+   "whipL"
+  ],
+  [
+   "s41_lift",
+   47.25,
+   "whipR"
+  ],
+  [
+   "s42_stopped",
+   48.81,
+   "whipL"
+  ],
+  [
+   "s43_oskar",
+   50.071000000000005,
+   "whipR"
+  ],
+  [
+   "s44_doing",
+   51.91,
+   "whipL"
+  ],
+  [
+   "s45_still",
+   53.532000000000004,
+   "flash"
+  ],
+  [
+   "s46_effect",
+   54.97,
+   "whipR"
+  ],
+  [
+   "s47_blind",
+   56.05,
+   "whipL"
+  ],
+  [
+   "s48_genius",
+   58.279,
+   "whipR"
+  ],
+  [
+   "s49_notmath",
+   60.15,
+   "whipL"
+  ],
+  [
+   "s50_reading",
+   61.189,
+   "whipR"
+  ],
+  [
+   "s51_easy",
+   63.191,
+   "whipL"
+  ],
+  [
+   "s52_world",
+   64.91,
+   "whipR"
+  ]
+ ],
+ "TAPS": {
+  "hook": [
+   0.5,
+   1.045,
+   1.59
+  ],
+  "hoof": [
+   5.91,
+   6.41
+  ],
+  "five": [
+   7.93,
+   8.14825,
+   8.3665,
+   8.58475,
+   8.803
+  ],
+  "four": [
+   10.51,
+   10.726666666666667,
+   10.943333333333333,
+   11.16
+  ],
+  "right": [
+   26.382,
+   26.66466666666667,
+   26.947333333333333,
+   27.23
+  ],
+  "wrong": [
+   33.190000000000005,
+   33.346500000000006,
+   33.50300000000001,
+   33.65950000000001,
+   33.816,
+   33.972500000000004,
+   34.129000000000005
+  ],
+  "blind": [
+   35.62,
+   35.824999999999996,
+   36.03,
+   36.235,
+   36.44,
+   36.644999999999996,
+   36.85,
+   37.055
+  ],
+  "reveal": [
+   41.05,
+   41.49,
+   42.19,
+   43.61,
+   45.95
+  ],
+  "oskar": [
+   50.489999999999995,
+   50.894999999999996,
+   51.3,
+   51.705,
+   52.11
+  ],
+  "blindtest": [
+   56.39,
+   56.7638,
+   57.1376,
+   57.5114,
+   57.8852,
+   58.259
+  ]
+ },
+ "EV": {
+  "y1904": 0.15,
+  "berlin": 1.59,
+  "school": 3.11,
+  "hansName": 4.45,
+  "two": 6.795,
+  "root": 9.65,
+  "snort": 11.77,
+  "proud": 11.33,
+  "retired": 12.99,
+  "swore": 14.29,
+  "everything": 15.09,
+  "rolled": 16.59,
+  "trick": 18.65,
+  "signals": 19.99,
+  "helpers": 20.91,
+  "anything": 21.49,
+  "nothing": 22.49,
+  "away": 23.97,
+  "strangers": 24.71,
+  "questions": 25.67,
+  "right": 27.23,
+  "meanwhile": 27.863,
+  "oskar": 29.23,
+  "strange": 30.35,
+  "didnt": 31.91,
+  "answer": 32.51,
+  "wrong": 33.67,
+  "blinders": 34.93,
+  "vanished": 36.01,
+  "yousee": 37.155,
+  "count": 38.37,
+  "us": 40.15,
+  "tensed": 43.61,
+  "relaxed": 46.55,
+  "lifted": 47.53,
+  "stopped": 49.35,
+  "secret": 51.45,
+  "himself": 52.37,
+  "doing": 52.91,
+  "clever": 54.97,
+  "blind": 57.65,
+  "genius": 59.09,
+  "math": 60.79,
+  "reading": 62.31,
+  "people": 62.57,
+  "easy": 64.15,
+  "whole": 65.29,
+  "world": 65.59,
+  "believed": 65.95
+ },
+ "END": 67.04,
+ "POPS": [
+  {
+   "kind": "word",
+   "t0": 0.15,
+   "text": "1904"
+  },
+  {
+   "kind": "tag",
+   "t0": 1.59,
+   "text": "BERLIN"
+  },
+  {
+   "kind": "icon",
+   "t0": 3.11,
+   "icon": "?"
+  },
+  {
+   "kind": "word",
+   "t0": 4.45,
+   "text": "HANS"
+  },
+  {
+   "kind": "word",
+   "t0": 6.795,
+   "text": "2 + 3 = ?"
+  },
+  {
+   "kind": "word",
+   "t0": 9.65,
+   "text": "√16 = ?"
+  },
+  {
+   "kind": "word",
+   "t0": 11.77,
+   "text": "SNORT!"
+  },
+  {
+   "kind": "tag",
+   "t0": 12.99,
+   "text": "RETIRED MATH TEACHER"
+  },
+  {
+   "kind": "icon",
+   "t0": 14.29,
+   "icon": "heart"
+  },
+  {
+   "kind": "word",
+   "t0": 18.65,
+   "text": "TRICK?"
+  },
+  {
+   "kind": "icon",
+   "t0": 19.99,
+   "icon": "?"
+  },
+  {
+   "kind": "icon",
+   "t0": 20.91,
+   "icon": "?"
+  },
+  {
+   "kind": "icon",
+   "t0": 21.49,
+   "icon": "?"
+  },
+  {
+   "kind": "stamp",
+   "t0": 22.49,
+   "text": "NO TRICK"
+  },
+  {
+   "kind": "icon",
+   "t0": 27.23,
+   "icon": "check"
+  },
+  {
+   "kind": "word",
+   "t0": 27.863,
+   "text": "MEANWHILE..."
+  },
+  {
+   "kind": "tag",
+   "t0": 29.23,
+   "text": "OSKAR"
+  },
+  {
+   "kind": "icon",
+   "t0": 30.35,
+   "icon": "!"
+  },
+  {
+   "kind": "icon",
+   "t0": 31.91,
+   "icon": "?"
+  },
+  {
+   "kind": "icon",
+   "t0": 33.67,
+   "icon": "cross"
+  },
+  {
+   "kind": "tag",
+   "t0": 34.93,
+   "text": "BLINDERS"
+  },
+  {
+   "kind": "icon",
+   "t0": 36.36,
+   "icon": "cross"
+  },
+  {
+   "kind": "word",
+   "t0": 38.37,
+   "text": "1, 2, 3...?"
+  },
+  {
+   "kind": "word",
+   "t0": 54.97,
+   "text": "CLEVER HANS"
+  },
+  {
+   "kind": "word",
+   "t0": 55.22,
+   "text": "EFFECT"
+  },
+  {
+   "kind": "stamp",
+   "t0": 57.65,
+   "text": "BLIND TEST"
+  },
+  {
+   "kind": "word",
+   "t0": 59.09,
+   "text": "GENIUS"
+  },
+  {
+   "kind": "word",
+   "t0": 60.15,
+   "text": "MATH"
+  },
+  {
+   "kind": "icon",
+   "t0": 60.79,
+   "icon": "cross"
+  }
+ ]
+}

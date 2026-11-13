@@ -1,0 +1,4 @@
+faster-whisper>=1.2
+numpy>=2
+requests>=2.32
+msgpack>=1.0

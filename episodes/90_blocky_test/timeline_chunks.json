@@ -1,0 +1,26 @@
+[
+ {
+  "index": 1,
+  "speaker": "N",
+  "start": 0.05,
+  "end": 2.759,
+  "gap_after": 0.12,
+  "text": "Every house on Maple Street has the same family living in it."
+ },
+ {
+  "index": 2,
+  "speaker": "N",
+  "start": 2.879,
+  "end": 5.478,
+  "gap_after": 0.12,
+  "text": "Same dad, same mom, same little kid."
+ },
+ {
+  "index": 3,
+  "speaker": "N",
+  "start": 5.598,
+  "end": 7.563,
+  "gap_after": 0.12,
+  "text": "And tonight, one of them knocked on my door."
+ }
+]

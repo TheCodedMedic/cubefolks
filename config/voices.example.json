@@ -1,0 +1,22 @@
+{
+  "provider": "fish",
+  "model_header": "s2.1-pro-free",
+  "format": "mp3",
+  "latency": "normal",
+  "api_key_env": "BEAN_FISH_API_KEY",
+  "default_speaker": "N",
+  "voices": {
+    "N": {
+      "name": "narrator (the owner's voice)",
+      "voice_id": "<the owner's Fish voice id: see docs/VOICE.md>",
+      "gain_db": 0.0,
+      "notes": "Every Short uses this voice unless the owner says otherwise."
+    },
+    "N_REF": {
+      "name": "narrator, cloned on the fly from a sample",
+      "reference_audio": "voice_auditions/owner.wav",
+      "gain_db": 0.0
+    }
+  },
+  "_note": "Copy to config/voices.json and fill in. Voice ids are not secret keys, but keep them in this repo only."
+}

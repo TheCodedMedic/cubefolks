@@ -1,0 +1,8 @@
+{
+  "title": "The Reflection That Blinks First",
+  "voice": {
+    "lead": 0.05,
+    "gap_default": 0.12,
+    "tail": 0.6
+  }
+}

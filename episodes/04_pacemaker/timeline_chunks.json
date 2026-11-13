@@ -1,0 +1,178 @@
+[
+ {
+  "index": 1,
+  "speaker": "N",
+  "start": 0.05,
+  "end": 5.165,
+  "gap_after": 0.15,
+  "text": "In 1956, a man grabbed the wrong part from a box, and his machine started beating like a heart."
+ },
+ {
+  "index": 2,
+  "speaker": "N",
+  "start": 5.315,
+  "end": 9.438,
+  "gap_after": 0.15,
+  "text": "His name was Wilson Greatbatch, and he was building a gadget to record heartbeats."
+ },
+ {
+  "index": 3,
+  "speaker": "N",
+  "start": 9.588,
+  "end": 11.109,
+  "gap_after": 0.15,
+  "text": "He reached for a tiny resistor."
+ },
+ {
+  "index": 4,
+  "speaker": "N",
+  "start": 11.259,
+  "end": 13.592,
+  "gap_after": 0.15,
+  "text": "But he grabbed one a hundred times too strong."
+ },
+ {
+  "index": 5,
+  "speaker": "N",
+  "start": 13.742,
+  "end": 16.078,
+  "gap_after": 0.15,
+  "text": "He soldered it in, switched it on, and froze."
+ },
+ {
+  "index": 6,
+  "speaker": "N",
+  "start": 16.228,
+  "end": 18.082,
+  "gap_after": 0.15,
+  "text": "The circuit went quiet, then pulsed."
+ },
+ {
+  "index": 7,
+  "speaker": "N",
+  "start": 18.232,
+  "end": 19.255,
+  "gap_after": 0.15,
+  "text": "Quiet, pulse."
+ },
+ {
+  "index": 8,
+  "speaker": "N",
+  "start": 19.405,
+  "end": 20.388,
+  "gap_after": 0.15,
+  "text": "Quiet, pulse."
+ },
+ {
+  "index": 9,
+  "speaker": "N",
+  "start": 20.538,
+  "end": 22.671,
+  "gap_after": 0.15,
+  "text": "Once every second, just like a heart."
+ },
+ {
+  "index": 10,
+  "speaker": "N",
+  "start": 22.821,
+  "end": 26.624,
+  "gap_after": 0.15,
+  "text": "Meanwhile, doctors had patients whose hearts kept slowing down until they stopped."
+ },
+ {
+  "index": 11,
+  "speaker": "N",
+  "start": 26.774,
+  "end": 30.555,
+  "gap_after": 0.15,
+  "text": "The only machines that could help were as big as a TV and plugged into the wall."
+ },
+ {
+  "index": 12,
+  "speaker": "N",
+  "start": 30.705,
+  "end": 33.332,
+  "gap_after": 0.15,
+  "text": "If the power went out, the patient was in serious trouble."
+ },
+ {
+  "index": 13,
+  "speaker": "N",
+  "start": 33.482,
+  "end": 36.445,
+  "gap_after": 0.15,
+  "text": "You see, every heartbeat starts with a tiny electrical spark."
+ },
+ {
+  "index": 14,
+  "speaker": "N",
+  "start": 36.595,
+  "end": 39.025,
+  "gap_after": 0.15,
+  "text": "In those patients, the spark wasn't getting through."
+ },
+ {
+  "index": 15,
+  "speaker": "N",
+  "start": 39.175,
+  "end": 43.046,
+  "gap_after": 0.15,
+  "text": "And Wilson's mistake made the exact spark a heart needs, once every second."
+ },
+ {
+  "index": 16,
+  "speaker": "N",
+  "start": 43.196,
+  "end": 45.914,
+  "gap_after": 0.15,
+  "text": "So he shrank it until it fit in the palm of your hand."
+ },
+ {
+  "index": 17,
+  "speaker": "N",
+  "start": 46.064,
+  "end": 48.765,
+  "gap_after": 0.15,
+  "text": "He quit his job and built them in the barn behind his house."
+ },
+ {
+  "index": 18,
+  "speaker": "N",
+  "start": 48.915,
+  "end": 52.656,
+  "gap_after": 0.15,
+  "text": "In 1960, surgeons placed one inside a seventy-seven-year-old man."
+ },
+ {
+  "index": 19,
+  "speaker": "N",
+  "start": 52.806,
+  "end": 54.263,
+  "gap_after": 0.15,
+  "text": "His heart beat steady again."
+ },
+ {
+  "index": 20,
+  "speaker": "N",
+  "start": 54.413,
+  "end": 57.487,
+  "gap_after": 0.15,
+  "text": "Today, millions of people walk around with one in their chest."
+ },
+ {
+  "index": 21,
+  "speaker": "N",
+  "start": 57.637,
+  "end": 60.007,
+  "gap_after": 0.15,
+  "text": "All because of one wrong part from one box."
+ },
+ {
+  "index": 22,
+  "speaker": "N",
+  "start": 60.157,
+  "end": 61.421,
+  "gap_after": 0.15,
+  "text": "And it all began when..."
+ }
+]

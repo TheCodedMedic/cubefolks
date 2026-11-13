@@ -1,0 +1,170 @@
+[
+{
+"i": 0,
+"word": "Every",
+"start": 0.0,
+"end": 0.2
+},
+{
+"i": 1,
+"word": "house",
+"start": 0.2,
+"end": 0.5
+},
+{
+"i": 2,
+"word": "on",
+"start": 0.5,
+"end": 0.64
+},
+{
+"i": 3,
+"word": "Maple",
+"start": 0.64,
+"end": 0.88
+},
+{
+"i": 4,
+"word": "Street",
+"start": 0.88,
+"end": 1.18
+},
+{
+"i": 5,
+"word": "has",
+"start": 1.18,
+"end": 1.36
+},
+{
+"i": 6,
+"word": "the",
+"start": 1.36,
+"end": 1.52
+},
+{
+"i": 7,
+"word": "same",
+"start": 1.52,
+"end": 1.8
+},
+{
+"i": 8,
+"word": "family",
+"start": 1.8,
+"end": 2.18
+},
+{
+"i": 9,
+"word": "living",
+"start": 2.18,
+"end": 2.44
+},
+{
+"i": 10,
+"word": "in",
+"start": 2.44,
+"end": 2.6
+},
+{
+"i": 11,
+"word": "it.",
+"start": 2.6,
+"end": 2.7
+},
+{
+"i": 12,
+"word": "Same",
+"start": 2.94,
+"end": 3.08
+},
+{
+"i": 13,
+"word": "dad,",
+"start": 3.08,
+"end": 3.38
+},
+{
+"i": 14,
+"word": "same",
+"start": 3.76,
+"end": 3.9
+},
+{
+"i": 15,
+"word": "mom,",
+"start": 3.9,
+"end": 4.2
+},
+{
+"i": 16,
+"word": "same",
+"start": 4.54,
+"end": 4.7
+},
+{
+"i": 17,
+"word": "little",
+"start": 4.7,
+"end": 4.94
+},
+{
+"i": 18,
+"word": "kid.",
+"start": 4.94,
+"end": 5.26
+},
+{
+"i": 19,
+"word": "And",
+"start": 5.548,
+"end": 5.64
+},
+{
+"i": 20,
+"word": "tonight,",
+"start": 5.64,
+"end": 5.92
+},
+{
+"i": 21,
+"word": "one",
+"start": 6.16,
+"end": 6.34
+},
+{
+"i": 22,
+"word": "of",
+"start": 6.34,
+"end": 6.44
+},
+{
+"i": 23,
+"word": "them",
+"start": 6.44,
+"end": 6.58
+},
+{
+"i": 24,
+"word": "knocked",
+"start": 6.58,
+"end": 6.82
+},
+{
+"i": 25,
+"word": "on",
+"start": 6.82,
+"end": 7.0
+},
+{
+"i": 26,
+"word": "my",
+"start": 7.0,
+"end": 7.16
+},
+{
+"i": 27,
+"word": "door.",
+"start": 7.16,
+"end": 7.4
+}
+]

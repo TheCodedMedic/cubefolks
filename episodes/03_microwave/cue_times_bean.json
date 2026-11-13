@@ -1,0 +1,463 @@
+{
+ "CUTS": [
+  [
+   "s01_hook",
+   0,
+   "cut"
+  ],
+  [
+   "s02_invented",
+   1.51,
+   "whipR"
+  ],
+  [
+   "s03_choc",
+   3.19,
+   "whipL"
+  ],
+  [
+   "s04_name",
+   4.89,
+   "whipR"
+  ],
+  [
+   "s05_school",
+   6.99,
+   "whipL"
+  ],
+  [
+   "s06_built",
+   8.447,
+   "whipR"
+  ],
+  [
+   "s07_war",
+   9.69,
+   "whipL"
+  ],
+  [
+   "s08_brilliant",
+   10.45,
+   "whipR"
+  ],
+  [
+   "s09_oneday",
+   11.504,
+   "whipL"
+  ],
+  [
+   "s10_humming",
+   13.03,
+   "whipR"
+  ],
+  [
+   "s11_sticky",
+   14.07,
+   "whipL"
+  ],
+  [
+   "s12_goo",
+   15.28,
+   "whipR"
+  ],
+  [
+   "s13_goo2",
+   16.41,
+   "cut"
+  ],
+  [
+   "s14_room",
+   17.305000000000003,
+   "whipL"
+  ],
+  [
+   "s15_he",
+   18.559,
+   "whipR"
+  ],
+  [
+   "s16_sent",
+   19.684,
+   "whipL"
+  ],
+  [
+   "s17_bag",
+   20.95,
+   "whipR"
+  ],
+  [
+   "s18_held",
+   22.378,
+   "whipL"
+  ],
+  [
+   "s19_burst",
+   23.95,
+   "cut"
+  ],
+  [
+   "s20_lab",
+   24.65,
+   "whipR"
+  ],
+  [
+   "s21_egg",
+   25.486,
+   "whipL"
+  ],
+  [
+   "s22_wobble",
+   27.01,
+   "whipR"
+  ],
+  [
+   "s24_splat",
+   28.19,
+   "flash"
+  ],
+  [
+   "s25_face",
+   29.13,
+   "whipL"
+  ],
+  [
+   "s26_meanwhile",
+   30.149,
+   "flash"
+  ],
+  [
+   "s27_factory",
+   31.85,
+   "whipR"
+  ],
+  [
+   "s28_thousands",
+   32.63,
+   "whipL"
+  ],
+  [
+   "s29_useless",
+   33.77,
+   "whipR"
+  ],
+  [
+   "s30_yousee",
+   35.274,
+   "flash"
+  ],
+  [
+   "s31_firing",
+   36.77,
+   "whipL"
+  ],
+  [
+   "s32_invisible",
+   37.59,
+   "whipR"
+  ],
+  [
+   "s33_molecule",
+   38.912,
+   "whipL"
+  ],
+  [
+   "s34_inside",
+   41.17,
+   "whipR"
+  ],
+  [
+   "s35_spin",
+   41.95,
+   "whipL"
+  ],
+  [
+   "s36_billions",
+   43.09,
+   "whipR"
+  ],
+  [
+   "s37_jiggle",
+   44.464,
+   "whipL"
+  ],
+  [
+   "s38_heat",
+   45.91,
+   "whipR"
+  ],
+  [
+   "s39_snack",
+   47.514,
+   "whipL"
+  ],
+  [
+   "s40_room",
+   49.13,
+   "whipR"
+  ],
+  [
+   "s41_war",
+   50.191,
+   "whipL"
+  ],
+  [
+   "s42_kitchen",
+   51.77,
+   "flash"
+  ],
+  [
+   "s43_taller",
+   52.914,
+   "whipR"
+  ],
+  [
+   "s44_piano",
+   54.85,
+   "whipL"
+  ],
+  [
+   "s45_cost",
+   56.457,
+   "whipR"
+  ],
+  [
+   "s46_today",
+   58.539,
+   "whipL"
+  ],
+  [
+   "s47_every",
+   59.69,
+   "whipR"
+  ],
+  [
+   "s48_notbad",
+   60.651,
+   "whipL"
+  ],
+  [
+   "s49_ruined",
+   62.45,
+   "whipR"
+  ],
+  [
+   "s50_loop",
+   63.637,
+   "whipL"
+  ]
+ ],
+ "EV": {
+  "y1945": 0.17,
+  "invented": 1.51,
+  "cook": 2.53,
+  "chocolate": 3.19,
+  "melted": 3.77,
+  "pocket": 4.43,
+  "percy": 5.61,
+  "spencer": 5.99,
+  "never": 6.99,
+  "finished": 7.51,
+  "school": 7.87,
+  "built": 8.77,
+  "radar3": 8.99,
+  "war3": 9.95,
+  "brilliant": 10.67,
+  "oneDay": 11.59,
+  "standing": 12.15,
+  "humming": 13.03,
+  "tube4": 13.57,
+  "felt": 14.15,
+  "sticky": 14.69,
+  "choc5": 15.47,
+  "turned5": 16.41,
+  "goo": 16.79,
+  "room6": 17.49,
+  "wasnt6": 17.75,
+  "hot6": 18.03,
+  "wasnt7": 18.77,
+  "hot7": 19.11,
+  "sent": 20.01,
+  "someone": 20.23,
+  "bag": 21.09,
+  "popcorn": 21.45,
+  "kernels": 21.75,
+  "held": 22.55,
+  "near": 22.99,
+  "burst": 23.95,
+  "all9": 24.27,
+  "lab": 25.07,
+  "next": 25.61,
+  "tried": 26.15,
+  "egg": 26.55,
+  "wobbled": 27.15,
+  "shook": 27.85,
+  "exploded": 28.19,
+  "coworkers": 29.23,
+  "face": 29.77,
+  "meanwhile": 30.25,
+  "ending": 31.37,
+  "factorys": 32.03,
+  "thousands": 32.63,
+  "tubes12": 33.43,
+  "useless": 34.61,
+  "yousee": 35.39,
+  "firing": 36.99,
+  "invisible": 37.59,
+  "microwaves13": 38.03,
+  "make": 39.71,
+  "tiny": 40.05,
+  "water": 40.31,
+  "molecules": 40.63,
+  "inside14": 41.17,
+  "food14": 41.49,
+  "spin": 41.95,
+  "back": 42.39,
+  "forth": 42.81,
+  "billions": 43.09,
+  "second": 44.11,
+  "jiggling": 44.95,
+  "heat": 45.91,
+  "inside15": 46.61,
+  "food15": 47.09,
+  "snack16": 48.23,
+  "hot16": 48.69,
+  "room16": 49.41,
+  "didnt": 49.63,
+  "company": 50.51,
+  "war17": 51.27,
+  "into": 51.77,
+  "kitchen17": 52.17,
+  "machine2": 51.43,
+  "first": 53.09,
+  "taller": 53.77,
+  "man18": 54.41,
+  "weighed": 54.95,
+  "piano": 55.91,
+  "cost": 56.61,
+  "five": 57.13,
+  "dollars": 58.469,
+  "today": 58.619,
+  "every": 59.27,
+  "kitchen20": 59.69,
+  "one20": 60.29,
+  "notBad": 60.731,
+  "guy": 61.47,
+  "no": 61.83,
+  "diploma": 62.03,
+  "ruined": 62.85,
+  "snack21": 63.07,
+  "and22": 63.717,
+  "started": 64.07,
+  "when": 64.47
+ },
+ "END": 65.467,
+ "BURST_T0": 23.9,
+ "BOOM_T0": 28.240000000000002,
+ "POPS": [
+  {
+   "kind": "word",
+   "t0": 0.17,
+   "text": "1945"
+  },
+  {
+   "kind": "tag",
+   "t0": 5.61,
+   "text": "PERCY SPENCER"
+  },
+  {
+   "kind": "stamp",
+   "t0": 7.51,
+   "text": "NO DIPLOMA"
+  },
+  {
+   "kind": "icon",
+   "t0": 14.69,
+   "icon": "!"
+  },
+  {
+   "kind": "word",
+   "t0": 16.79,
+   "text": "GOO!"
+  },
+  {
+   "kind": "icon",
+   "t0": 18.03,
+   "icon": "cross"
+  },
+  {
+   "kind": "icon",
+   "t0": 19.11,
+   "icon": "cross"
+  },
+  {
+   "kind": "word",
+   "t0": 23.97,
+   "text": "POP!"
+  },
+  {
+   "kind": "word",
+   "t0": 24.15,
+   "text": "POP!"
+  },
+  {
+   "kind": "word",
+   "t0": 24.37,
+   "text": "POP!"
+  },
+  {
+   "kind": "stamp",
+   "t0": 28.240000000000002,
+   "text": "SPLAT!"
+  },
+  {
+   "kind": "word",
+   "t0": 30.25,
+   "text": "MEANWHILE..."
+  },
+  {
+   "kind": "stamp",
+   "t0": 34.61,
+   "text": "USELESS"
+  },
+  {
+   "kind": "word",
+   "t0": 43.09,
+   "text": "1,000,000,000"
+  },
+  {
+   "kind": "word",
+   "t0": 43.39,
+   "text": "SPINS / SEC"
+  },
+  {
+   "kind": "word",
+   "t0": 45.91,
+   "text": "HEAT INSIDE"
+  },
+  {
+   "kind": "word",
+   "t0": 55.91,
+   "text": "750 LB"
+  },
+  {
+   "kind": "word",
+   "t0": 57.13,
+   "text": "$5,000"
+  },
+  {
+   "kind": "icon",
+   "t0": 59.27,
+   "icon": "check"
+  },
+  {
+   "kind": "word",
+   "t0": 59.42,
+   "text": "EVERY KITCHEN"
+  },
+  {
+   "kind": "stamp",
+   "t0": 61.83,
+   "text": "NO DIPLOMA"
+  }
+ ]
+}

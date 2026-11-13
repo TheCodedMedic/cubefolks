@@ -1,0 +1,1340 @@
+[
+{
+"i": 0,
+"word": "In",
+"start": 0.0,
+"end": 0.1
+},
+{
+"i": 1,
+"word": "1904,",
+"start": 0.1,
+"end": 0.82
+},
+{
+"i": 2,
+"word": "a",
+"start": 1.08,
+"end": 1.2
+},
+{
+"i": 3,
+"word": "horse",
+"start": 1.2,
+"end": 1.42
+},
+{
+"i": 4,
+"word": "in",
+"start": 1.42,
+"end": 1.54
+},
+{
+"i": 5,
+"word": "Berlin",
+"start": 1.54,
+"end": 1.76
+},
+{
+"i": 6,
+"word": "could",
+"start": 1.76,
+"end": 2.0
+},
+{
+"i": 7,
+"word": "do",
+"start": 2.0,
+"end": 2.18
+},
+{
+"i": 8,
+"word": "math",
+"start": 2.18,
+"end": 2.46
+},
+{
+"i": 9,
+"word": "better",
+"start": 2.46,
+"end": 2.7
+},
+{
+"i": 10,
+"word": "than",
+"start": 2.7,
+"end": 2.84
+},
+{
+"i": 11,
+"word": "most",
+"start": 2.84,
+"end": 3.06
+},
+{
+"i": 12,
+"word": "schoolchildren.",
+"start": 3.06,
+"end": 3.681
+},
+{
+"i": 13,
+"word": "His",
+"start": 3.831,
+"end": 3.94
+},
+{
+"i": 14,
+"word": "name",
+"start": 3.94,
+"end": 4.22
+},
+{
+"i": 15,
+"word": "was",
+"start": 4.22,
+"end": 4.4
+},
+{
+"i": 16,
+"word": "Hans,",
+"start": 4.4,
+"end": 4.74
+},
+{
+"i": 17,
+"word": "and",
+"start": 5.0,
+"end": 5.1
+},
+{
+"i": 18,
+"word": "he",
+"start": 5.1,
+"end": 5.18
+},
+{
+"i": 19,
+"word": "answered",
+"start": 5.18,
+"end": 5.54
+},
+{
+"i": 20,
+"word": "by",
+"start": 5.54,
+"end": 5.74
+},
+{
+"i": 21,
+"word": "tapping",
+"start": 5.74,
+"end": 6.04
+},
+{
+"i": 22,
+"word": "his",
+"start": 6.04,
+"end": 6.28
+},
+{
+"i": 23,
+"word": "hoof.",
+"start": 6.28,
+"end": 6.5
+},
+{
+"i": 24,
+"word": "Two",
+"start": 6.745,
+"end": 6.92
+},
+{
+"i": 25,
+"word": "plus",
+"start": 6.92,
+"end": 7.16
+},
+{
+"i": 26,
+"word": "three?",
+"start": 7.16,
+"end": 7.52
+},
+{
+"i": 27,
+"word": "Five",
+"start": 7.8,
+"end": 8.08
+},
+{
+"i": 28,
+"word": "taps.",
+"start": 8.08,
+"end": 8.4
+},
+{
+"i": 29,
+"word": "The",
+"start": 8.923,
+"end": 9.0
+},
+{
+"i": 30,
+"word": "square",
+"start": 9.0,
+"end": 9.24
+},
+{
+"i": 31,
+"word": "root",
+"start": 9.24,
+"end": 9.52
+},
+{
+"i": 32,
+"word": "of",
+"start": 9.52,
+"end": 9.6
+},
+{
+"i": 33,
+"word": "sixteen?",
+"start": 9.6,
+"end": 9.98
+},
+{
+"i": 34,
+"word": "Four",
+"start": 10.38,
+"end": 10.6
+},
+{
+"i": 35,
+"word": "taps,",
+"start": 10.6,
+"end": 10.9
+},
+{
+"i": 36,
+"word": "and",
+"start": 11.14,
+"end": 11.2
+},
+{
+"i": 37,
+"word": "a",
+"start": 11.2,
+"end": 11.28
+},
+{
+"i": 38,
+"word": "proud",
+"start": 11.28,
+"end": 11.52
+},
+{
+"i": 39,
+"word": "little",
+"start": 11.52,
+"end": 11.72
+},
+{
+"i": 40,
+"word": "snort.",
+"start": 11.72,
+"end": 12.08
+},
+{
+"i": 41,
+"word": "His",
+"start": 12.28,
+"end": 12.4
+},
+{
+"i": 42,
+"word": "owner,",
+"start": 12.4,
+"end": 12.7
+},
+{
+"i": 43,
+"word": "a",
+"start": 12.88,
+"end": 12.94
+},
+{
+"i": 44,
+"word": "retired",
+"start": 12.94,
+"end": 13.32
+},
+{
+"i": 45,
+"word": "math",
+"start": 13.32,
+"end": 13.64
+},
+{
+"i": 46,
+"word": "teacher,",
+"start": 13.64,
+"end": 13.94
+},
+{
+"i": 47,
+"word": "swore",
+"start": 14.24,
+"end": 14.48
+},
+{
+"i": 48,
+"word": "he",
+"start": 14.48,
+"end": 14.66
+},
+{
+"i": 49,
+"word": "had",
+"start": 14.66,
+"end": 14.74
+},
+{
+"i": 50,
+"word": "taught",
+"start": 14.74,
+"end": 14.9
+},
+{
+"i": 51,
+"word": "him",
+"start": 14.9,
+"end": 15.04
+},
+{
+"i": 52,
+"word": "everything",
+"start": 15.04,
+"end": 15.38
+},
+{
+"i": 53,
+"word": "himself.",
+"start": 15.38,
+"end": 15.86
+},
+{
+"i": 54,
+"word": "Scientists",
+"start": 16.16,
+"end": 16.54
+},
+{
+"i": 55,
+"word": "rolled",
+"start": 16.54,
+"end": 16.94
+},
+{
+"i": 56,
+"word": "their",
+"start": 16.94,
+"end": 17.14
+},
+{
+"i": 57,
+"word": "eyes",
+"start": 17.14,
+"end": 17.46
+},
+{
+"i": 58,
+"word": "and",
+"start": 17.46,
+"end": 17.66
+},
+{
+"i": 59,
+"word": "came",
+"start": 17.66,
+"end": 17.86
+},
+{
+"i": 60,
+"word": "to",
+"start": 17.86,
+"end": 18.02
+},
+{
+"i": 61,
+"word": "expose",
+"start": 18.02,
+"end": 18.32
+},
+{
+"i": 62,
+"word": "the",
+"start": 18.32,
+"end": 18.6
+},
+{
+"i": 63,
+"word": "trick.",
+"start": 18.6,
+"end": 18.84
+},
+{
+"i": 64,
+"word": "They",
+"start": 19.109,
+"end": 19.2
+},
+{
+"i": 65,
+"word": "searched",
+"start": 19.2,
+"end": 19.54
+},
+{
+"i": 66,
+"word": "for",
+"start": 19.54,
+"end": 19.7
+},
+{
+"i": 67,
+"word": "hidden",
+"start": 19.7,
+"end": 19.94
+},
+{
+"i": 68,
+"word": "signals,",
+"start": 19.94,
+"end": 20.4
+},
+{
+"i": 69,
+"word": "secret",
+"start": 20.58,
+"end": 20.86
+},
+{
+"i": 70,
+"word": "helpers,",
+"start": 20.86,
+"end": 21.28
+},
+{
+"i": 71,
+"word": "anything",
+"start": 21.44,
+"end": 21.7
+},
+{
+"i": 72,
+"word": "at",
+"start": 21.7,
+"end": 21.92
+},
+{
+"i": 73,
+"word": "all.",
+"start": 21.92,
+"end": 22.14
+},
+{
+"i": 74,
+"word": "Nothing.",
+"start": 22.44,
+"end": 22.78
+},
+{
+"i": 75,
+"word": "They",
+"start": 23.224,
+"end": 23.32
+},
+{
+"i": 76,
+"word": "sent",
+"start": 23.32,
+"end": 23.52
+},
+{
+"i": 77,
+"word": "the",
+"start": 23.52,
+"end": 23.66
+},
+{
+"i": 78,
+"word": "owner",
+"start": 23.66,
+"end": 23.92
+},
+{
+"i": 79,
+"word": "away",
+"start": 23.92,
+"end": 24.26
+},
+{
+"i": 80,
+"word": "and",
+"start": 24.26,
+"end": 24.52
+},
+{
+"i": 81,
+"word": "let",
+"start": 24.52,
+"end": 24.66
+},
+{
+"i": 82,
+"word": "strangers",
+"start": 24.66,
+"end": 25.12
+},
+{
+"i": 83,
+"word": "ask",
+"start": 25.12,
+"end": 25.5
+},
+{
+"i": 84,
+"word": "the",
+"start": 25.5,
+"end": 25.62
+},
+{
+"i": 85,
+"word": "questions.",
+"start": 25.62,
+"end": 25.92
+},
+{
+"i": 86,
+"word": "Hans",
+"start": 26.282,
+"end": 26.52
+},
+{
+"i": 87,
+"word": "still",
+"start": 26.52,
+"end": 26.8
+},
+{
+"i": 88,
+"word": "got",
+"start": 26.8,
+"end": 27.0
+},
+{
+"i": 89,
+"word": "them",
+"start": 27.0,
+"end": 27.18
+},
+{
+"i": 90,
+"word": "right.",
+"start": 27.18,
+"end": 27.4
+},
+{
+"i": 91,
+"word": "Meanwhile,",
+"start": 27.813,
+"end": 28.1
+},
+{
+"i": 92,
+"word": "a",
+"start": 28.38,
+"end": 28.46
+},
+{
+"i": 93,
+"word": "young",
+"start": 28.46,
+"end": 28.66
+},
+{
+"i": 94,
+"word": "student",
+"start": 28.66,
+"end": 28.96
+},
+{
+"i": 95,
+"word": "named",
+"start": 28.96,
+"end": 29.18
+},
+{
+"i": 96,
+"word": "Oskar",
+"start": 29.18,
+"end": 29.54
+},
+{
+"i": 97,
+"word": "noticed",
+"start": 29.54,
+"end": 29.94
+},
+{
+"i": 98,
+"word": "something",
+"start": 29.94,
+"end": 30.3
+},
+{
+"i": 99,
+"word": "strange.",
+"start": 30.3,
+"end": 30.7
+},
+{
+"i": 100,
+"word": "When",
+"start": 30.994,
+"end": 31.1
+},
+{
+"i": 101,
+"word": "the",
+"start": 31.1,
+"end": 31.22
+},
+{
+"i": 102,
+"word": "person",
+"start": 31.22,
+"end": 31.48
+},
+{
+"i": 103,
+"word": "asking",
+"start": 31.48,
+"end": 31.86
+},
+{
+"i": 104,
+"word": "didn't",
+"start": 31.86,
+"end": 32.2
+},
+{
+"i": 105,
+"word": "know",
+"start": 32.2,
+"end": 32.34
+},
+{
+"i": 106,
+"word": "the",
+"start": 32.34,
+"end": 32.46
+},
+{
+"i": 107,
+"word": "answer,",
+"start": 32.46,
+"end": 32.8
+},
+{
+"i": 108,
+"word": "Hans",
+"start": 33.08,
+"end": 33.22
+},
+{
+"i": 109,
+"word": "got",
+"start": 33.22,
+"end": 33.5
+},
+{
+"i": 110,
+"word": "it",
+"start": 33.5,
+"end": 33.62
+},
+{
+"i": 111,
+"word": "wrong.",
+"start": 33.62,
+"end": 33.84
+},
+{
+"i": 112,
+"word": "And",
+"start": 34.129,
+"end": 34.22
+},
+{
+"i": 113,
+"word": "when",
+"start": 34.22,
+"end": 34.32
+},
+{
+"i": 114,
+"word": "Hans",
+"start": 34.32,
+"end": 34.68
+},
+{
+"i": 115,
+"word": "wore",
+"start": 34.68,
+"end": 34.88
+},
+{
+"i": 116,
+"word": "blinders,",
+"start": 34.88,
+"end": 35.38
+},
+{
+"i": 117,
+"word": "his",
+"start": 35.52,
+"end": 35.62
+},
+{
+"i": 118,
+"word": "genius",
+"start": 35.62,
+"end": 35.96
+},
+{
+"i": 119,
+"word": "vanished",
+"start": 35.96,
+"end": 36.38
+},
+{
+"i": 120,
+"word": "completely.",
+"start": 36.38,
+"end": 36.88
+},
+{
+"i": 121,
+"word": "You",
+"start": 37.105,
+"end": 37.2
+},
+{
+"i": 122,
+"word": "see,",
+"start": 37.2,
+"end": 37.44
+},
+{
+"i": 123,
+"word": "Hans",
+"start": 37.72,
+"end": 37.96
+},
+{
+"i": 124,
+"word": "couldn't",
+"start": 37.96,
+"end": 38.32
+},
+{
+"i": 125,
+"word": "count",
+"start": 38.32,
+"end": 38.56
+},
+{
+"i": 126,
+"word": "at",
+"start": 38.56,
+"end": 38.7
+},
+{
+"i": 127,
+"word": "all.",
+"start": 38.7,
+"end": 38.92
+},
+{
+"i": 128,
+"word": "He",
+"start": 39.226,
+"end": 39.36
+},
+{
+"i": 129,
+"word": "was",
+"start": 39.36,
+"end": 39.52
+},
+{
+"i": 130,
+"word": "counting",
+"start": 39.52,
+"end": 39.84
+},
+{
+"i": 131,
+"word": "on",
+"start": 39.84,
+"end": 40.1
+},
+{
+"i": 132,
+"word": "us.",
+"start": 40.1,
+"end": 40.34
+},
+{
+"i": 133,
+"word": "As",
+"start": 40.68,
+"end": 40.86
+},
+{
+"i": 134,
+"word": "his",
+"start": 40.86,
+"end": 41.0
+},
+{
+"i": 135,
+"word": "hoof",
+"start": 41.0,
+"end": 41.22
+},
+{
+"i": 136,
+"word": "got",
+"start": 41.22,
+"end": 41.44
+},
+{
+"i": 137,
+"word": "close",
+"start": 41.44,
+"end": 41.72
+},
+{
+"i": 138,
+"word": "to",
+"start": 41.72,
+"end": 41.88
+},
+{
+"i": 139,
+"word": "the",
+"start": 41.88,
+"end": 41.96
+},
+{
+"i": 140,
+"word": "right",
+"start": 41.96,
+"end": 42.14
+},
+{
+"i": 141,
+"word": "number,",
+"start": 42.14,
+"end": 42.46
+},
+{
+"i": 142,
+"word": "everyone",
+"start": 42.72,
+"end": 43.04
+},
+{
+"i": 143,
+"word": "watching",
+"start": 43.04,
+"end": 43.56
+},
+{
+"i": 144,
+"word": "tensed",
+"start": 43.56,
+"end": 44.1
+},
+{
+"i": 145,
+"word": "up",
+"start": 44.1,
+"end": 44.22
+},
+{
+"i": 146,
+"word": "without",
+"start": 44.22,
+"end": 44.5
+},
+{
+"i": 147,
+"word": "realizing",
+"start": 44.5,
+"end": 44.96
+},
+{
+"i": 148,
+"word": "it.",
+"start": 44.96,
+"end": 45.2
+},
+{
+"i": 149,
+"word": "On",
+"start": 45.4,
+"end": 45.52
+},
+{
+"i": 150,
+"word": "the",
+"start": 45.52,
+"end": 45.64
+},
+{
+"i": 151,
+"word": "final",
+"start": 45.64,
+"end": 45.9
+},
+{
+"i": 152,
+"word": "tap,",
+"start": 45.9,
+"end": 46.24
+},
+{
+"i": 153,
+"word": "they",
+"start": 46.44,
+"end": 46.5
+},
+{
+"i": 154,
+"word": "relaxed,",
+"start": 46.5,
+"end": 46.9
+},
+{
+"i": 155,
+"word": "their",
+"start": 47.14,
+"end": 47.2
+},
+{
+"i": 156,
+"word": "heads",
+"start": 47.2,
+"end": 47.48
+},
+{
+"i": 157,
+"word": "lifted",
+"start": 47.48,
+"end": 47.88
+},
+{
+"i": 158,
+"word": "just",
+"start": 47.88,
+"end": 48.1
+},
+{
+"i": 159,
+"word": "a",
+"start": 48.1,
+"end": 48.28
+},
+{
+"i": 160,
+"word": "tiny",
+"start": 48.28,
+"end": 48.52
+},
+{
+"i": 161,
+"word": "bit,",
+"start": 48.52,
+"end": 48.76
+},
+{
+"i": 162,
+"word": "and",
+"start": 48.76,
+"end": 49.02
+},
+{
+"i": 163,
+"word": "Hans",
+"start": 49.02,
+"end": 49.3
+},
+{
+"i": 164,
+"word": "stopped.",
+"start": 49.3,
+"end": 49.64
+},
+{
+"i": 165,
+"word": "Even",
+"start": 50.14,
+"end": 50.36
+},
+{
+"i": 166,
+"word": "Oskar,",
+"start": 50.36,
+"end": 50.76
+},
+{
+"i": 167,
+"word": "who",
+"start": 50.96,
+"end": 51.06
+},
+{
+"i": 168,
+"word": "knew",
+"start": 51.06,
+"end": 51.26
+},
+{
+"i": 169,
+"word": "the",
+"start": 51.26,
+"end": 51.4
+},
+{
+"i": 170,
+"word": "secret,",
+"start": 51.4,
+"end": 51.68
+},
+{
+"i": 171,
+"word": "couldn't",
+"start": 51.86,
+"end": 52.06
+},
+{
+"i": 172,
+"word": "stop",
+"start": 52.06,
+"end": 52.32
+},
+{
+"i": 173,
+"word": "himself",
+"start": 52.32,
+"end": 52.58
+},
+{
+"i": 174,
+"word": "from",
+"start": 52.58,
+"end": 52.86
+},
+{
+"i": 175,
+"word": "doing",
+"start": 52.86,
+"end": 53.1
+},
+{
+"i": 176,
+"word": "it.",
+"start": 53.1,
+"end": 53.32
+},
+{
+"i": 177,
+"word": "Scientists",
+"start": 53.562,
+"end": 53.88
+},
+{
+"i": 178,
+"word": "still",
+"start": 53.88,
+"end": 54.4
+},
+{
+"i": 179,
+"word": "call",
+"start": 54.4,
+"end": 54.68
+},
+{
+"i": 180,
+"word": "it",
+"start": 54.68,
+"end": 54.78
+},
+{
+"i": 181,
+"word": "the",
+"start": 54.78,
+"end": 54.92
+},
+{
+"i": 182,
+"word": "Clever",
+"start": 54.92,
+"end": 55.18
+},
+{
+"i": 183,
+"word": "Hans",
+"start": 55.18,
+"end": 55.54
+},
+{
+"i": 184,
+"word": "effect,",
+"start": 55.54,
+"end": 55.84
+},
+{
+"i": 185,
+"word": "and",
+"start": 56.0,
+"end": 56.08
+},
+{
+"i": 186,
+"word": "it's",
+"start": 56.08,
+"end": 56.2
+},
+{
+"i": 187,
+"word": "why",
+"start": 56.2,
+"end": 56.34
+},
+{
+"i": 188,
+"word": "experiments",
+"start": 56.34,
+"end": 56.76
+},
+{
+"i": 189,
+"word": "today",
+"start": 56.76,
+"end": 57.08
+},
+{
+"i": 190,
+"word": "are",
+"start": 57.08,
+"end": 57.4
+},
+{
+"i": 191,
+"word": "run",
+"start": 57.4,
+"end": 57.6
+},
+{
+"i": 192,
+"word": "blind.",
+"start": 57.6,
+"end": 57.98
+},
+{
+"i": 193,
+"word": "So",
+"start": 58.34,
+"end": 58.44
+},
+{
+"i": 194,
+"word": "Hans",
+"start": 58.44,
+"end": 58.7
+},
+{
+"i": 195,
+"word": "was",
+"start": 58.7,
+"end": 58.94
+},
+{
+"i": 196,
+"word": "a",
+"start": 58.94,
+"end": 59.04
+},
+{
+"i": 197,
+"word": "genius",
+"start": 59.04,
+"end": 59.34
+},
+{
+"i": 198,
+"word": "after",
+"start": 59.34,
+"end": 59.66
+},
+{
+"i": 199,
+"word": "all,",
+"start": 59.66,
+"end": 59.92
+},
+{
+"i": 200,
+"word": "just",
+"start": 60.1,
+"end": 60.28
+},
+{
+"i": 201,
+"word": "not",
+"start": 60.28,
+"end": 60.64
+},
+{
+"i": 202,
+"word": "at",
+"start": 60.64,
+"end": 60.74
+},
+{
+"i": 203,
+"word": "math.",
+"start": 60.74,
+"end": 61.0
+},
+{
+"i": 204,
+"word": "He",
+"start": 61.22,
+"end": 61.34
+},
+{
+"i": 205,
+"word": "was",
+"start": 61.34,
+"end": 61.5
+},
+{
+"i": 206,
+"word": "a",
+"start": 61.5,
+"end": 61.6
+},
+{
+"i": 207,
+"word": "genius",
+"start": 61.6,
+"end": 62.02
+},
+{
+"i": 208,
+"word": "at",
+"start": 62.02,
+"end": 62.26
+},
+{
+"i": 209,
+"word": "reading",
+"start": 62.26,
+"end": 62.52
+},
+{
+"i": 210,
+"word": "people.",
+"start": 62.52,
+"end": 62.86
+},
+{
+"i": 211,
+"word": "And",
+"start": 63.221,
+"end": 63.44
+},
+{
+"i": 212,
+"word": "we",
+"start": 63.44,
+"end": 63.62
+},
+{
+"i": 213,
+"word": "were",
+"start": 63.62,
+"end": 63.8
+},
+{
+"i": 214,
+"word": "so",
+"start": 63.8,
+"end": 64.1
+},
+{
+"i": 215,
+"word": "easy",
+"start": 64.1,
+"end": 64.4
+},
+{
+"i": 216,
+"word": "to",
+"start": 64.4,
+"end": 64.58
+},
+{
+"i": 217,
+"word": "read",
+"start": 64.58,
+"end": 64.86
+},
+{
+"i": 218,
+"word": "that",
+"start": 64.86,
+"end": 65.1
+},
+{
+"i": 219,
+"word": "the",
+"start": 65.1,
+"end": 65.24
+},
+{
+"i": 220,
+"word": "whole",
+"start": 65.24,
+"end": 65.54
+},
+{
+"i": 221,
+"word": "world",
+"start": 65.54,
+"end": 65.9
+},
+{
+"i": 222,
+"word": "believed...",
+"start": 65.9,
+"end": 66.39
+}
+]

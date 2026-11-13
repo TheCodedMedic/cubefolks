@@ -1,0 +1,132 @@
+[
+ {
+  "id": "a01_hook",
+  "t0": 0,
+  "enter": "cut"
+ },
+ {
+  "id": "a02_glass",
+  "t0": 0.84,
+  "enter": "cut"
+ },
+ {
+  "id": "a03_me",
+  "t0": 1.58,
+  "enter": "cut"
+ },
+ {
+  "id": "a04_wide",
+  "t0": 2.64,
+  "enter": "cut"
+ },
+ {
+  "id": "a05_street",
+  "t0": 3.722,
+  "enter": "cut"
+ },
+ {
+  "id": "a06_room",
+  "t0": 4.26,
+  "enter": "cut"
+ },
+ {
+  "id": "a07_bed",
+  "t0": 5.4,
+  "enter": "cut"
+ },
+ {
+  "id": "a08_shoes",
+  "t0": 6.42,
+  "enter": "cut"
+ },
+ {
+  "id": "a09_morning",
+  "t0": 7.894,
+  "enter": "cut"
+ },
+ {
+  "id": "a10_row",
+  "t0": 8.7,
+  "enter": "cut"
+ },
+ {
+  "id": "a11_faces",
+  "t0": 9.28,
+  "enter": "cut"
+ },
+ {
+  "id": "a12_blink",
+  "t0": 10.38,
+  "enter": "cut"
+ },
+ {
+  "id": "a13_next",
+  "t0": 11.539,
+  "enter": "cut"
+ },
+ {
+  "id": "a14_jenny",
+  "t0": 12.3,
+  "enter": "cut"
+ },
+ {
+  "id": "a15_recess",
+  "t0": 13.38,
+  "enter": "cut"
+ },
+ {
+  "id": "a16_laugh",
+  "t0": 14.34,
+  "enter": "cut"
+ },
+ {
+  "id": "a17_me",
+  "t0": 14.88,
+  "enter": "cut"
+ },
+ {
+  "id": "a18_day3",
+  "t0": 16.004,
+  "enter": "cut"
+ },
+ {
+  "id": "a19_bike",
+  "t0": 16.72,
+  "enter": "cut"
+ },
+ {
+  "id": "a20_dark",
+  "t0": 17.96,
+  "enter": "cut"
+ },
+ {
+  "id": "a21_poster",
+  "t0": 19.094,
+  "enter": "cut"
+ },
+ {
+  "id": "a22_look",
+  "t0": 19.58,
+  "enter": "cut"
+ },
+ {
+  "id": "a23_things",
+  "t0": 20.24,
+  "enter": "cut"
+ },
+ {
+  "id": "a24_kitchen",
+  "t0": 21.253,
+  "enter": "cut"
+ },
+ {
+  "id": "a25_shave",
+  "t0": 21.94,
+  "enter": "cut"
+ },
+ {
+  "id": "a26_nomirror",
+  "t0": 22.68,
+  "enter": "cut"
+ }
+]

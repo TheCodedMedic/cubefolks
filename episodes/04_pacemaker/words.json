@@ -1,0 +1,1262 @@
+[
+{
+"i": 0,
+"word": "In",
+"start": 0.0,
+"end": 0.1
+},
+{
+"i": 1,
+"word": "1956,",
+"start": 0.1,
+"end": 0.7
+},
+{
+"i": 2,
+"word": "a",
+"start": 1.18,
+"end": 1.28
+},
+{
+"i": 3,
+"word": "man",
+"start": 1.28,
+"end": 1.44
+},
+{
+"i": 4,
+"word": "grabbed",
+"start": 1.44,
+"end": 1.76
+},
+{
+"i": 5,
+"word": "the",
+"start": 1.76,
+"end": 2.0
+},
+{
+"i": 6,
+"word": "wrong",
+"start": 2.0,
+"end": 2.24
+},
+{
+"i": 7,
+"word": "part",
+"start": 2.24,
+"end": 2.5
+},
+{
+"i": 8,
+"word": "from",
+"start": 2.5,
+"end": 2.66
+},
+{
+"i": 9,
+"word": "a",
+"start": 2.66,
+"end": 2.8
+},
+{
+"i": 10,
+"word": "box,",
+"start": 2.8,
+"end": 3.04
+},
+{
+"i": 11,
+"word": "and",
+"start": 3.04,
+"end": 3.26
+},
+{
+"i": 12,
+"word": "his",
+"start": 3.26,
+"end": 3.38
+},
+{
+"i": 13,
+"word": "machine",
+"start": 3.38,
+"end": 3.76
+},
+{
+"i": 14,
+"word": "started",
+"start": 3.76,
+"end": 4.08
+},
+{
+"i": 15,
+"word": "beating",
+"start": 4.08,
+"end": 4.46
+},
+{
+"i": 16,
+"word": "like",
+"start": 4.46,
+"end": 4.7
+},
+{
+"i": 17,
+"word": "a",
+"start": 4.7,
+"end": 4.82
+},
+{
+"i": 18,
+"word": "heart.",
+"start": 4.82,
+"end": 5.04
+},
+{
+"i": 19,
+"word": "His",
+"start": 5.265,
+"end": 5.38
+},
+{
+"i": 20,
+"word": "name",
+"start": 5.38,
+"end": 5.62
+},
+{
+"i": 21,
+"word": "was",
+"start": 5.62,
+"end": 5.8
+},
+{
+"i": 22,
+"word": "Wilson",
+"start": 5.8,
+"end": 6.34
+},
+{
+"i": 23,
+"word": "Greatbatch,",
+"start": 6.34,
+"end": 7.0
+},
+{
+"i": 24,
+"word": "and",
+"start": 7.14,
+"end": 7.22
+},
+{
+"i": 25,
+"word": "he",
+"start": 7.22,
+"end": 7.32
+},
+{
+"i": 26,
+"word": "was",
+"start": 7.32,
+"end": 7.46
+},
+{
+"i": 27,
+"word": "building",
+"start": 7.46,
+"end": 7.72
+},
+{
+"i": 28,
+"word": "a",
+"start": 7.72,
+"end": 7.88
+},
+{
+"i": 29,
+"word": "gadget",
+"start": 7.88,
+"end": 8.2
+},
+{
+"i": 30,
+"word": "to",
+"start": 8.2,
+"end": 8.4
+},
+{
+"i": 31,
+"word": "record",
+"start": 8.4,
+"end": 8.76
+},
+{
+"i": 32,
+"word": "heartbeats.",
+"start": 8.76,
+"end": 9.3
+},
+{
+"i": 33,
+"word": "He",
+"start": 9.538,
+"end": 9.66
+},
+{
+"i": 34,
+"word": "reached",
+"start": 9.66,
+"end": 9.92
+},
+{
+"i": 35,
+"word": "for",
+"start": 9.92,
+"end": 10.1
+},
+{
+"i": 36,
+"word": "a",
+"start": 10.1,
+"end": 10.26
+},
+{
+"i": 37,
+"word": "tiny",
+"start": 10.26,
+"end": 10.48
+},
+{
+"i": 38,
+"word": "resistor.",
+"start": 10.48,
+"end": 10.92
+},
+{
+"i": 39,
+"word": "But",
+"start": 11.209,
+"end": 11.28
+},
+{
+"i": 40,
+"word": "he",
+"start": 11.28,
+"end": 11.4
+},
+{
+"i": 41,
+"word": "grabbed",
+"start": 11.4,
+"end": 11.72
+},
+{
+"i": 42,
+"word": "one",
+"start": 11.72,
+"end": 12.0
+},
+{
+"i": 43,
+"word": "a",
+"start": 12.0,
+"end": 12.22
+},
+{
+"i": 44,
+"word": "hundred",
+"start": 12.22,
+"end": 12.46
+},
+{
+"i": 45,
+"word": "times",
+"start": 12.46,
+"end": 12.84
+},
+{
+"i": 46,
+"word": "too",
+"start": 12.84,
+"end": 13.06
+},
+{
+"i": 47,
+"word": "strong.",
+"start": 13.06,
+"end": 13.4
+},
+{
+"i": 48,
+"word": "He",
+"start": 13.692,
+"end": 13.8
+},
+{
+"i": 49,
+"word": "soldered",
+"start": 13.8,
+"end": 14.2
+},
+{
+"i": 50,
+"word": "it",
+"start": 14.2,
+"end": 14.32
+},
+{
+"i": 51,
+"word": "in,",
+"start": 14.32,
+"end": 14.5
+},
+{
+"i": 52,
+"word": "switched",
+"start": 14.7,
+"end": 14.9
+},
+{
+"i": 53,
+"word": "it",
+"start": 14.9,
+"end": 15.08
+},
+{
+"i": 54,
+"word": "on,",
+"start": 15.08,
+"end": 15.26
+},
+{
+"i": 55,
+"word": "and",
+"start": 15.52,
+"end": 15.58
+},
+{
+"i": 56,
+"word": "froze.",
+"start": 15.58,
+"end": 15.86
+},
+{
+"i": 57,
+"word": "The",
+"start": 16.2,
+"end": 16.28
+},
+{
+"i": 58,
+"word": "circuit",
+"start": 16.28,
+"end": 16.52
+},
+{
+"i": 59,
+"word": "went",
+"start": 16.52,
+"end": 16.74
+},
+{
+"i": 60,
+"word": "quiet,",
+"start": 16.74,
+"end": 17.08
+},
+{
+"i": 61,
+"word": "then",
+"start": 17.3,
+"end": 17.46
+},
+{
+"i": 62,
+"word": "pulsed.",
+"start": 17.46,
+"end": 18.032
+},
+{
+"i": 63,
+"word": "Quiet,",
+"start": 18.26,
+"end": 18.52
+},
+{
+"i": 64,
+"word": "pulse.",
+"start": 18.82,
+"end": 19.02
+},
+{
+"i": 65,
+"word": "Quiet,",
+"start": 19.36,
+"end": 19.64
+},
+{
+"i": 66,
+"word": "pulse.",
+"start": 19.98,
+"end": 20.24
+},
+{
+"i": 67,
+"word": "Once",
+"start": 20.488,
+"end": 20.72
+},
+{
+"i": 68,
+"word": "every",
+"start": 20.72,
+"end": 21.1
+},
+{
+"i": 69,
+"word": "second,",
+"start": 21.1,
+"end": 21.52
+},
+{
+"i": 70,
+"word": "just",
+"start": 21.72,
+"end": 21.94
+},
+{
+"i": 71,
+"word": "like",
+"start": 21.94,
+"end": 22.18
+},
+{
+"i": 72,
+"word": "a",
+"start": 22.18,
+"end": 22.28
+},
+{
+"i": 73,
+"word": "heart.",
+"start": 22.28,
+"end": 22.54
+},
+{
+"i": 74,
+"word": "Meanwhile,",
+"start": 22.8,
+"end": 23.1
+},
+{
+"i": 75,
+"word": "doctors",
+"start": 23.38,
+"end": 23.58
+},
+{
+"i": 76,
+"word": "had",
+"start": 23.58,
+"end": 23.82
+},
+{
+"i": 77,
+"word": "patients",
+"start": 23.82,
+"end": 24.18
+},
+{
+"i": 78,
+"word": "whose",
+"start": 24.18,
+"end": 24.4
+},
+{
+"i": 79,
+"word": "hearts",
+"start": 24.4,
+"end": 24.7
+},
+{
+"i": 80,
+"word": "kept",
+"start": 24.7,
+"end": 24.94
+},
+{
+"i": 81,
+"word": "slowing",
+"start": 24.94,
+"end": 25.24
+},
+{
+"i": 82,
+"word": "down",
+"start": 25.24,
+"end": 25.58
+},
+{
+"i": 83,
+"word": "until",
+"start": 25.58,
+"end": 25.98
+},
+{
+"i": 84,
+"word": "they",
+"start": 25.98,
+"end": 26.16
+},
+{
+"i": 85,
+"word": "stopped.",
+"start": 26.16,
+"end": 26.46
+},
+{
+"i": 86,
+"word": "The",
+"start": 26.724,
+"end": 26.8
+},
+{
+"i": 87,
+"word": "only",
+"start": 26.8,
+"end": 27.02
+},
+{
+"i": 88,
+"word": "machines",
+"start": 27.02,
+"end": 27.42
+},
+{
+"i": 89,
+"word": "that",
+"start": 27.42,
+"end": 27.62
+},
+{
+"i": 90,
+"word": "could",
+"start": 27.62,
+"end": 27.74
+},
+{
+"i": 91,
+"word": "help",
+"start": 27.74,
+"end": 28.04
+},
+{
+"i": 92,
+"word": "were",
+"start": 28.04,
+"end": 28.3
+},
+{
+"i": 93,
+"word": "as",
+"start": 28.3,
+"end": 28.42
+},
+{
+"i": 94,
+"word": "big",
+"start": 28.42,
+"end": 28.62
+},
+{
+"i": 95,
+"word": "as",
+"start": 28.62,
+"end": 28.76
+},
+{
+"i": 96,
+"word": "a",
+"start": 28.76,
+"end": 28.86
+},
+{
+"i": 97,
+"word": "TV",
+"start": 28.86,
+"end": 29.14
+},
+{
+"i": 98,
+"word": "and",
+"start": 29.14,
+"end": 29.56
+},
+{
+"i": 99,
+"word": "plugged",
+"start": 29.56,
+"end": 29.82
+},
+{
+"i": 100,
+"word": "into",
+"start": 29.82,
+"end": 30.06
+},
+{
+"i": 101,
+"word": "the",
+"start": 30.06,
+"end": 30.2
+},
+{
+"i": 102,
+"word": "wall.",
+"start": 30.2,
+"end": 30.42
+},
+{
+"i": 103,
+"word": "If",
+"start": 30.68,
+"end": 30.76
+},
+{
+"i": 104,
+"word": "the",
+"start": 30.76,
+"end": 30.9
+},
+{
+"i": 105,
+"word": "power",
+"start": 30.9,
+"end": 31.14
+},
+{
+"i": 106,
+"word": "went",
+"start": 31.14,
+"end": 31.36
+},
+{
+"i": 107,
+"word": "out,",
+"start": 31.36,
+"end": 31.54
+},
+{
+"i": 108,
+"word": "the",
+"start": 31.74,
+"end": 31.78
+},
+{
+"i": 109,
+"word": "patient",
+"start": 31.78,
+"end": 32.1
+},
+{
+"i": 110,
+"word": "was",
+"start": 32.1,
+"end": 32.3
+},
+{
+"i": 111,
+"word": "in",
+"start": 32.3,
+"end": 32.42
+},
+{
+"i": 112,
+"word": "serious",
+"start": 32.42,
+"end": 32.84
+},
+{
+"i": 113,
+"word": "trouble.",
+"start": 32.84,
+"end": 33.2
+},
+{
+"i": 114,
+"word": "You",
+"start": 33.44,
+"end": 33.54
+},
+{
+"i": 115,
+"word": "see,",
+"start": 33.54,
+"end": 33.76
+},
+{
+"i": 116,
+"word": "every",
+"start": 33.96,
+"end": 34.2
+},
+{
+"i": 117,
+"word": "heartbeat",
+"start": 34.2,
+"end": 34.5
+},
+{
+"i": 118,
+"word": "starts",
+"start": 34.5,
+"end": 34.9
+},
+{
+"i": 119,
+"word": "with",
+"start": 34.9,
+"end": 35.12
+},
+{
+"i": 120,
+"word": "a",
+"start": 35.12,
+"end": 35.28
+},
+{
+"i": 121,
+"word": "tiny",
+"start": 35.28,
+"end": 35.48
+},
+{
+"i": 122,
+"word": "electrical",
+"start": 35.48,
+"end": 35.86
+},
+{
+"i": 123,
+"word": "spark.",
+"start": 35.86,
+"end": 36.2
+},
+{
+"i": 124,
+"word": "In",
+"start": 36.6,
+"end": 36.68
+},
+{
+"i": 125,
+"word": "those",
+"start": 36.68,
+"end": 36.86
+},
+{
+"i": 126,
+"word": "patients,",
+"start": 36.86,
+"end": 37.3
+},
+{
+"i": 127,
+"word": "the",
+"start": 37.54,
+"end": 37.64
+},
+{
+"i": 128,
+"word": "spark",
+"start": 37.64,
+"end": 37.98
+},
+{
+"i": 129,
+"word": "wasn't",
+"start": 37.98,
+"end": 38.38
+},
+{
+"i": 130,
+"word": "getting",
+"start": 38.38,
+"end": 38.54
+},
+{
+"i": 131,
+"word": "through.",
+"start": 38.54,
+"end": 38.84
+},
+{
+"i": 132,
+"word": "And",
+"start": 39.16,
+"end": 39.3
+},
+{
+"i": 133,
+"word": "Wilson's",
+"start": 39.3,
+"end": 39.74
+},
+{
+"i": 134,
+"word": "mistake",
+"start": 39.74,
+"end": 40.06
+},
+{
+"i": 135,
+"word": "made",
+"start": 40.06,
+"end": 40.34
+},
+{
+"i": 136,
+"word": "the",
+"start": 40.34,
+"end": 40.48
+},
+{
+"i": 137,
+"word": "exact",
+"start": 40.48,
+"end": 40.84
+},
+{
+"i": 138,
+"word": "spark",
+"start": 40.84,
+"end": 41.22
+},
+{
+"i": 139,
+"word": "a",
+"start": 41.22,
+"end": 41.36
+},
+{
+"i": 140,
+"word": "heart",
+"start": 41.36,
+"end": 41.52
+},
+{
+"i": 141,
+"word": "needs,",
+"start": 41.52,
+"end": 41.84
+},
+{
+"i": 142,
+"word": "once",
+"start": 41.84,
+"end": 42.18
+},
+{
+"i": 143,
+"word": "every",
+"start": 42.18,
+"end": 42.54
+},
+{
+"i": 144,
+"word": "second.",
+"start": 42.54,
+"end": 42.9
+},
+{
+"i": 145,
+"word": "So",
+"start": 43.146,
+"end": 43.26
+},
+{
+"i": 146,
+"word": "he",
+"start": 43.26,
+"end": 43.4
+},
+{
+"i": 147,
+"word": "shrank",
+"start": 43.4,
+"end": 43.78
+},
+{
+"i": 148,
+"word": "it",
+"start": 43.78,
+"end": 43.96
+},
+{
+"i": 149,
+"word": "until",
+"start": 43.96,
+"end": 44.24
+},
+{
+"i": 150,
+"word": "it",
+"start": 44.24,
+"end": 44.38
+},
+{
+"i": 151,
+"word": "fit",
+"start": 44.38,
+"end": 44.66
+},
+{
+"i": 152,
+"word": "in",
+"start": 44.66,
+"end": 44.88
+},
+{
+"i": 153,
+"word": "the",
+"start": 44.88,
+"end": 44.98
+},
+{
+"i": 154,
+"word": "palm",
+"start": 44.98,
+"end": 45.24
+},
+{
+"i": 155,
+"word": "of",
+"start": 45.24,
+"end": 45.4
+},
+{
+"i": 156,
+"word": "your",
+"start": 45.4,
+"end": 45.48
+},
+{
+"i": 157,
+"word": "hand.",
+"start": 45.48,
+"end": 45.8
+},
+{
+"i": 158,
+"word": "He",
+"start": 46.014,
+"end": 46.08
+},
+{
+"i": 159,
+"word": "quit",
+"start": 46.08,
+"end": 46.3
+},
+{
+"i": 160,
+"word": "his",
+"start": 46.3,
+"end": 46.46
+},
+{
+"i": 161,
+"word": "job",
+"start": 46.46,
+"end": 46.78
+},
+{
+"i": 162,
+"word": "and",
+"start": 46.78,
+"end": 47.02
+},
+{
+"i": 163,
+"word": "built",
+"start": 47.02,
+"end": 47.24
+},
+{
+"i": 164,
+"word": "them",
+"start": 47.24,
+"end": 47.42
+},
+{
+"i": 165,
+"word": "in",
+"start": 47.42,
+"end": 47.5
+},
+{
+"i": 166,
+"word": "the",
+"start": 47.5,
+"end": 47.62
+},
+{
+"i": 167,
+"word": "barn",
+"start": 47.62,
+"end": 47.86
+},
+{
+"i": 168,
+"word": "behind",
+"start": 47.86,
+"end": 48.14
+},
+{
+"i": 169,
+"word": "his",
+"start": 48.14,
+"end": 48.36
+},
+{
+"i": 170,
+"word": "house.",
+"start": 48.36,
+"end": 48.62
+},
+{
+"i": 171,
+"word": "In",
+"start": 48.92,
+"end": 49.02
+},
+{
+"i": 172,
+"word": "1960,",
+"start": 49.02,
+"end": 49.58
+},
+{
+"i": 173,
+"word": "surgeons",
+"start": 49.92,
+"end": 50.2
+},
+{
+"i": 174,
+"word": "placed",
+"start": 50.2,
+"end": 50.5
+},
+{
+"i": 175,
+"word": "one",
+"start": 50.5,
+"end": 50.8
+},
+{
+"i": 176,
+"word": "inside",
+"start": 50.8,
+"end": 51.16
+},
+{
+"i": 177,
+"word": "a",
+"start": 51.16,
+"end": 51.32
+},
+{
+"i": 178,
+"word": "seventy-seven-year-old",
+"start": 51.32,
+"end": 52.24
+},
+{
+"i": 179,
+"word": "man.",
+"start": 52.24,
+"end": 52.52
+},
+{
+"i": 180,
+"word": "His",
+"start": 52.78,
+"end": 52.9
+},
+{
+"i": 181,
+"word": "heart",
+"start": 52.9,
+"end": 53.16
+},
+{
+"i": 182,
+"word": "beat",
+"start": 53.16,
+"end": 53.36
+},
+{
+"i": 183,
+"word": "steady",
+"start": 53.36,
+"end": 53.76
+},
+{
+"i": 184,
+"word": "again.",
+"start": 53.76,
+"end": 54.1
+},
+{
+"i": 185,
+"word": "Today,",
+"start": 54.363,
+"end": 54.5
+},
+{
+"i": 186,
+"word": "millions",
+"start": 54.82,
+"end": 55.18
+},
+{
+"i": 187,
+"word": "of",
+"start": 55.18,
+"end": 55.38
+},
+{
+"i": 188,
+"word": "people",
+"start": 55.38,
+"end": 55.6
+},
+{
+"i": 189,
+"word": "walk",
+"start": 55.6,
+"end": 55.86
+},
+{
+"i": 190,
+"word": "around",
+"start": 55.86,
+"end": 56.2
+},
+{
+"i": 191,
+"word": "with",
+"start": 56.2,
+"end": 56.4
+},
+{
+"i": 192,
+"word": "one",
+"start": 56.4,
+"end": 56.64
+},
+{
+"i": 193,
+"word": "in",
+"start": 56.64,
+"end": 56.76
+},
+{
+"i": 194,
+"word": "their",
+"start": 56.76,
+"end": 56.86
+},
+{
+"i": 195,
+"word": "chest.",
+"start": 56.86,
+"end": 57.18
+},
+{
+"i": 196,
+"word": "All",
+"start": 57.587,
+"end": 57.72
+},
+{
+"i": 197,
+"word": "because",
+"start": 57.72,
+"end": 57.96
+},
+{
+"i": 198,
+"word": "of",
+"start": 57.96,
+"end": 58.18
+},
+{
+"i": 199,
+"word": "one",
+"start": 58.18,
+"end": 58.42
+},
+{
+"i": 200,
+"word": "wrong",
+"start": 58.42,
+"end": 58.7
+},
+{
+"i": 201,
+"word": "part",
+"start": 58.7,
+"end": 59.04
+},
+{
+"i": 202,
+"word": "from",
+"start": 59.04,
+"end": 59.24
+},
+{
+"i": 203,
+"word": "one",
+"start": 59.24,
+"end": 59.48
+},
+{
+"i": 204,
+"word": "box.",
+"start": 59.48,
+"end": 59.8
+},
+{
+"i": 205,
+"word": "And",
+"start": 60.107,
+"end": 60.18
+},
+{
+"i": 206,
+"word": "it",
+"start": 60.18,
+"end": 60.28
+},
+{
+"i": 207,
+"word": "all",
+"start": 60.28,
+"end": 60.54
+},
+{
+"i": 208,
+"word": "began",
+"start": 60.54,
+"end": 60.92
+},
+{
+"i": 209,
+"word": "when...",
+"start": 60.92,
+"end": 61.371
+}
+]

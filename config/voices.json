@@ -1,0 +1,25 @@
+{
+  "provider": "fish",
+  "model_header": "s2.1-pro-free",
+  "format": "mp3",
+  "latency": "normal",
+  "api_key_env": "BEAN_FISH_API_KEY",
+  "default_speaker": "R",
+  "voices": {
+    "N": {
+      "name": "narrator (the owner's voice, Celyxi)",
+      "reference_audio": "voice_auditions/owner.wav",
+      "gain_db": 0.0,
+      "notes": "Narrator voice from the owner's channel Celyxi: 29.8 s cut of the owner's narration (44.1 kHz mono, -1.5 dB). Fully authorized and active for all video voiceovers.",
+      "reference_text": "But Egyptians believed a body without a tomb meant a soul lost forever. So their mother told the thief, Bring your brother home or I'll tell the pharaoh everything. That night, he led two donkeys past the wall and quietly loosened their wineskins. Wine gushed into the road, and he wailed like it was a disaster. The guards came running with cups. He pretended to be furious, then shared the rest. By midnight, they were snoring. He shaved half of every guard's beard, so the whole city would laugh at the pharaoh. Then he carried his brother home. The pharaoh guessed a man this proud would want to brag."
+    },
+    "R": {
+      "name": "narrator R (the owner's voice, from their Roblox-story sample)",
+      "reference_audio": "voice_auditions/roblox_sample.wav",
+      "gain_db": 0.0,
+      "notes": "27.8 s cut (0-27.8 s) of the owner's narration in their uploaded Roblox story sample (2026-11-12), 44.1 kHz mono, loudnorm -18. A faint music bed sits ~-23 dB under it. Use for blocky (Roblox-style) Shorts.",
+      "reference_text": "In this town, there's a shape-shifting mimic. If it eats you, it becomes you. It looks like you, it talks like you, and nobody can tell the difference. But it can only be one person at a time. So when it wants to be someone new, the person it was pretending to be just disappears. Every few weeks, someone in town vanishes. And when they do, we know that person was the mimic all along, and that now, it's somebody else. We just never know who. Last March, it was our neighbor, Mr. Green. One morning, his house was empty, and his coffee was still warm. He'd waved at me from his window every day for months. And the whole time, that wasn't really him."
+    }
+  },
+  "_note": "Speaker N is the narrator. Voice ids are not secret keys, but keep them in this repo only."
+}

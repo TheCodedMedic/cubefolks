@@ -1,0 +1,112 @@
+[
+ {
+  "id": "b8_hang",
+  "t0": 24.087,
+  "enter": "cut"
+ },
+ {
+  "id": "b8_row",
+  "t0": 24.86,
+  "enter": "cut"
+ },
+ {
+  "id": "b8_cover",
+  "t0": 25.84,
+  "enter": "cut"
+ },
+ {
+  "id": "b8_dust",
+  "t0": 26.54,
+  "enter": "cut"
+ },
+ {
+  "id": "b9_dinner",
+  "t0": 27.814,
+  "enter": "cut"
+ },
+ {
+  "id": "b9_bro",
+  "t0": 28.42,
+  "enter": "cut"
+ },
+ {
+  "id": "b9_me",
+  "t0": 29.24,
+  "enter": "cut"
+ },
+ {
+  "id": "b10_dark",
+  "t0": 30.105,
+  "enter": "cut"
+ },
+ {
+  "id": "b10_pull",
+  "t0": 30.52,
+  "enter": "cut"
+ },
+ {
+  "id": "b10_face",
+  "t0": 31.34,
+  "enter": "cut"
+ },
+ {
+  "id": "b11_empty",
+  "t0": 32.151,
+  "enter": "cut"
+ },
+ {
+  "id": "b11_arrive",
+  "t0": 32.7,
+  "enter": "cut"
+ },
+ {
+  "id": "b11_three",
+  "t0": 33.34,
+  "enter": "cut"
+ },
+ {
+  "id": "b12_mirror",
+  "t0": 34.209,
+  "enter": "cut"
+ },
+ {
+  "id": "b12_real",
+  "t0": 35.02,
+  "enter": "cut"
+ },
+ {
+  "id": "b12_alone",
+  "t0": 35.63,
+  "enter": "cut"
+ },
+ {
+  "id": "b13_stare",
+  "t0": 36.276,
+  "enter": "cut"
+ },
+ {
+  "id": "b13_close",
+  "t0": 37.1,
+  "enter": "cut"
+ },
+ {
+  "id": "b13_watch",
+  "t0": 37.66,
+  "enter": "cut"
+ },
+ {
+  "id": "b14_morning",
+  "t0": 38.795,
+  "enter": "cut"
+ },
+ {
+  "id": "b14_open",
+  "t0": 39.5,
+  "enter": "cut"
+ },
+ {
+  "id": "b14_blink",
+  "t0": 40.34,
+  "enter": "cut"
+ }
+]

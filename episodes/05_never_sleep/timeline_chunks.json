@@ -1,0 +1,106 @@
+[
+ {
+  "index": 1,
+  "speaker": "N",
+  "start": 0.05,
+  "end": 3.719,
+  "gap_after": 0.12,
+  "text": "A kid stayed awake for eleven days straight, and he did it for a science fair."
+ },
+ {
+  "index": 2,
+  "speaker": "N",
+  "start": 3.839,
+  "end": 7.444,
+  "gap_after": 0.12,
+  "text": "His name was Randy Gardner, and his friends took shifts keeping him awake."
+ },
+ {
+  "index": 3,
+  "speaker": "N",
+  "start": 7.564,
+  "end": 9.628,
+  "gap_after": 0.12,
+  "text": "By day two, he couldn't focus his eyes."
+ },
+ {
+  "index": 4,
+  "speaker": "N",
+  "start": 9.748,
+  "end": 12.292,
+  "gap_after": 0.12,
+  "text": "By day four, he thought a street sign was a person."
+ },
+ {
+  "index": 5,
+  "speaker": "N",
+  "start": 12.412,
+  "end": 14.938,
+  "gap_after": 0.12,
+  "text": "Then he decided he was a famous football player."
+ },
+ {
+  "index": 6,
+  "speaker": "N",
+  "start": 15.058,
+  "end": 17.893,
+  "gap_after": 0.12,
+  "text": "But on the last night, he beat a sleep scientist at pinball."
+ },
+ {
+  "index": 7,
+  "speaker": "N",
+  "start": 18.013,
+  "end": 19.647,
+  "gap_after": 0.12,
+  "text": "So how was his brain still working?"
+ },
+ {
+  "index": 8,
+  "speaker": "N",
+  "start": 19.767,
+  "end": 22.155,
+  "gap_after": 0.12,
+  "text": "You see, scientists think his brain was cheating."
+ },
+ {
+  "index": 9,
+  "speaker": "N",
+  "start": 22.275,
+  "end": 26.075,
+  "gap_after": 0.12,
+  "text": "It slipped into tiny naps, just seconds long, while his eyes stayed open."
+ },
+ {
+  "index": 10,
+  "speaker": "N",
+  "start": 26.195,
+  "end": 28.823,
+  "gap_after": 0.12,
+  "text": "They're called microsleeps, and you've probably had one in class."
+ },
+ {
+  "index": 11,
+  "speaker": "N",
+  "start": 28.943,
+  "end": 32.445,
+  "gap_after": 0.12,
+  "text": "After eleven days, Randy slept fourteen hours and woke up fine."
+ },
+ {
+  "index": 12,
+  "speaker": "N",
+  "start": 32.565,
+  "end": 35.273,
+  "gap_after": 0.12,
+  "text": "His record was so risky, Guinness stopped accepting new ones."
+ },
+ {
+  "index": 13,
+  "speaker": "N",
+  "start": 35.393,
+  "end": 37.439,
+  "gap_after": 0.12,
+  "text": "So no one can officially beat the time..."
+ }
+]

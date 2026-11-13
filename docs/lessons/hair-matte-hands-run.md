@@ -1,0 +1,8 @@
+# Hair that reads, matte hands, a real run, obvious flashes, a fast start (the user, 2026-10-26, Ep09 first-minute review)
+- **Hair never near-black.** Our heads are glossy black, so black hair disappears into them. Every character with hair gets a colour that reads against black: browns, auburn, copper, blonde, grey (Ep09: you #6B4226, Lucy #B5612A, Mom #9A6A3C, Dev #C9A14E). Applies to extras too.
+- **Hands are matte.** Hands and bare forearms use `skinMatte` in `cam3d/Person3D.tsx` (no clearcoat); only the head keeps its gloss.
+- **Running must look real.** Opposite arm and leg, arms pumping from the shoulder with elbows near 90°, knee drive, a flight phase (both feet off the ground), forward lean from the ankles, cadence matched to ground speed (no sliding feet), head steady. Show runs from 3/4 or side angles; a dead-on front view hides the stride. Use the shared cycle `cam3d/Run3D.tsx` (2026-10-28): `runAt(t, start, yaw, speed)` gives pos, yaw and pose (planted feet by IK, flight, heel recovery, pelvis and shoulder rotation); `runFootfalls` gives footprints; check it in the `RunTest` composition.
+- **Flash-forwards and flashbacks must be obvious.** Hold each long enough to read (≥0.5 s), light the subject clearly, and give it its own look (Ep09: the camcorder tape fast-forwarding, with a DAY stamp), so nobody thinks the video glitched.
+- **Something within the first second.** No long black or blank card at the start: the first line by ~2 s (Ep09: voice lead cut from 6.0 to 2.0 s; the PLAY screen is a flash).
+- **Spooky from the first frame:** the opening's ambience and music are loud enough to set the mood immediately.
+- **No shaking hands:** check consecutive frames for any hand doing fine work (carving, lighting); jitter is a bug.

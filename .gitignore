@@ -1,0 +1,17 @@
+.env
+node_modules/
+video/out/
+exports/
+**/render/
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+# large rebuildable audio and video
+*.mp4
+*.mov
+*.wav
+!sfx/**/*.wav
+!episodes/**/sfx_gen/*.wav
+!voice_auditions/**/*.wav
+!inbox/reference_shorts/*.mp4
