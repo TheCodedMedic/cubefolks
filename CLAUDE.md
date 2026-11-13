@@ -8,9 +8,9 @@ Remotion (`video/`), the owner's voice from Fish Audio, word timing from Whisper
 
 This repo was set up on 2026-11-13 from the owner's Beanfolk studio (`TheCodedMedic/beanfolk`, https://www.youtube.com/@beanfolk),
 where the blocky style was tested: a 7.6 s test and **Short 6 "The Reflection That Blinks First"** (42.4 s, finished 2026-11-12).
-Everything reusable was copied here: the engine, the pipeline, the sound library, the lessons, and every earlier Short as a working
-example. Docs copied from Beanfolk still say "Beanfolk" or talk about bean characters: read them as this studio, and use the blocky
-parts, not the bean rig.
+Everything reusable was copied here: the engine, the blocky kit, Short 6 as the working example, the pipeline, the sound library and
+the lessons. **This channel is the blocky (Roblox-style) look only (the owner, 2026-11-13):** no bean, Inkfolk or other styles. Docs
+copied from Beanfolk still say "Beanfolk" or mention bean characters: read them as this studio and its blocky style.
 
 **Read everything before the first task**, in this order: this file; `notes/cubefolks/FIRST_TASKS.md` (what to do first);
 `notes/short06/CONTRACT.md` (how Short 6 was built in parallel) and `notes/short06/ref/sample_contact.jpg` (the owner's sample);
@@ -65,10 +65,12 @@ and 45 before rendering.
   Never invent crimes or scandals for real, named people, and never present a made-up story as documented history.
 - **Approval gates:** the cast and style sheet before the first full Short, the first finished Short, and anything the owner asks
   to see first.
-- **Keys:** `config/keys.env` (`BEAN_FISH_API_KEY`, the Google Drive token) and `config/rclone.conf` are **not in this repo
-  yet**: the owner has not yet said yes to copying them here. Until they do, voicing and Drive upload will stop with a "not set"
-  message; ask the coordinator or the owner, never copy keys in yourself. Once added: never print key values, never run
-  `env`/`printenv`, never copy them outside the owner's private studio repos, never make this repo public.
+- **Keys:** `config/keys.env` holds `BEAN_FISH_API_KEY` (the Fish account with credits), `BEAN_FISH1_API_KEY` (older, credits
+  spent) and the Google Drive token (`RCLONE_CONFIG_GDRIVE_*`); `config/rclone.conf` is the Drive remote. The owner chose to keep
+  them in this private repo (2026-11-13), shared with Beanfolk, Cipher Lore and Gizmo Origins; the pipeline, `pipeline/upload_drive.sh`
+  and the session-start hook read them, so every session works without setup. Never print key values, never run `env`/`printenv`,
+  never copy them outside the owner's private studio repos (`beanfolk`, `cipher-lore`, `gizmo-origins`, `cubefolks`), and never make
+  this repo public.
 - **Voices:** Fish Audio only. The narrator is speaker `R`: the owner's own voice, cloned from their blocky-story sample
   (`voice_auditions/roblox_sample.wav`, `config/voices.json`). Fully authorized for all voiceovers here.
 - **Original work only.** The blocky-game look is a trend anyone can use; our characters, towns, faces and stories are our own.
@@ -84,7 +86,7 @@ and 45 before rendering.
 ## Where things are
 - `video/src/blocky/`: the blocky kit (rig, faces, accessories, textures, lights and sky, the test street); `video/src/short06_blocky/`
   Short 6 (cast, town and house sets with the mirror, shots A and B, parts06, Short06.tsx); `video/src/kit/` the Shorts kit
-  (ShortFrame, Cam, Captions, Pop, timing helpers). The bean, gizmo and short01-05 folders are Beanfolk examples, kept for patterns.
+  (ShortFrame, Cam, Captions, Pop, timing helpers); `video/src/cam3d/` camera and world helpers. Only the blocky style lives here.
 - `episodes/06_reflection/`: Short 6's script, voice clips, timing and cue sheet; `episodes/90_blocky_test/` the first test.
 - `pipeline/`: voice, timing, pace, mixing, finishing, Drive upload. `sfx/`: the credited sound library (`library_index.md`).
 - `notes/short06/`: Short 6's contract, face sheet, look stills, town sheet, the owner's sample contact sheet.
