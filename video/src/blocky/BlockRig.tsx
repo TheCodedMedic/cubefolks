@@ -181,8 +181,8 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
   const armL = (pose.armL ?? 0) - swing + 0.03 * breathe * (1 - w), armR = (pose.armR ?? 0) + swing + 0.03 * breathe * (1 - w);
   // feet planted: a leg swung by a (hip 2 units above the sole) lifts its foot by 2(1-cos a), so the hips dip by that much;
   // highest at mid-stride (legs together), lowest at full stride, like a real walk. A run adds a hop (flight phase).
-  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) : 0;
-  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.55 * w;
+  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) * (1 - 0.45 * (walk.flight ?? 0)) : 0; // a run keeps more height
+  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.35 * w;
   const sway = Math.sin(ph) * 0.04 * w + (pose.roll ?? 0);
   const [hy, hp] = pose.head ?? [0, 0];
 

@@ -85,7 +85,7 @@ export const GAIT = {
   stroll: { speed: 4.2, amount: 0.75, lean: 0.0, flight: 0 },
   walk: { speed: 5.6, amount: 0.9, lean: 0.02, flight: 0 },
   hurry: { speed: 7.5, amount: 1.05, lean: 0.06, flight: 0.2 },
-  run: { speed: 13, amount: 1.4, lean: 0.2, flight: 1 },
+  run: { speed: 12, amount: 1.2, lean: 0.2, flight: 0.7 },
 } as const;
 export type Gait = keyof typeof GAIT;
 export type PathOpts = {

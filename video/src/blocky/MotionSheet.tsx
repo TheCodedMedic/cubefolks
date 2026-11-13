@@ -99,8 +99,8 @@ const DoorWall: React.FC<{ open: number; floorY?: number; w?: number; color?: st
 };
 const Knife: React.FC = () => (
   <group rotation={[-1.1, 0, 0]}>
-    <mesh position={[0, 0.25, 0]}><boxGeometry args={[0.22, 0.6, 0.3]} /><meshStandardMaterial color="#2a1a10" /></mesh>
-    <mesh position={[0, 1.05, 0.02]}><boxGeometry args={[0.06, 1.1, 0.42]} /><meshStandardMaterial color="#d8dce0" metalness={0.7} roughness={0.25} /></mesh>
+    <mesh position={[0, 0.35, 0]}><boxGeometry args={[0.26, 0.8, 0.34]} /><meshStandardMaterial color="#2a1a10" /></mesh>
+    <mesh position={[0, 1.55, 0.05]}><boxGeometry args={[0.08, 1.7, 0.6]} /><meshStandardMaterial color="#e4e8ec" metalness={0.6} roughness={0.25} /></mesh>
   </group>
 );
 const StopSign: React.FC = () => (
@@ -125,7 +125,7 @@ const SQUARE: V3[] = [[-5, 0, 5], [5, 0, 5], [5, 0, -5], [-5, 0, -5], [-5, 0, 5]
 const CELLS: Cell[] = [
   { name: "WALK + CORNERS", run: (t) => {
     const a = M.walkPath(SQUARE, t, 0.4, { gait: "walk" });
-    return { label: a.moving ? "stiff toy walk, feet planted" : "stops, idles", cam: cam([3, 15, 25], [0, 1.2, -0.5], 40),
+    return { label: a.moving ? "stiff toy walk, feet planted" : "stops, idles", cam: cam([0, 22, 30], [0, 0.5, -1], 40),
       scene: <><Sidewalk from={[-5, 0, 7.5]} to={[-5, 0, -7.5]} /><Sidewalk from={[5, 0, 7.5]} to={[5, 0, -7.5]} /><Sidewalk from={[-7, 0, 5]} to={[7, 0, 5]} /><Sidewalk from={[-7, 0, -5]} to={[7, 0, -5]} />
         <C look={ME} t={t} a={M.act(a, !a.moving && M.idle(t, 1))} expr={a.done ? "happy" : "smile"} /></> };
   } },
@@ -175,7 +175,7 @@ const CELLS: Cell[] = [
     const look = M.headSnap(t, 3.4, 0.55, -0.15, 6.2);
     const pose = M.mix(M.chop(t, 0.3, 3.1), M.chop(t, 6.3, 9), M.talkHands(t, words), look, M.idle(t, 7, 0.4));
     const expr: Expr = t < 3.1 ? "smile" : t < 3.7 ? "blank" : t < 6.2 ? M.talk(t, words, "smile") : "smile";
-    return { label: t < 3.1 ? "chopping" : t < 3.8 ? "stops mid-chop" : t < 6.2 ? "turns, talks" : "back to chopping", cam: cam([7, 6.4, 13], [-0.5, 3.3, 1.8], 38),
+    return { label: t < 3.1 ? "chopping" : t < 3.8 ? "stops mid-chop" : t < 6.2 ? "turns, talks" : "back to chopping", cam: cam([12, 6, 7], [0, 3.0, 1.8], 38),
       scene: <><Ground kind="wood" /><Box p={[0, 6, -3.5]} s={[30, 12, 0.5]} c="#f2ecd8" kind="tile" />
         <Box p={[0, 1.4, 3.0]} s={[7, 2.8, 2.2]} c="#f4f1ea" /><Box p={[0, 2.9, 3.0]} s={[7.4, 0.2, 2.4]} c="#b8b4ac" kind="concrete" />
         <Box p={[-1.3, 3.06, 2.6]} s={[2.4, 0.12, 1.4]} c="#c08a50" kind="wood" />
@@ -183,7 +183,7 @@ const CELLS: Cell[] = [
         <C look={COOK} t={t} a={{ position: [0, 0, 1.3], yaw: 0, pose }} expr={expr} hold={{ R: <Knife /> }} blinkSeed={7} /></> };
   } },
   { name: "THROUGH A DOOR / UP STEPS", run: (t) => {
-    const p1: V3[] = [[6, 0, 13], [0, 0, 8], [0, 0, 4.4], [0, 0.4, 3.5], [0, 0.8, 2.6], [0, 0.8, 1.6]];
+    const p1: V3[] = [[-9, 0, 9], [0, 0, 8], [0, 0, 4.4], [0, 0.4, 3.5], [0, 0.8, 2.6], [0, 0.8, 1.6]];
     const w1 = M.walkPath(p1, t, 0.2, { gait: "walk" });
     const tArr = 0.2 + M.walkDuration(p1), tPush = tArr + 0.15;
     const open = M.ease(M.seg(t, tPush + 0.2, tPush + 0.7));
@@ -191,7 +191,7 @@ const CELLS: Cell[] = [
     const inside = t > tPush + 0.55;
     const a = inside ? w2 : M.act(w1, M.pushDoor(t, tPush, 0.8, -1));
     return { label: t < tArr ? "walks up the path and steps" : t < tPush + 0.6 ? "pushes the door" : "walks in", cam: cam([9, 7.5, 18], [0, 3.6, 2], 40),
-      scene: <><Sidewalk from={[6, 0, 14]} to={[0, 0, 7.5]} w={3} /><Sidewalk from={[0, 0, 7.5]} to={[0, 0, 4]} w={3} /><DoorWall open={open} />
+      scene: <><Sidewalk from={[-10, 0, 9]} to={[0, 0, 8]} w={3} /><Sidewalk from={[0, 0, 7.5]} to={[0, 0, 4]} w={3} /><DoorWall open={open} />
         <C look={TOWNSFOLK[2]} t={t} a={a} blinkSeed={8} /></> };
   } },
   { name: "WHISPER / LAUGH", run: (t) => {
