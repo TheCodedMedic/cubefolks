@@ -165,11 +165,13 @@ export type BlockCharProps = {
   hold?: { R?: React.ReactNode; L?: React.ReactNode };
   /** no idle breathing (for a frozen, eerie stillness, e.g. the reflection or the staring family) */
   still?: boolean;
+  /** de-syncs breathing between characters (default: from the start position; pass one for a moving character) */
+  seed?: number;
 };
 
-export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose = {}, walk, position = [0, 0, 0], yaw = 0, scale = 1, blink = 0, hold, still }) => {
+export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose = {}, walk, position = [0, 0, 0], yaw = 0, scale = 1, blink = 0, hold, still, seed: seedIn }) => {
   const f = useCurrentFrame();
-  const seed = position[0] * 1.37 + position[2] * 0.71; // de-sync idle between characters
+  const seed = seedIn ?? position[0] * 1.37 + position[2] * 0.71; // de-sync idle between characters
   const t = f / 30 + seed;
   const breathe = still ? 0 : Math.sin(t * 2.2);
 
@@ -177,8 +179,11 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
   const swing = Math.sin(ph) * 0.75 * w; // stiff toy swing, arms opposite legs
   const legL = (pose.legL ?? 0) + swing, legR = (pose.legR ?? 0) - swing;
   const armL = (pose.armL ?? 0) - swing + 0.03 * breathe * (1 - w), armR = (pose.armR ?? 0) + swing + 0.03 * breathe * (1 - w);
-  const bob = Math.abs(Math.cos(ph)) * 0.08 * w; // tiny hop at each step
-  const sway = Math.sin(ph) * 0.04 * w;
+  // feet planted: a leg swung by a (hip 2 units above the sole) lifts its foot by 2(1-cos a), so the hips dip by that much;
+  // highest at mid-stride (legs together), lowest at full stride, like a real walk. A run adds a hop (flight phase).
+  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) : 0;
+  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.55 * w;
+  const sway = Math.sin(ph) * 0.04 * w + (pose.roll ?? 0);
   const [hy, hp] = pose.head ?? [0, 0];
 
   const pat: Pattern = look.shirtPattern ?? "plain";
@@ -191,7 +196,7 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
         <Leg side={1} angle={legL} look={look} pattern={legPat} />
         <Leg side={-1} angle={legR} look={look} pattern={legPat} />
         {/* upper body pivots at the hips for lean */}
-        <group position={[0, 2, 0]} rotation={[pose.lean ?? 0, 0, 0]}>
+        <group position={[0, 2, 0]} rotation={[pose.lean ?? 0, pose.twist ?? 0, 0]}>
           <group position={[0, -2, 0]}>
             <group position={[0, 3, 0]} scale={[1 + 0.006 * breathe, 1 + 0.012 * breathe, 1 + 0.01 * breathe]}>
               <mesh geometry={rbox(2, 2, 1, 0.1)} castShadow receiveShadow><Cloth color={look.shirt} pattern={pat} rows={Math.round(ROWS[pat] * 2)} /></mesh>
@@ -210,7 +215,7 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
             {/* neck + head */}
             <mesh position={[0, 4.05, 0]} castShadow><cylinderGeometry args={[0.3, 0.3, 0.12, 24]} /><Skin color={look.skin} /></mesh>
             <group position={[0, 4.56 + 0.01 * breathe, 0]} rotation={[0, hy, 0]}>
-              <group rotation={[hp, 0, 0]}>
+              <group rotation={[hp, 0, pose.tilt ?? 0]}>
                 <mesh geometry={getHeadGeo()} castShadow receiveShadow><Skin color={look.skin} /></mesh>
                 <mesh geometry={getFaceGeo()} position={[0, -0.02, 0]} renderOrder={2}>
                   <meshStandardMaterial map={face} transparent alphaTest={0.05} roughness={0.5} depthWrite={false} polygonOffset polygonOffsetFactor={-2} />
@@ -275,6 +280,7 @@ export const blendPose = (a: Pose, b: Pose, u: number): Pose => {
   return {
     armL: L(a.armL, b.armL), armR: L(a.armR, b.armR), armLOut: L(a.armLOut, b.armLOut), armROut: L(a.armROut, b.armROut),
     legL: L(a.legL, b.legL), legR: L(a.legR, b.legR), lean: L(a.lean, b.lean), head: [L(ha[0], hb[0]), L(ha[1], hb[1])],
+    tilt: L(a.tilt, b.tilt), twist: L(a.twist, b.twist), roll: L(a.roll, b.roll),
   };
 };
 
@@ -283,5 +289,6 @@ export const blendPose = (a: Pose, b: Pose, u: number): Pose => {
 export const wavePose = (t: number, amount = 1): Pose => ({ armR: amount * (2.7 + 0.25 * Math.sin(t * 9)), armROut: amount * 0.15, head: [0, -0.05 * amount] });
 /** Knocking on a door with the right fist: `k` is a 0..1 knock pulse (1 = fist on the door). */
 export const knockPose = (k: number): Pose => ({ armR: 1.35 + 0.35 * k, lean: 0.05 + 0.04 * k, head: [0, 0.05] });
-/** Walk input for a character moving at `speed` units/s at time `t` s (stride ~1.4 units per step). */
-export const walkAt = (t: number, speed: number, amount = 1): Walk => ({ phase: (t * speed * Math.PI) / 1.4, amount });
+/** Walk input for a character moving at `speed` units/s at time `t` s, feet planted (a step = 4 sin(0.75 amount) rig units).
+ *  For paths, starts and stops, use Motion.ts (walkPath). */
+export const walkAt = (t: number, speed: number, amount = 1, scale = 1): Walk => ({ phase: (t * speed * Math.PI) / (4 * Math.sin(0.75 * amount) * scale), amount });

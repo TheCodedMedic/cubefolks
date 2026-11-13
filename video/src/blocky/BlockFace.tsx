@@ -95,6 +95,18 @@ function draw(g: G, expr: Expr, blink: number) {
       smileArc(g, -0.17 + r, r, Math.asin(half / r), 0.013);
       break;
     }
+    case "talk": { // mid-word: eyes as smile, a small open D mouth (alternate with the speaker's base face on word times)
+      eyes(g, ERX, ERY, blink);
+      const cy = -0.07, r = 0.11, a = 0.85;
+      g.beginPath(); g.arc(0, cy, r, Math.PI * 1.5 - a, Math.PI * 1.5 + a); g.closePath(); g.fill();
+      break;
+    }
+    case "laugh": { // ^ ^ eyes shut and a big open grin
+      arch(g, -EX, EY); arch(g, EX, EY);
+      const cy = 0.0, r = 0.21, a = 1.0;
+      g.beginPath(); g.arc(0, cy, r, Math.PI * 1.5 - a, Math.PI * 1.5 + a); g.closePath(); g.fill();
+      break;
+    }
     case "stare": // slightly bigger eyes, no mouth
       eyes(g, ERX * 1.18, ERY * 1.18, blink);
       break;
@@ -126,4 +138,4 @@ export function makeFaceTexture(expr: Expr, blink = 0): THREE.CanvasTexture {
 }
 
 /** Every expression, in sheet order. */
-export const ALL_EXPRS: Expr[] = ["smile", "grin", "happy", "smirk", "surprised", "worried", "scared", "blank", "creepy", "stare"];
+export const ALL_EXPRS: Expr[] = ["smile", "grin", "happy", "smirk", "surprised", "worried", "scared", "blank", "creepy", "stare", "talk", "laugh"];
