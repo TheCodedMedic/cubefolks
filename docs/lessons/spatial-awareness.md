@@ -26,7 +26,24 @@ Sometimes you just see their limbs embedded in walls. There should be absolute s
 - `Motion.ts`: `sit()` hops onto the seat (legs up first, in free space, then back and down), like the game.
 - Doors are **5 units wide** (a character is 4 across the arms); corridors and aisles at least 5.
 
+## What the first audit found on motion sheet v1 (and the fixes, all now in the kit)
+- heels and toes dipped into the floor mid-stride → the hips follow the rigid foot's lowest CORNER (BlockRig solveRig);
+- raising an arm sideways tucked its top corner into the chest → the shoulder slides out (`shoulderSlide`);
+- a waving arm swung back into the head → the wave stays out from the head;
+- crossed arms and "hands on belly" went through the chest → blocky arms have no elbows: arms fold IN FRONT (forearms
+  forward and in, raised before they come in), the laugh holds the hands in front of the belly;
+- seated people turning round hit the pew behind → they sit 0.4 forward, waist + seat shift stay under 0.42 rad, the head
+  turns the rest (up to 1.5), and the camera sits to the side so a 110 degree turn reads as a stare;
+- a cook at a counter: hands travel up, then over onto the board (never through the counter front); the knife tip and fist
+  stop on the board; the head turns, not the waist; small talk gestures only;
+- a hand on a door handle stops on the door's face (half a fist out), and the character stands so its shoulder is inside
+  the doorway; doors are 5 wide;
+- crowds keep 4.6 between centres (arms span 4 and swing).
+
 ## The check (every shot, before rendering)
+0. Fast, no rendering: `cd video && npx esbuild tools/clipAudit.tsx --bundle --platform=node --outfile=out/clipAudit.cjs
+   --jsx=automatic && node out/clipAudit.cjs` runs the same check over every frame and names what each part hits
+   ("armR>counter", "armL>other.armR", "feet-0.30"). Copy the pattern for a Short's shots.
 1. Pass each character its set's colliders and the other people in the shot.
 2. Render the shot (or the motion sheet cell) with the debug flag: every clipping part turns flat magenta.
 3. `python3 -I pipeline/clip_scan.py <debug.mp4>` lists the frames with clipping. **Zero frames** before the real render.

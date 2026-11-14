@@ -133,12 +133,15 @@ export const SHOULDER = { x: 1.5, y: 3.5, top: 0.5, len: 2 } as const;
 export const HAND: { pos: [number, number, number]; rot: [number, number, number] } = { pos: [0, -1.36, 0.08], rot: [Math.PI / 2, 0, 0] };
 /** Overhead splay so a raised arm never cuts through the head (0 when the arm hangs: no gap at the hip). */
 export const splayFor = (angle: number) => 0.18 * smooth(1.4, 2.6, angle);
+/** A sideways-raised arm slides out at the shoulder (its top would otherwise tuck into the chest, since the pivot sits
+ *  0.5 below the arm's top): the shoulder moves out by 0.5 sin(sideways angle). */
+export const shoulderSlide = (sideways: number) => SHOULDER.top * Math.sin(Math.max(0, sideways));
 
 /** Debug tint for a part that is inside a wall, prop or another person (BlockChar `hits`, from Collide.ts clipParts). */
 const HitMat: React.FC = () => <meshBasicMaterial color="#ff00ff" />;
 
 const Arm: React.FC<{ side: 1 | -1; angle: number; out: number; look: Look; pattern: Pattern; prop?: React.ReactNode; hit?: boolean }> = ({ side, angle, out, look, pattern, prop, hit }) => (
-  <group position={[side * SHOULDER.x, SHOULDER.y, 0]} rotation={[-angle, 0, side * (splayFor(angle) + out)]}>
+  <group position={[side * (SHOULDER.x + shoulderSlide(splayFor(angle) + out)), SHOULDER.y, 0]} rotation={[-angle, 0, side * (splayFor(angle) + out)]}>
     <mesh position={[0, -0.2, 0]} geometry={rbox(1, 1.4, 1, 0.07)} castShadow receiveShadow>
       {hit ? <HitMat /> : <Cloth color={look.shirt} pattern={pattern} rows={Math.max(1, Math.round(ROWS[pattern] * 1.4))} />}
     </mesh>
@@ -169,10 +172,12 @@ export const solveRig = (pose: Pose = {}, walk?: Walk, breathe = 0) => {
   const swing = Math.sin(ph) * 0.75 * w; // stiff toy swing, arms opposite legs
   const legL = (pose.legL ?? 0) + swing, legR = (pose.legR ?? 0) - swing;
   const armL = (pose.armL ?? 0) - swing + 0.03 * breathe * (1 - w), armR = (pose.armR ?? 0) + swing + 0.03 * breathe * (1 - w);
-  // feet planted: a leg swung by a (hip 2 units above the sole) lifts its foot by 2(1-cos a), so the hips dip by that much;
-  // highest at mid-stride (legs together), lowest at full stride, like a real walk. A run adds a hop (flight phase).
-  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) * (1 - 0.45 * (walk.flight ?? 0)) : 0; // a run keeps more height
-  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.35 * w;
+  // feet planted: a leg is a rigid block (2 from hip to sole, about 0.5 from its centre line to the toe/heel). Swung by a,
+  // its lowest corner sits 2cos(a) + 0.5sin(a) below the hip, so the hips move by exactly the difference: the sole's
+  // corner touches the floor all through the stride (no heel or toe sinking, no floating). A run adds a hop at mid-stride.
+  const a = Math.min(1.3, Math.abs(swing));
+  const drop = walk ? 2 - 2 * Math.cos(a) - 0.5 * Math.sin(a) : 0;
+  const bob = -drop + (walk?.flight ?? 0) * Math.pow(Math.abs(Math.cos(ph)), 3) * 0.4 * w;
   const sway = Math.sin(ph) * 0.04 * w + (pose.roll ?? 0);
   const [hy, hp] = pose.head ?? [0, 0];
   return { legL, legR, armL, armR, armLOut: pose.armLOut ?? 0, armROut: pose.armROut ?? 0, bob, sway, lean: pose.lean ?? 0, twist: pose.twist ?? 0, hy, hp, tilt: pose.tilt ?? 0 };

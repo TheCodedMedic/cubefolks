@@ -115,7 +115,7 @@ const DoorWall: React.FC<{ open: number; floorY?: number; w?: number; color?: st
     {/* the door, hinged at x=-dw/2 */}
     <group position={[-dw / 2, floorY, -0.4]} rotation={[0, (-Math.PI / 2) * DOOR_OPEN * open, 0]}>
       <Box p={[dw / 2, dh / 2, 0]} s={[dw, dh, 0.25]} c="#7a2a24" kind="woodDark" />
-      <mesh position={[dw - 0.4, dh * 0.47, 0.22]}><sphereGeometry args={[0.15, 12, 8]} /><meshStandardMaterial color="#d8b04a" metalness={0.6} roughness={0.3} /></mesh>
+      <mesh position={[dw - 0.9, 3.3, 0.22]}><sphereGeometry args={[0.15, 12, 8]} /><meshStandardMaterial color="#d8b04a" metalness={0.6} roughness={0.3} /></mesh>
     </group>
     {/* porch + two steps */}
     <Box p={[0, floorY / 2, 1.5]} s={[8, floorY, 3]} c="#cfcac0" kind="concrete" />
@@ -144,7 +144,7 @@ const Debug = React.createContext(false);
 type CP = { look: Look; a: { position: V3; yaw: number; walk?: any; pose?: Pose; seed?: number }; t: number; expr?: Expr; scale?: number; hold?: { R?: React.ReactNode; L?: React.ReactNode }; lift?: number; blinkSeed?: number; still?: boolean;
   /** the set's solid things and the other people in the shot (checked in debug mode) */
   cs?: K.Box[]; others?: K.CharState[]; allow?: string[] };
-const C: React.FC<CP> = ({ look, a, t, expr = "smile", scale = 1, hold, lift = 0, blinkSeed = 0, still, cs = [], others = [], allow = ["seat"] }) => {
+export const C: React.FC<CP> = ({ look, a, t, expr = "smile", scale = 1, hold, lift = 0, blinkSeed = 0, still, cs = [], others = [], allow = ["seat"] }) => {
   const debug = React.useContext(Debug);
   const position: V3 = [a.position[0], a.position[1] + lift, a.position[2]];
   let hits: ReturnType<typeof K.clipParts> | undefined;
@@ -163,7 +163,7 @@ type Cell = { name: string; time?: "day" | "interior"; sky?: boolean; run: (t: n
 const cam = (pos: V3, target: V3, fov = 40): CamS => ({ pos, target, fov });
 
 const SQUARE: V3[] = [[-5, 0, 5], [5, 0, 5], [5, 0, -5], [-5, 0, -5], [-5, 0, 5]];
-const CELLS: Cell[] = [
+export const CELLS: Cell[] = [
   { name: "WALK + CORNERS", run: (t) => {
     const a = M.walkPath(SQUARE, t, 0.4, { gait: "walk" });
     return { label: a.moving ? "stiff toy walk, feet planted" : "stops, idles", cam: cam([0, 22, 30], [0, 0.5, -1], 40),
@@ -208,46 +208,59 @@ const CELLS: Cell[] = [
   } },
   { name: "WAVE / POINT / SHRUG / ARMS", run: (t) => {
     const pose = M.mix(M.idle(t, 6, 0.6), M.wave(t, 0.2, 1.9), M.point(t, 2.1, 3.1, 0.25), M.shrug(t, 3.3, 4.3), M.crossArms(t, 4.5, 6.0), M.hips(t, 6.2, 7.8));
-    const label = t < 2 ? "wave" : t < 3.2 ? "point" : t < 4.4 ? "shrug" : t < 6.1 ? "arms crossed" : "hands on hips";
+    const label = t < 2 ? "wave" : t < 3.2 ? "point" : t < 4.4 ? "shrug" : t < 6.1 ? "arms folded" : "hands on hips";
     const expr: Expr = t < 2 ? "happy" : t < 3.2 ? "surprised" : t < 4.4 ? "worried" : t < 6.1 ? "blank" : "smirk";
     return { label, cam: cam([2.5, 5, 14], [0, 3.4, 0], 38), scene: <C look={TOWNSFOLK[4]} t={t} a={{ position: [0, 0, 0], yaw: 0.2, pose }} expr={expr} blinkSeed={6} /> };
   } },
   { name: "CHOP / STOP / TALK", time: "interior", sky: false, run: (t) => {
     const words = [3.9, 4.25, 4.55, 4.9, 5.3, 5.6];
-    const look = M.headSnap(t, 3.4, 0.55, -0.15, 6.2);
-    const raw = M.mix(M.chop(t, 0.3, 3.1), M.chop(t, 6.3, 9), M.talkHands(t, words), look, M.idle(t, 7, 0.4));
-    const cook: K.CharState = { position: [-0.1, 0, 1.15], yaw: 0, pose: raw };
-    // the knife tip stops ON the board (never through it); the hand never goes into the counter
-    const BOARD_TOP = 3.12;
-    const armR = K.armAboveSurface(cook, -1, KNIFE_TIP, BOARD_TOP + 0.02);
-    const armR2 = K.armAboveSurface({ ...cook, pose: { ...raw, armR } }, -1, [0, -1.5, 0.5], 3.0 + 0.05);
-    const pose: Pose = { ...raw, armR: armR2 };
-    const cs = [K.box([0, 1.4, 3.0], [7, 2.8, 2.2], "counter"), K.box([0, 2.9, 3.0], [7.4, 0.2, 2.4], "counterTop"), K.box([-1.3, 3.06, 2.6], [2.4, 0.12, 1.4], "board"), K.box([0, 6, -3.5], [30, 12, 0.5], "wall")];
+    const look = { ...M.headSnap(t, 3.4, 0.55, -0.15, 6.2), twist: 0 }; // at a counter: the head turns, the waist does not (it would swing a shoulder into the counter)
+    // both hands work ON the board: the left steadies the carrots, the right chops; the knife tip stops on the board top
+    const BOARD_TOP = 3.12, board = K.box([-1.6, 3.06, 2.6], [2.8, 0.12, 1.4], "board");
+    const chopping = M.env(t, 0.3, 3.1, 0.15, 0.15) + M.env(t, 6.3, 9, 0.15, 0.15);
+    const rate = 3.2, u = ((t - 0.3) * rate) % 1, strike = u < 0.35 ? M.easeOut(u / 0.35) : 1 - M.ease((u - 0.35) / 0.65);
+    const body = M.mix(look, M.idle(t, 7, 0.4), { lean: 0.1 * chopping, head: [0, 0.3 * chopping] });
+    const cook: K.CharState = { position: [-1.3, 0, 0.8], yaw: 0, pose: body }; // square to the board
+    // hands travel UP from hanging, then over onto the board (never through the counter's front), via reachArm on a moving target
+    const via = (side: 1 | -1, goal: V3): Pose => {
+      const p0 = K.handEnd({ ...cook, pose: { ...body, armL: 0.1, armR: 0.1 } }, side), p1: V3 = [p0[0], BOARD_TOP + 1.0, p0[2]];
+      const u = chopping, tgt: V3 = u < 0.5 ? [p0[0], p0[1] + (p1[1] - p0[1]) * M.ease(u * 2), p0[2]]
+        : [p1[0] + (goal[0] - p1[0]) * M.ease(u * 2 - 1), p1[1] + (goal[1] - p1[1]) * M.ease(u * 2 - 1), p1[2] + (goal[2] - p1[2]) * M.ease(u * 2 - 1)];
+      return u <= 0.001 ? (side === 1 ? { armL: 0.1 } : { armR: 0.1 }) : K.reachArm(cook, side, tgt).pose;
+    };
+    const lp = via(1, [-0.05, BOARD_TOP + 0.62, 2.2]); // the left fist rests on the carrots' end of the board
+    const rp = via(-1, [-2.6, BOARD_TOP + 1.2 - 0.95 * strike, 1.95]); // the right chops straight in front of its shoulder
+    const th = M.scale(M.talkHands(t, words), 0.3); // small beats: a big one would knock the counter
+    let raw: Pose = { ...body, armL: (lp.armL ?? 0) + (th.armL ?? 0), armLOut: lp.armLOut ?? 0, armR: (rp.armR ?? 0) + (th.armR ?? 0), armROut: rp.armROut ?? 0 };
+    // nothing of the right arm goes below the board: the knife tip and the fist's lower corners stop on its top
+    for (const pt of [KNIFE_TIP, [0, -1.5, -0.5], [0, -1.5, 0.5], [0, -0.9, -0.5]] as V3[]) raw = { ...raw, armR: K.armAboveSurface({ ...cook, pose: raw }, -1, pt, BOARD_TOP + 0.05, board) };
+    const pose: Pose = raw;
+    const cs = [K.box([0, 1.4, 3.0], [7, 2.8, 2.2], "counter"), K.box([0, 2.9, 3.0], [7.4, 0.2, 2.4], "counterTop"), board, K.box([0, 6, -3.5], [30, 12, 0.5], "wall")];
     const expr: Expr = t < 3.1 ? "smile" : t < 3.7 ? "blank" : t < 6.2 ? M.talk(t, words, "smile") : "smile";
-    return { label: t < 3.1 ? "chopping" : t < 3.8 ? "stops mid-chop" : t < 6.2 ? "turns, talks" : "back to chopping", cam: cam([12, 6, 7], [0, 3.0, 1.8], 38),
+    return { label: t < 3.1 ? "chopping" : t < 3.8 ? "stops mid-chop" : t < 6.2 ? "turns, talks" : "back to chopping", cam: cam([10, 6, 8], [-1.3, 3.0, 1.8], 38),
       scene: <><Ground kind="wood" /><Box p={[0, 6, -3.5]} s={[30, 12, 0.5]} c="#f2ecd8" kind="tile" />
         <Box p={[0, 1.4, 3.0]} s={[7, 2.8, 2.2]} c="#f4f1ea" /><Box p={[0, 2.9, 3.0]} s={[7.4, 0.2, 2.4]} c="#b8b4ac" kind="concrete" />
-        <Box p={[-1.3, 3.06, 2.6]} s={[2.4, 0.12, 1.4]} c="#c08a50" kind="wood" />
-        {[0, 1, 2].map((i) => <mesh key={i} position={[-1.9 + i * 0.4, 3.22, 2.6]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.13, 0.08, 0.9, 8]} /><meshStandardMaterial color="#f08a24" /></mesh>)}
+        <Box p={[-1.6, 3.06, 2.6]} s={[2.8, 0.12, 1.4]} c="#c08a50" kind="wood" />
+        {[0, 1, 2].map((i) => <mesh key={i} position={[-1.7 + i * 0.4, 3.22, 2.6]} rotation={[0, 0, Math.PI / 2]}><cylinderGeometry args={[0.13, 0.08, 0.9, 8]} /><meshStandardMaterial color="#f08a24" /></mesh>)}
         <C look={COOK} t={t} a={{ position: cook.position, yaw: 0, pose }} expr={expr} hold={{ R: <Knife /> }} blinkSeed={7} cs={cs} /></> };
   } },
   { name: "THROUGH A DOOR / UP STEPS", run: (t) => {
     const csShut = doorWallCS(0), g = K.groundFn(csShut);
-    const S: V3 = [1.25, 0.8, 1.05]; // in front of the door, by the handle (x = +2.1)
-    const p1: V3[] = [[-9, 0, 9], [0, 0, 8], [0.8, 0, 4.6], [1.25, 0, 2.2], S];
+    const S: V3 = [0.25, 0.8, 1.05]; // in front of the door, the right shoulder inside the opening, by the handle (x = +1.6)
+    const p1: V3[] = [[-9, 0, 9], [0, 0, 8], [0.25, 0, 4.6], [0.25, 0, 2.2], S];
     const w1 = M.walkPath(p1, t, 0.2, { gait: "walk", ground: g, yaw1: Math.PI, turnOut: 0.25 });
     const tArr = 0.2 + M.walkDuration(p1) + 0.25, tPush = tArr + 0.05;
     const open = M.ease(M.seg(t, tPush + 0.25, tPush + 1.0));
     const tIn = tPush + 0.85;
-    const w2 = M.walkPath([S, [0.2, 0.8, -1.2], [0, 0.8, -4.2]], t, tIn, { ground: K.groundFn(doorWallCS(1)) });
+    const w2 = M.walkPath([S, [0, 0.8, 1.0], [0, 0.8, -4.2]], t, tIn, { ground: K.groundFn(doorWallCS(1)) });
     const inside = t > tIn;
     let a: M.Act = inside ? w2 : M.act(w1);
     let label = t < tArr ? "walks up the path and steps" : !inside ? "hand on the handle, pushes" : "walks in";
     if (!inside && t > tPush - 0.2) { // the right hand follows the handle as the door swings, then lets go
-      const handle = doorPoint(open, DW - 0.45, 3.3);
+      const handle = doorPoint(open, DW - 0.9, 3.3, 0.13 + 0.55); // the fist stops ON the door face (half a hand out), not in it
       const r = K.reachArm(st(a), -1, handle);
       const k = M.env(t, tPush - 0.2, tIn, 0.2, 0.15) * (r.short < 0.15 ? 1 : M.clamp01(1 - (r.short - 0.15) * 4));
-      a = { ...a, pose: { ...a.pose, armR: (a.pose?.armR ?? 0) * (1 - k) + (r.pose.armR ?? 0) * k, armROut: (a.pose?.armROut ?? 0) * (1 - k) + (r.pose.armROut ?? 0) * k, lean: (a.pose?.lean ?? 0) + 0.06 * k } };
+      a = { ...a, pose: { ...a.pose, armR: (a.pose?.armR ?? 0) * (1 - k) + (r.pose.armR ?? 0) * k, armROut: Math.max(-0.05 * (1 - k), (a.pose?.armROut ?? 0) * (1 - k) + (r.pose.armROut ?? 0) * k), lean: (a.pose?.lean ?? 0) + 0.06 * k } };
     }
     const cs = open > 0.95 ? doorWallCS(1) : open < 0.05 ? csShut : doorWallCS(open).filter((b) => b.name !== "door");
     return { label, cam: cam([9, 7.5, 18], [0, 3.6, 2], 40),
@@ -255,7 +268,7 @@ const CELLS: Cell[] = [
         <C look={TOWNSFOLK[2]} t={t} a={a} blinkSeed={8} cs={cs} /></> };
   } },
   { name: "WHISPER / LAUGH", run: (t) => {
-    const g: V3 = [-1.6, 0, 0], k: V3 = [1.6, 0, 0.4];
+    const g: V3 = [-1.7, 0, 0], k: V3 = [1.9, 0, 0.4];
     const words = [1.2, 1.5, 1.8, 2.15, 2.5];
     const gp = M.mix(M.idle(t, 9, 0.5), M.leanIn(t, 0.6, 3.0, 0.15), M.laugh(t, 3.3, 5.0), M.raise(t, 5.6, 7.8, -1));
     const kp = M.mix(M.idle(t, 10, 0.5), M.recoil(t, 2.3, 3.3), M.headSnap(t, 2.25, -0.45, 0, 3.2), M.cower(t, 5.2, 6.4), M.shrug(t, 6.6, 7.7));
@@ -267,20 +280,24 @@ const CELLS: Cell[] = [
         <C look={ME} scale={0.82} t={t} a={{ position: k, yaw: -1.0, pose: kp }} expr={ke} blinkSeed={10} others={[st({ position: g, yaw: 1.05, pose: gp })]} /></> };
   } },
   { name: "CROWD TURNS (PEWS)", time: "interior", sky: false, run: (t) => {
-    const camP: V3 = [0, 13, -27];
+    const camP: V3 = [21, 11, -9];
     const rows = [0, 1, 2, 3], seats = [-4.5, -1.5, 1.5, 4.5];
-    const people = rows.flatMap((r) => seats.map((x, i) => ({ r, i, p: [x + (r % 2) * 0.4, 0, -r * 4.2] as V3 })));
+    // people sit 0.4 forward of the pew's centre, so a turning shoulder clears the backrest (Collide-tested)
+    const people = rows.flatMap((r) => seats.map((x, i) => ({ r, i, p: [x + (r % 2) * 0.4, 0, -r * 4.2 + 0.4] as V3 })));
     const cs = rows.flatMap((r) => pewCS(-r * 4.2, 11));
-    return { label: t < 2.6 ? "seated, facing the front" : "the whole room turns to stare", cam: cam(camP, [0, 2.6, -4], 40),
+    return { label: t < 2.6 ? "seated, facing the front" : "the whole room turns to stare", cam: cam(camP, [-1, 2.6, -6], 42),
       scene: <><Ground kind="wood" /><Box p={[0, 0.02, -6]} s={[2.2, 0.04, 30]} c="#a8241e" kind="carpet" />
         {rows.map((r) => <Pew key={r} p={[0, 0, -r * 4.2]} L={11} />)}
-        {people.map(({ r, i, p }, n) => {
+        {people.map(({ r, p }, n) => {
           const seat: V3 = [p[0], 1.6, p[2]];
-          const base = M.sit(seat, seat, 0, t, -5, 0.1); // already seated, facing +z (the front is +z, the camera is behind... at -z)
           const ct = M.crowdTurn(n, [p[0], 0, p[2]], 0, camP, t, 2.6, 0.9, 0, 2);
-          const turn = ct.yaw - 0; // a seated body can't spin: the turn goes into the twist and the head
-          const tw = Math.max(-0.9, Math.min(0.9, turn * 0.45));
-          const pose = M.mix(base.pose, M.seatedIdle(t, n, 0.5), { twist: tw, head: [Math.max(-1.4, Math.min(1.4, turn - tw + (ct.pose.head?.[0] ?? 0))), -0.08] });
+          // a seated body can't spin round: it shifts on the seat (<= 0.5), twists at the waist (<= 0.45), the head does the rest
+          const want = ct.yaw + (ct.pose.head?.[0] ?? 0);
+          // shift + twist together stay within 0.42 so the shoulder clears the backrest (Collide-tested); the head turns up to 1.5
+          const shift = Math.max(-0.2, Math.min(0.2, want * 0.15)), tw = Math.max(-0.22, Math.min(0.22, (want - shift) * 0.3));
+          const head = Math.max(-1.5, Math.min(1.5, want - shift - tw));
+          const base = M.sit(seat, seat, shift, t, -5, 0.1);
+          const pose = M.mix(base.pose, M.seatedIdle(t, n, 0.5), { armL: 0.35, armR: 0.35, twist: tw, head: [head, -0.08] });
           const turned = t > ct.t + 0.05;
           return <C key={n} look={TOWNSFOLK[(n * 5 + r) % TOWNSFOLK.length]} t={t} a={{ ...base, pose }} expr={turned ? "stare" : "smile"} blinkSeed={n} still={turned} cs={cs} />;
         })}</> };
@@ -288,7 +305,7 @@ const CELLS: Cell[] = [
   { name: "CROWD MILLING (DRONE)", run: (t) => {
     const sc = (i: number) => (i % 5 === 0 ? 0.8 : 1);
     const acts = Array.from({ length: 16 }, (_, i) => M.wander(i + 1, [0, 0, -1], 10, t, { scale: sc(i) }));
-    const pos = K.separate(acts.map((a) => a.position), 1.35);
+    const pos = K.separate(acts.map((a) => a.position), 2.3); // arms span 4 and swing: keep 4.6 between centres
     const placed = acts.map((a, i) => ({ ...a, position: pos[i] }));
     return { label: "townsfolk mill about; nobody walks through anybody", cam: cam([0, 30, 15], [0, 0, -1], 40),
       scene: <><Sidewalk from={[0, 0, 12]} to={[0, 0, -14]} w={3.5} />

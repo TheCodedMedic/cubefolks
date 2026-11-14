@@ -5,7 +5,7 @@ import numpy as np
 
 path = sys.argv[1]; min_px = int(sys.argv[2]) if len(sys.argv) > 2 else 6
 w, h = [int(x) for x in subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v", "-show_entries", "stream=width,height",
-                                         "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip().split(",")]
+                                         "-of", "csv=p=0", path], capture_output=True, text=True).stdout.strip().strip(",").split(",")[:2]]
 raw = subprocess.run(["ffmpeg", "-v", "error", "-i", path, "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
 fr = np.frombuffer(raw, np.uint8).reshape(-1, h, w, 3).astype(np.int16)
 r, g, b = fr[..., 0], fr[..., 1], fr[..., 2]

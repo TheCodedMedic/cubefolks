@@ -11,7 +11,7 @@
 // - `separate(people)` pushes crowd members apart so they never walk through each other.
 import * as THREE from "three";
 import type { Pose, Walk } from "./types";
-import { SHOULDER, solveRig, splayFor, type RigParts } from "./BlockRig";
+import { SHOULDER, shoulderSlide, solveRig, splayFor, type RigParts } from "./BlockRig";
 
 export type V3 = [number, number, number];
 export type Box = { min: V3; max: V3; name?: string };
@@ -50,7 +50,7 @@ export const rigBoxes = (c: CharState): PartBox[] => {
   const upper = node(node(body, [0, 2, 0], [r.lean, r.twist, 0]), [0, -2, 0]);
   out.push({ part: "torso", m: upper, size: [2, 2, 1], center: [0, 3, 0] });
   const arm = (side: 1 | -1, a: number, o: number, part: RigParts) =>
-    out.push({ part, m: node(upper, [side * SHOULDER.x, SHOULDER.y, 0], [-a, 0, side * (splayFor(a) + o)]), size: [1, 2, 1], center: [0, -0.5, 0] });
+    out.push({ part, m: node(upper, [side * (SHOULDER.x + shoulderSlide(splayFor(a) + o)), SHOULDER.y, 0], [-a, 0, side * (splayFor(a) + o)]), size: [1, 2, 1], center: [0, -0.5, 0] });
   arm(1, r.armL, r.armLOut, "armL"); arm(-1, r.armR, r.armROut, "armR");
   const head = node(node(upper, [0, 4.56, 0], [0, r.hy, 0]), [0, 0, 0], [r.hp, 0, r.tilt]);
   out.push({ part: "head", m: head, size: [1.16, 1, 1.16], center: [0, 0, 0] });
@@ -80,11 +80,13 @@ export const armPoint = (c: CharState, side: 1 | -1, local: V3): V3 => {
 };
 /**
  * Keep a point on an arm (a knife tip, a fist) at or above a surface height: raises the arm angle just enough (binary
- * search) when the motion would push the point below `surfaceY`. Returns the corrected arm angle.
+ * search) when the motion would push the point below `surfaceY`; with `over`, only while the point is above that box's
+ * footprint (a cutting board). Returns the corrected arm angle.
  */
-export const armAboveSurface = (c: CharState, side: 1 | -1, local: V3, surfaceY: number) => {
+export const armAboveSurface = (c: CharState, side: 1 | -1, local: V3, surfaceY: number, over?: Box) => {
   const k = side === 1 ? "armL" : "armR", a0 = (c.pose?.[k] as number) ?? 0;
   const y = (a: number) => armPoint({ ...c, pose: { ...c.pose, [k]: a } }, side, local)[1];
+  if (over) { const p = armPoint(c, side, local); if (p[0] < over.min[0] || p[0] > over.max[0] || p[2] < over.min[2] || p[2] > over.max[2]) return a0; }
   if (y(a0) >= surfaceY) return a0;
   let lo = a0, hi = a0 + 1.5;
   for (let i = 0; i < 24; i++) { const m = (lo + hi) / 2; if (y(m) >= surfaceY) hi = m; else lo = m; }
@@ -103,7 +105,7 @@ export const handEnd = (c: CharState, side: 1 | -1): V3 => {
  * grazing contact. Use it in review (BlockChar `hits={clipParts(...)}`) and in tests over every frame of a shot.
  * `allow` lists collider names a character is meant to touch (its own seat, the board under its hand).
  */
-export const clipParts = (c: CharState, cs: Box[], others: CharState[] = [], tol = 0.04, allow: string[] = []) => {
+export const clipParts = (c: CharState, cs: Box[], others: CharState[] = [], tol = 0.04, allow: string[] = [], why?: string[]) => {
   const s = c.scale ?? 1, hits: Partial<Record<RigParts, boolean>> = {};
   const solids = cs.filter((b) => !b.name || !allow.includes(b.name));
   const withInv = (ps: PartBox[]) => ps.map((p) => ({ p, inv: new THREE.Matrix4().copy(p.m).invert() }));
@@ -115,10 +117,12 @@ export const clipParts = (c: CharState, cs: Box[], others: CharState[] = [], tol
   const ownBody = withInv(mine.filter((p) => p.part === "torso" || p.part === "head"));
   for (const p of mine) {
     const pts = samples(p, 0.06);
-    let hit = pts.some((v) => solids.some((b) => inside(v, b, tol * s)));
-    if (!hit && otherBoxes.length) hit = pts.some((v) => otherBoxes.some(({ p: q, inv }) => inPart(v, q, inv, 0.05)));
+    const sb = solids.find((b) => pts.some((v) => inside(v, b, tol * s)));
+    let hit = !!sb;
+    if (sb) why?.push(`${p.part}>${sb.name ?? "box"}`);
+    if (!hit && otherBoxes.length) { const ob = otherBoxes.find(({ p: q, inv }) => pts.some((v) => inPart(v, q, inv, 0.05))); if (ob) { hit = true; why?.push(`${p.part}>other.${ob.p.part}`); } }
     // self: an arm through its own chest or head (crossed arms, hands to the face) — 0.12 deep before it counts
-    if (!hit && (p.part === "armL" || p.part === "armR")) hit = pts.some((v) => ownBody.some(({ p: q, inv }) => inPart(v, q, inv, 0.12)));
+    if (!hit && (p.part === "armL" || p.part === "armR")) { const own = ownBody.find(({ p: q, inv }) => pts.some((v) => inPart(v, q, inv, 0.12))); if (own) { hit = true; why?.push(`${p.part}>self.${own.p.part}`); } }
     if (hit) hits[p.part] = true;
   }
   return hits;

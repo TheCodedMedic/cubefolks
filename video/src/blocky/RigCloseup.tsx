@@ -12,17 +12,17 @@ const B: Look = { skin: "#7e5236", shirt: "#e07a2e", pants: "#3a4a6a", hair: "po
 export const RigCloseup: React.FC<{ walkPhase?: number }> = ({ walkPhase }) => {
   const f = useCurrentFrame();
   const ph = walkPhase ?? f * 0.2;
-  const row = (y: number, look: Look, mode: number) => [0, 0.6, 1.57, 3.14].map((yaw, i) => (
-    <BlockChar key={i} look={look} position={[-9 + i * 6, y, 0]} yaw={yaw} still seed={1}
+  const row = (y: number, look: Look, mode: number) => [0, 0.6, 1.57, 2.5].map((yaw, i) => (
+    <BlockChar key={i} look={look} position={[-10.5 + i * 7, y, 0]} yaw={yaw} still seed={1}
       walk={mode === 1 ? { phase: ph, amount: 0.9 } : undefined}
-      pose={mode === 2 ? { armR: 2.75, armROut: 0.2, armL: 1.5, armLOut: -0.1 } : {}} />
+      pose={mode === 2 ? { armR: 2.75, armROut: 0.45, armL: 1.5, armLOut: 0 } : mode === 3 ? { armL: 1.2, armLOut: 0.9, armR: 0.6, armROut: 0.5 } : {}} />
   ));
   return (
     <AbsoluteFill style={{ background: "#9fb8cc" }}>
       <ThreeCanvas width={1080} height={1440}>
-        <Cam c={{ pos: [0, 9, 34], target: [0, 8.2, 0], fov: 44 }} />
+        <Cam c={{ pos: [0, 11, 46], target: [0, 10.5, 0], fov: 44 }} />
         <BlockLights time="day" focus={[0, 0, 0]} />
-        {row(11, A, 0)}{row(5.5, B, 1)}{row(0, A, 2)}
+        {row(21, A, 0)}{row(14, B, 1)}{row(7, A, 2)}{row(0, B, 3)}
       </ThreeCanvas>
     </AbsoluteFill>
   );

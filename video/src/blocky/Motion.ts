@@ -166,7 +166,7 @@ export const walkPath = (path: V3[], t: number, t0: number, o: PathOpts = {}): A
   const lean = g.lean * clamp01(f) + (o.gait === "run" ? 0.05 * Math.sin(phase * 2) * f : 0);
   let p = pointAt(path, d);
   if (o.ground) { // stand on what is under the body, stepping up when the front foot gets there
-    const ahead = pointAt(path, Math.min(D, d + (moving ? 0.6 * s : 0)));
+    const ahead = pointAt(path, Math.min(D, d + (moving ? 1.35 * s : 0)));
     const y0 = o.ground(p[0], p[2], p[1] + 1.2 * s), y1 = o.ground(ahead[0], ahead[2], p[1] + 1.2 * s);
     p = [p[0], Math.max(y0, y1), p[2]];
   }
@@ -246,7 +246,7 @@ export const jump = (t: number, t0: number, h = 1.5, dur = 0.62): { lift: number
 /** Overhead wave on the right arm (side -1 = left): arm up, waving side to side from the shoulder. */
 export const wave = (t: number, t0: number, t1 = Infinity, side: 1 | -1 = 1, rate = 1): Pose => {
   const k = env(t, t0, t1, 0.15, 0.2), w = Math.sin((t - t0) * 11 * rate);
-  const p: Pose = { armR: 2.75 * k, armROut: (0.2 + 0.32 * w) * k, head: [0, -0.04 * k], tilt: 0.05 * w * k, roll: -0.02 * k };
+  const p: Pose = { armR: 2.75 * k, armROut: (0.42 + 0.22 * w) * k, head: [0, -0.04 * k], tilt: 0.05 * w * k, roll: -0.02 * k };
   return side === 1 ? p : flip(p);
 };
 /** Point with the right arm (straight forward; add twist/yaw for direction). `up` raises it (pointing at a window). */
@@ -265,10 +265,11 @@ export const spread = (t: number, t0: number, t1 = t0 + 1): Pose => {
   const k = env(t, t0, t1, 0.2, 0.25);
   return { armL: 1.0 * k, armR: 1.0 * k, armLOut: 0.95 * k, armROut: 0.95 * k, head: [0, -0.08 * k] };
 };
-/** Arms crossed (held). */
+/** Arms folded in front (held). Blocky arms have no elbows, so a true cross would pass through the chest and each other
+ *  (checked with Collide.clipParts): both forearms come forward and in, the left a little higher, hands nearly meeting. */
 export const crossArms = (t: number, t0: number, t1 = Infinity): Pose => {
-  const k = env(t, t0, t1, 0.25, 0.25);
-  return { armL: 1.5 * k, armLOut: -0.72 * k, armR: 1.32 * k, armROut: -0.7 * k, head: [0, 0.03 * k], lean: -0.02 * k };
+  const k = env(t, t0, t1, 0.3, 0.3), kin = ease(seg(k, 0.6, 1)); // arms come up first, then fold in (never through the chest)
+  return { armL: 1.38 * k, armLOut: -0.35 * kin, armR: 1.24 * k, armROut: -0.35 * kin, head: [0, 0.03 * k], lean: -0.03 * k };
 };
 /** Hands on hips (held). */
 export const hips = (t: number, t0: number, t1 = Infinity): Pose => {
@@ -323,7 +324,7 @@ export const leanIn = (t: number, t0: number, t1 = Infinity, headYaw = 0): Pose 
 /** A body laugh: rocking back and forth, head back, arms in at the belly. */
 export const laugh = (t: number, t0: number, t1 = t0 + 1.2): Pose => {
   const k = env(t, t0, t1, 0.12, 0.25), r = Math.sin((t - t0) * 15);
-  return { lean: (-0.1 + 0.07 * r) * k, head: [0, (-0.22 + 0.06 * r) * k], armL: 0.55 * k, armR: 0.55 * k, armLOut: -0.32 * k, armROut: -0.32 * k, roll: 0.025 * r * k };
+  return { lean: (-0.1 + 0.07 * r) * k, head: [0, (-0.22 + 0.06 * r) * k], armL: 0.8 * k, armR: 0.8 * k, armLOut: -0.1 * k, armROut: -0.1 * k, roll: 0.025 * r * k };
 };
 /** Nod (yes) n times. */
 export const nod = (t: number, t0: number, n = 2, rate = 4): Pose => {
