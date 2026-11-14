@@ -99,6 +99,9 @@ export type PathOpts = {
   turnIn?: number; turnOut?: number;
   /** turn smoothing distance at corners (world units) */
   round?: number;
+  /** floor height under a point (Collide.ts groundFn(set colliders)): the body steps up onto steps, porches and stages
+   *  as the leading foot reaches them, instead of following the path's own y. */
+  ground?: (x: number, z: number, fromY?: number) => number;
 };
 const len2 = (a: V3, b: V3) => Math.hypot(b[0] - a[0], b[2] - a[2], b[1] - a[1]);
 export const pathLength = (path: V3[]) => path.slice(1).reduce((s, p, i) => s + len2(path[i], p), 0);
@@ -161,7 +164,12 @@ export const walkPath = (path: V3[], t: number, t0: number, o: PathOpts = {}): A
   let walk: Walk | undefined = moving ? { phase, amount: amt, flight: g.flight * clamp01(f) } : undefined;
   if (turning) walk = turnSteps(t, turnIn > 0 && t < tGo ? tStart : tEnd, turnIn > 0 && t < tGo ? turnIn : turnOut);
   const lean = g.lean * clamp01(f) + (o.gait === "run" ? 0.05 * Math.sin(phase * 2) * f : 0);
-  const p = pointAt(path, d);
+  let p = pointAt(path, d);
+  if (o.ground) { // stand on what is under the body, stepping up when the front foot gets there
+    const ahead = pointAt(path, Math.min(D, d + (moving ? 0.6 * s : 0)));
+    const y0 = o.ground(p[0], p[2], p[1] + 1.2 * s), y1 = o.ground(ahead[0], ahead[2], p[1] + 1.2 * s);
+    p = [p[0], Math.max(y0, y1), p[2]];
+  }
   return { position: p, yaw, walk, pose: { lean, head: [0, o.gait === "run" ? -0.12 * f : 0] }, seed: rnd(path[0][0] + path[0][2]) * 10, moving, done: d >= D, u: D > 0 ? d / D : 1 };
 };
 
@@ -201,16 +209,20 @@ export const wander = (seed: number, c: V3, r: number, t: number, o: { scale?: n
 export const seatedY = (seatTop: number, s = 1) => seatTop - 1.5 * s;
 /**
  * Sit down (dir 1) or stand up (dir -1) over [t0, t0+dur]. `stand` is where the character stands in front of the seat,
- * `seat` the seat's top centre (y = seat top). Classic sit: legs straight out, hands on the knees. Returns an Act.
+ * `seat` the seat's top centre (y = seat top). Like the game, the character hops onto the seat: the legs swing up to
+ * straight-out FIRST (in front of the seat, in free space), then the body moves back over the seat and settles, so a leg
+ * never passes through the seat's front edge. Classic sit: legs straight out, hands on the knees. Returns an Act.
  */
-export const sit = (stand: V3, seat: V3, yaw: number, t: number, t0: number, dur = 0.5, s = 1, dir: 1 | -1 = 1): Act => {
-  let u = ease(seg(t, t0, t0 + dur));
+export const sit = (stand: V3, seat: V3, yaw: number, t: number, t0: number, dur = 0.6, s = 1, dir: 1 | -1 = 1): Act => {
+  let u = seg(t, t0, t0 + dur);
   if (dir === -1) u = 1 - u;
-  const y = lerp(stand[1], seatedY(seat[1], s), u);
-  const bend = Math.sin(Math.PI * u); // lean forward through the move
+  const legsU = ease(u / 0.4), moveU = ease((u - 0.4) / 0.6);
+  const hop = 0.38 * s * Math.sin(Math.PI * u);
+  const y = lerp(stand[1], seatedY(seat[1], s), moveU) + hop;
+  const bend = Math.sin(Math.PI * u);
   return {
-    position: [lerp(stand[0], seat[0], u), y, lerp(stand[2], seat[2], u)], yaw,
-    pose: { legL: (Math.PI / 2) * u, legR: (Math.PI / 2) * u, armL: 0.35 * u + 0.4 * bend, armR: 0.35 * u + 0.4 * bend, lean: 0.18 * bend, head: [0, 0.1 * bend] },
+    position: [lerp(stand[0], seat[0], moveU), y, lerp(stand[2], seat[2], moveU)], yaw,
+    pose: { legL: (Math.PI / 2) * legsU, legR: (Math.PI / 2) * legsU, armL: 0.35 * legsU + 0.3 * bend, armR: 0.35 * legsU + 0.3 * bend, lean: 0.12 * bend, head: [0, 0.08 * bend] },
   };
 };
 /** A seated idle on top of sit(): small fidgets, a foot kick now and then, head drift. */

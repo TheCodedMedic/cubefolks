@@ -46,7 +46,9 @@ and 45 before rendering.
    builders on their own branches (rig/motion, faces, look, sets, shots A/B, sound), each messaging the integrator. Work in
    `video/src/<short>/` on the blocky parts in `video/src/blocky/`.
 5. **Review** stills of every shot (corners too), a contact sheet of every second, frames 0/15/45 and a 60-frame sequence of the
-   busiest part. **Framing rule learned on Short 6:** medium and medium-wide shots like the sample, whole characters or head to
+   busiest part. **Nothing passes through anything** (the owner, 2026-11-14, `docs/lessons/spatial-awareness.md`): every
+   character gets its set's colliders (`video/src/blocky/Collide.ts`), a debug render paints clipping parts magenta, and
+   `python3 -I pipeline/clip_scan.py` must report zero frames before the real render. **Framing rule learned on Short 6:** medium and medium-wide shots like the sample, whole characters or head to
    knees, faces visible with the place around them, camera 2.5-5 m away; close-ups only for a face reaction; never a blank wall,
    the back of a head or a prop filling the frame; night scenes lit like night.
 6. **Render** split across 10-20 sessions, each part on its own branch (`docs/RENDER_ON_MANY_SESSIONS.md`); about 64 frames a

@@ -125,37 +125,59 @@ const smooth = (a: number, b: number, x: number) => { const t = Math.max(0, Math
 /** Rows of pattern per rig unit of height (stripes ~3 per unit, like the sample's bee shirt). */
 const ROWS: Record<Pattern, number> = { plain: 1, stripes: 3, plaid: 1.6, pajamas: 1.5 };
 
-// Hand frame: rotate a held prop so its +y is "out of the top of the fist" (= the arm's +z) and its +z runs down the arm.
-const HAND: { pos: [number, number, number]; rot: [number, number, number] } = { pos: [0, -1.86, 0.08], rot: [Math.PI / 2, 0, 0] };
+// ---- the skeleton (shared with Collide.ts, so collision checks see exactly what renders) ----
+/** Shoulder pivot: inside the arm, half a unit below the shoulder top (like the classic game), so a raised arm stays
+ *  joined to the torso. The arm block spans +0.5 .. -1.5 around it (sleeve +0.5..-0.9, hand -0.9..-1.5). */
+export const SHOULDER = { x: 1.5, y: 3.5, top: 0.5, len: 2 } as const;
+/** Hand frame: rotate a held prop so its +y is "out of the top of the fist" (= the arm's +z) and its +z runs down the arm. */
+export const HAND: { pos: [number, number, number]; rot: [number, number, number] } = { pos: [0, -1.36, 0.08], rot: [Math.PI / 2, 0, 0] };
+/** Overhead splay so a raised arm never cuts through the head (0 when the arm hangs: no gap at the hip). */
+export const splayFor = (angle: number) => 0.18 * smooth(1.4, 2.6, angle);
 
-const Arm: React.FC<{ side: 1 | -1; angle: number; out: number; look: Look; pattern: Pattern; prop?: React.ReactNode }> = ({ side, angle, out, look, pattern, prop }) => {
-  // splay outward as the arm goes overhead so it never cuts through the head
-  const splay = 0.05 + 0.22 * smooth(1.2, 2.6, angle);
-  return (
-    <group position={[side * 1.5, 4, 0]} rotation={[-angle, 0, side * (splay + out)]}>
-      <mesh position={[0, -0.7, 0]} geometry={rbox(0.98, 1.4, 0.98, 0.07)} castShadow receiveShadow>
-        <Cloth color={look.shirt} pattern={pattern} rows={Math.max(1, Math.round(ROWS[pattern] * 1.4))} />
-      </mesh>
-      <mesh position={[0, -1.7, 0]} geometry={rbox(0.94, 0.6, 0.94, 0.09)} castShadow receiveShadow><Skin color={look.skin} /></mesh>
-      {prop && <group position={HAND.pos} rotation={HAND.rot}>{prop}</group>}
-    </group>
-  );
-};
+/** Debug tint for a part that is inside a wall, prop or another person (BlockChar `hits`, from Collide.ts clipParts). */
+const HitMat: React.FC = () => <meshBasicMaterial color="#ff00ff" />;
 
-const Leg: React.FC<{ side: 1 | -1; angle: number; look: Look; pattern: Pattern }> = ({ side, angle, look, pattern }) => (
+const Arm: React.FC<{ side: 1 | -1; angle: number; out: number; look: Look; pattern: Pattern; prop?: React.ReactNode; hit?: boolean }> = ({ side, angle, out, look, pattern, prop, hit }) => (
+  <group position={[side * SHOULDER.x, SHOULDER.y, 0]} rotation={[-angle, 0, side * (splayFor(angle) + out)]}>
+    <mesh position={[0, -0.2, 0]} geometry={rbox(1, 1.4, 1, 0.07)} castShadow receiveShadow>
+      {hit ? <HitMat /> : <Cloth color={look.shirt} pattern={pattern} rows={Math.max(1, Math.round(ROWS[pattern] * 1.4))} />}
+    </mesh>
+    {/* the hand: same width as the sleeve and overlapping it, so it reads as one solid block (no floating cube) */}
+    <mesh position={[0, -1.19, 0]} geometry={rbox(0.995, 0.62, 0.995, 0.05)} castShadow receiveShadow>{hit ? <HitMat /> : <Skin color={look.skin} />}</mesh>
+    {prop && <group position={HAND.pos} rotation={HAND.rot}>{prop}</group>}
+  </group>
+);
+
+const Leg: React.FC<{ side: 1 | -1; angle: number; look: Look; pattern: Pattern; hit?: boolean }> = ({ side, angle, look, pattern, hit }) => (
   <group position={[side * 0.5, 2, 0]} rotation={[-angle, 0, 0]}>
     <mesh position={[0, -0.85, 0]} geometry={rbox(0.99, 1.7, 0.99, 0.06)} castShadow receiveShadow>
-      <Cloth color={look.pants} pattern={pattern} rows={pattern === "pajamas" ? 3 : 1} />
+      {hit ? <HitMat /> : <Cloth color={look.pants} pattern={pattern} rows={pattern === "pajamas" ? 3 : 1} />}
     </mesh>
     {pattern === "pajamas" ? ( // bare feet below pyjama cuffs
-      <mesh position={[0, -1.85, 0.02]} geometry={rbox(0.95, 0.3, 1.0, 0.08)} castShadow receiveShadow><Skin color={look.skin} /></mesh>
+      <mesh position={[0, -1.85, 0.02]} geometry={rbox(0.95, 0.3, 1.0, 0.08)} castShadow receiveShadow>{hit ? <HitMat /> : <Skin color={look.skin} />}</mesh>
     ) : (
       <mesh position={[0, -1.85, 0.04]} geometry={rbox(1.0, 0.3, 1.06, 0.06)} castShadow receiveShadow>
-        <meshStandardMaterial color="#2a2522" roughness={0.55} metalness={0} />
+        {hit ? <HitMat /> : <meshStandardMaterial color="#2a2522" roughness={0.55} metalness={0} />}
       </mesh>
     )}
   </group>
 );
+
+/** Every joint value the rig renders, from its props (pure; Collide.ts uses it for forward kinematics). */
+export const solveRig = (pose: Pose = {}, walk?: Walk, breathe = 0) => {
+  const w = walk ? walk.amount : 0, ph = walk ? walk.phase : 0;
+  const swing = Math.sin(ph) * 0.75 * w; // stiff toy swing, arms opposite legs
+  const legL = (pose.legL ?? 0) + swing, legR = (pose.legR ?? 0) - swing;
+  const armL = (pose.armL ?? 0) - swing + 0.03 * breathe * (1 - w), armR = (pose.armR ?? 0) + swing + 0.03 * breathe * (1 - w);
+  // feet planted: a leg swung by a (hip 2 units above the sole) lifts its foot by 2(1-cos a), so the hips dip by that much;
+  // highest at mid-stride (legs together), lowest at full stride, like a real walk. A run adds a hop (flight phase).
+  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) * (1 - 0.45 * (walk.flight ?? 0)) : 0; // a run keeps more height
+  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.35 * w;
+  const sway = Math.sin(ph) * 0.04 * w + (pose.roll ?? 0);
+  const [hy, hp] = pose.head ?? [0, 0];
+  return { legL, legR, armL, armR, armLOut: pose.armLOut ?? 0, armROut: pose.armROut ?? 0, bob, sway, lean: pose.lean ?? 0, twist: pose.twist ?? 0, hy, hp, tilt: pose.tilt ?? 0 };
+};
+export type RigParts = "armL" | "armR" | "legL" | "legR" | "torso" | "head";
 
 export type BlockCharProps = {
   look: Look; expr?: Expr; pose?: Pose; walk?: Walk; position?: [number, number, number]; yaw?: number; scale?: number;
@@ -167,24 +189,17 @@ export type BlockCharProps = {
   still?: boolean;
   /** de-syncs breathing between characters (default: from the start position; pass one for a moving character) */
   seed?: number;
+  /** review only: parts flagged here render flat magenta (#ff00ff) (use clipParts() from Collide.ts to find them) */
+  hits?: Partial<Record<RigParts, boolean>>;
 };
 
-export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose = {}, walk, position = [0, 0, 0], yaw = 0, scale = 1, blink = 0, hold, still, seed: seedIn }) => {
+export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose = {}, walk, position = [0, 0, 0], yaw = 0, scale = 1, blink = 0, hold, still, seed: seedIn, hits }) => {
   const f = useCurrentFrame();
   const seed = seedIn ?? position[0] * 1.37 + position[2] * 0.71; // de-sync idle between characters
   const t = f / 30 + seed;
   const breathe = still ? 0 : Math.sin(t * 2.2);
 
-  const w = walk ? walk.amount : 0, ph = walk ? walk.phase : 0;
-  const swing = Math.sin(ph) * 0.75 * w; // stiff toy swing, arms opposite legs
-  const legL = (pose.legL ?? 0) + swing, legR = (pose.legR ?? 0) - swing;
-  const armL = (pose.armL ?? 0) - swing + 0.03 * breathe * (1 - w), armR = (pose.armR ?? 0) + swing + 0.03 * breathe * (1 - w);
-  // feet planted: a leg swung by a (hip 2 units above the sole) lifts its foot by 2(1-cos a), so the hips dip by that much;
-  // highest at mid-stride (legs together), lowest at full stride, like a real walk. A run adds a hop (flight phase).
-  const drop = walk ? 2 * (1 - Math.cos(Math.min(1.3, Math.abs(swing)))) * (1 - 0.45 * (walk.flight ?? 0)) : 0; // a run keeps more height
-  const bob = -drop + (walk?.flight ?? 0) * Math.abs(Math.cos(ph)) * 0.35 * w;
-  const sway = Math.sin(ph) * 0.04 * w + (pose.roll ?? 0);
-  const [hy, hp] = pose.head ?? [0, 0];
+  const { legL, legR, armL, armR, armLOut, armROut, bob, sway, lean, twist, hy, hp, tilt } = solveRig(pose, walk, breathe);
 
   const pat: Pattern = look.shirtPattern ?? "plain";
   const legPat: Pattern = pat === "pajamas" ? "pajamas" : "plain";
@@ -193,13 +208,13 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
   return (
     <group position={position} rotation={[0, yaw, 0]} scale={scale}>
       <group position={[0, bob, 0]} rotation={[0, 0, sway]}>
-        <Leg side={1} angle={legL} look={look} pattern={legPat} />
-        <Leg side={-1} angle={legR} look={look} pattern={legPat} />
+        <Leg side={1} angle={legL} look={look} pattern={legPat} hit={hits?.legL} />
+        <Leg side={-1} angle={legR} look={look} pattern={legPat} hit={hits?.legR} />
         {/* upper body pivots at the hips for lean */}
-        <group position={[0, 2, 0]} rotation={[pose.lean ?? 0, pose.twist ?? 0, 0]}>
+        <group position={[0, 2, 0]} rotation={[lean, twist, 0]}>
           <group position={[0, -2, 0]}>
             <group position={[0, 3, 0]} scale={[1 + 0.006 * breathe, 1 + 0.012 * breathe, 1 + 0.01 * breathe]}>
-              <mesh geometry={rbox(2, 2, 1, 0.1)} castShadow receiveShadow><Cloth color={look.shirt} pattern={pat} rows={Math.round(ROWS[pat] * 2)} /></mesh>
+              <mesh geometry={rbox(2, 2, 1, 0.1)} castShadow receiveShadow>{hits?.torso ? <HitMat /> : <Cloth color={look.shirt} pattern={pat} rows={Math.round(ROWS[pat] * 2)} />}</mesh>
               {pat === "pajamas" && ( // a contrasting collar trim
                 <mesh position={[0, 0.93, 0.02]}><boxGeometry args={[1.0, 0.1, 1.0]} /><meshStandardMaterial color="#f2efe6" roughness={0.85} /></mesh>
               )}
@@ -210,13 +225,13 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
                 </group>
               )}
             </group>
-            <Arm side={1} angle={armL} out={pose.armLOut ?? 0} look={look} pattern={pat} prop={hold?.L} />
-            <Arm side={-1} angle={armR} out={pose.armROut ?? 0} look={look} pattern={pat} prop={hold?.R} />
+            <Arm side={1} angle={armL} out={armLOut} look={look} pattern={pat} prop={hold?.L} hit={hits?.armL} />
+            <Arm side={-1} angle={armR} out={armROut} look={look} pattern={pat} prop={hold?.R} hit={hits?.armR} />
             {/* neck + head */}
             <mesh position={[0, 4.05, 0]} castShadow><cylinderGeometry args={[0.3, 0.3, 0.12, 24]} /><Skin color={look.skin} /></mesh>
             <group position={[0, 4.56 + 0.01 * breathe, 0]} rotation={[0, hy, 0]}>
-              <group rotation={[hp, 0, pose.tilt ?? 0]}>
-                <mesh geometry={getHeadGeo()} castShadow receiveShadow><Skin color={look.skin} /></mesh>
+              <group rotation={[hp, 0, tilt]}>
+                <mesh geometry={getHeadGeo()} castShadow receiveShadow>{hits?.head ? <HitMat /> : <Skin color={look.skin} />}</mesh>
                 <mesh geometry={getFaceGeo()} position={[0, -0.02, 0]} renderOrder={2}>
                   <meshStandardMaterial map={face} transparent alphaTest={0.05} roughness={0.5} depthWrite={false} polygonOffset polygonOffsetFactor={-2} />
                 </mesh>
