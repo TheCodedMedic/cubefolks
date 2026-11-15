@@ -10,7 +10,8 @@ import { PopSpec } from "../kit/Pop";
 export const T = makeTiming(TIMING as TimingJSON);
 export const SHORT10_FRAMES = Math.round(T.END * FPS);
 const EMPTY: Shot = { id: "empty", t0: 0, t1: T.END, scene: () => null, cam: () => ({ pos: [0, 3, 10], target: [0, 3, 0], fov: 40 }), bg: "#203040" };
-export const SHOTS: Shot[] = [EMPTY];
+import { PREVIEW } from "./ClassPreview";
+export const SHOTS: Shot[] = PREVIEW.length ? PREVIEW : [EMPTY];
 export const POPS: PopSpec[] = [];
 const HIGHLIGHT: string[] = [];
 const Frame: React.FC<{ t: number; captions: boolean }> = ({ t, captions }) => (
