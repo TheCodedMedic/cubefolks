@@ -182,7 +182,7 @@ const SHOTS_RAW: Shot[] = [
         <C look={DAD} t={t} a={d} cs={CS_STREET} others={[st(m, KS)]} expr="worried" blinkSeed={5} />
         <C look={ME} s={KS} t={t} a={{ ...m, pose: M.mix(m.pose, { head: [0, -0.1] }) }} cs={CS_STREET} others={[st(d)]} expr="worried" blinkSeed={1} />
       </World>; },
-    cam: mv("s05_path", c([13, 6.5, 44], [DOOR_X - 1, 3.6, 21], 40), c([12, 6.4, 42.5], [DOOR_X - 1, 3.6, 21], 39)),
+    cam: mv("s05_path", c([3.5, 6.5, 45], [DOOR_X - 1, 3.6, 21], 40), c([3.2, 6.4, 43.5], [DOOR_X - 1, 3.6, 21], 39)),
   }),
   // (6) 9:00. Mr. Bell in his doorway, right hand on the switch, blinks his porch light three times (CLUE: stable view)
   mk("s06_bellflash", {
@@ -278,7 +278,7 @@ const SHOTS_RAW: Shot[] = [
   // (19) ME at the window looks back at sleeping Dad, then back out
   mk("s18_look", {
     scene: (t) => { const [a0, b0] = span("s18_look"); const p: V3 = [WIN_L[0] - 0.3, F, FRONT_Z - 2.6];
-      const hy = 1.15 * M.env(t, at(11, "wake") - 0.2, b0 - 0.15, 0.18, 0.2);
+      const hy = 1.15 * M.env(t, at(11, "didn't"), at(11, "Dad") + 0.15, 0.18, 0.2);
       const a: A = { position: p, yaw: 0.05, pose: M.mix(M.idle(t, 7, 0.4), { head: [hy, 0.04], twist: 0.25 * hy / 1.15 }) };
       return <World t={t} homeCut inside="home" our={0} focus={[5, F, 4]} room={{ curtain: 0.5, lamp: 0, hall: 0 }}>
         <C look={ME} s={KS} t={t} a={a} cs={CS_HOMECUT} others={[st(dadCouch(t, -10))]} expr="worried" blinkSeed={1} />
@@ -358,7 +358,7 @@ const SHOTS_RAW: Shot[] = [
       const pose = M.mix(M.idle(t, 3, 0.3), { armL: 1.38 * M.env(t, a0 + 0.1), armLOut: -0.33 * M.env(t, a0 + 0.1), head: [0.45 * M.env(t, a0 + 0.05), -0.05], lean: 0.08 * M.env(t, a0 + 0.1) });
       return <World t={t} homeCut our={0} ourDoor={0.75} focus={[-3, F, 11]} room={{ hall: 1, lamp: 0 }}>
         <C look={BELL_COAT} t={t} a={{ position: [DOOR_X + 0.2, F, 11.4], yaw: Math.PI, pose }} cs={CS_HOMECUT} expr="scared" wear={["slippers"]} blinkSeed={2} />
-        <C look={ME} s={KS} t={t} a={{ position: [DOOR_X + 0.6, F, 7.6], yaw: 0.05, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
+        <C look={ME} s={KS} t={t} a={{ position: [DOOR_X - 0.8, F, 7.0], yaw: 0.15, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
       </World>; },
     cam: mv("s25_past", c([DOOR_X - 2.2, 5.0, 16.6], [DOOR_X + 0.4, 4.9, 10.6], 36), c([DOOR_X - 2.0, 5.0, 16.0], [DOOR_X + 0.4, 4.9, 10.6], 35)),
   }),
@@ -442,13 +442,13 @@ const orbitCam = (id: string, p: V3, yaw: number, d: number, h: number, th: numb
 };
 const bellDoorW = () => BELL_DOOR_AT;
 const CAMS: Record<string, (t: number) => CamS> = {
-  s01_hook: mv("s01_hook", c(B([-7.0, 6.6, 13.2]), [-3, 5.6, 10], 30), c(B([-7.0, 6.55, 12.6]), [-3, 5.6, 10], 29)),
-  s32_home: mv("s32_home", c(B([-7.0, 6.65, 13.8]), [-3, 5.7, 10], 31), c(B([-7.0, 6.6, 13.2]), [-3, 5.6, 10], 30)),
+  s01_hook: mv("s01_hook", c(B([-4.4, 6.6, 13.2]), [-3, 5.6, 10], 30), c(B([-4.4, 6.55, 12.6]), [-3, 5.6, 10], 29)),
+  s32_home: mv("s32_home", c(B([-4.4, 6.65, 13.8]), [-3, 5.7, 10], 31), c(B([-4.4, 6.6, 13.2]), [-3, 5.6, 10], 30)),
   s02_nod: orbitCam("s02_nod", bellDoorW(), Math.PI, 8.6, 5.6, 3.6, 36),
-  s06_bellflash: orbitCam("s06_bellflash", B([-4.3, F, 6.9]), Math.PI + 0.1, 10.5, 5.6, 4.2, 38),
+  s06_bellflash: orbitCam("s06_bellflash", B([-4.6, F, 6.9]), Math.PI + 0.12, 10.8, 5.6, 4.3, 38),
   s07_watch: orbitCam("s07_watch", bellDoorW(), Math.PI - 0.12, 7.4, 4.9, 4.3, 28),
-  s14_again: orbitCam("s14_again", B([-4.3, F, 6.9]), Math.PI - 0.12, 10.5, 7.2, 4.0, 38),
-  s29_next: orbitCam("s29_next", B([-4.3, F, 6.9]), Math.PI + 0.18, 10.0, 5.4, 4.2, 36),
+  s14_again: orbitCam("s14_again", B([-4.6, F, 6.9]), Math.PI - 0.05, 10.8, 7.2, 4.3, 38),
+  s29_next: orbitCam("s29_next", B([-4.6, F, 6.9]), Math.PI + 0.2, 10.8, 5.4, 4.3, 38),
   s31_nod: orbitCam("s31_nod", B([-3.0, F, 6.6]), Math.PI + 0.1, 8.4, 5.0, 4.0, 30),
   s17_slippers: (t) => { const [a0, b0] = span("s17_slippers"), u = io(seg(t, a0, b0)), p = BELL_STAND(), y = yawTo(p, OUR_WIN) - 0.25;
     return c([p[0] + Math.sin(y) * 8.5, p[1] + 1.5, p[2] + Math.cos(y) * 8.5], [p[0], p[1] + lerp(0.8, 3.4, u), p[2]], 44); },
@@ -457,20 +457,20 @@ const CAMS: Record<string, (t: number) => CamS> = {
   s30_me: mv("s30_me", c([-5.0, 5.0, 2.8], [0.4, 3.7, 5.9], 40), c([-4.6, 4.95, 3.1], [0.4, 3.7, 5.9], 39)),
   s10_stairs: mv("s10_stairs", c([-6.2, 5.8, 7.8], [-7.75, 4.0, 0.0], 40), c([-6.3, 5.7, 7.2], [-7.75, 4.0, 0.0], 39)),
   s11_couch: mv("s11_couch", c([-1.8, 6.6, 5.4], [7.4, 4.0, 0.9], 40), c([-1.2, 6.5, 5.0], [7.4, 4.0, 0.9], 39)),
-  s12_clock: mv("s12_clock", c([2.4, 7.4, 1.4], [CLOCK[0], CLOCK[1] - 1.4, CLOCK[2]], 36), c([3.2, 7.6, 1.2], [CLOCK[0], CLOCK[1] - 1.0, CLOCK[2]], 32)),
-  s18_look: mv("s18_look", c([8.0, 5.6, 7.4], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 44), c([7.8, 5.55, 7.2], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 43)),
+  s12_clock: mv("s12_clock", c([2.6, 9.6, 0.4], [CLOCK[0], CLOCK[1] - 1.0, CLOCK[2]], 30), c([3.4, 9.5, 0.4], [CLOCK[0], CLOCK[1] - 0.8, CLOCK[2]], 26)),
+  s18_look: mv("s18_look", c([8.2, 5.6, 8.0], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 44), c([8.0, 5.55, 7.8], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 43)),
   s20_coat: mv("s20_coat", c(B([2.4, 6.4, 0.2]), B([-6.0, 4.0, 4.4]), 40), c(B([2.0, 6.3, 0.5]), B([-6.0, 4.0, 4.4]), 39)),
   s22_open: mv("s22_open", c([6.2, 6.0, -2.2], [-1.4, 4.0, 7.4], 42), c([5.8, 5.95, -1.8], [-1.4, 4.0, 7.4], 41)),
   s23_knock: mv("s23_knock", c([6.6, 5.6, 13.6], [-2.6, 4.4, 11.4], 40), c([6.2, 5.6, 13.6], [-2.6, 4.4, 11.4], 39)),
   s24_face: mv("s24_face", c([-4.0, 6.3, 0.8], [DOOR_X + 0.2, 5.5, 12.6], 25), c([-3.95, 6.25, 1.6], [DOOR_X + 0.2, 5.5, 12.6], 24)),
-  s25_past: mv("s25_past", c([0.9, 6.5, 2.0], [DOOR_X + 0.2, 5.4, 11.4], 28), c([0.8, 6.45, 2.6], [DOOR_X + 0.2, 5.4, 11.4], 27)),
+  s25_past: mv("s25_past", c([1.6, 6.9, 2.0], [DOOR_X + 0.2, 5.4, 11.4], 28), c([1.5, 6.85, 2.6], [DOOR_X + 0.2, 5.4, 11.4], 27)),
   s26_wake: mv("s26_wake", c([-1.0, 6.0, 1.8], [7.4, 4.0, 0.9], 36), c([-0.4, 5.9, 1.7], [7.4, 4.0, 0.9], 35)),
   s27_laugh: mv("s27_laugh", c([-2.6, 6.0, -1.2], [7.4, 4.0, -1.2], 42), c([-2.0, 5.9, -1.2], [7.4, 4.0, -1.2], 41)),
   s28_switch: (t) => { const w = sw0(); return mv("s28_switch", c(add(w, [-6.2, 0.5, -6.6]), add(w, [0.0, -1.2, -0.8]), 30), c(add(w, [-5.8, 0.45, -6.2]), add(w, [0.0, -1.0, -0.8]), 29))(t); },
 };
 /** Portrait frames are narrow: like the game's camera (fov ~70), every medium shot gets a wide lens so whole bodies and
  *  the place around them fit (review pass 3). Long-lens and wide shots keep theirs. */
-const KEEP_FOV = new Set(["s01_hook", "s32_home", "s13_dark", "s16_pov", "s21_cross", "s12_clock"]);
+const KEEP_FOV = new Set(["s01_hook", "s32_home", "s13_dark", "s16_pov", "s21_cross"]);
 const widen = (f: (t: number) => CamS) => (t: number): CamS => { const k = f(t); return { ...k, fov: Math.min(64, k.fov * 1.6) }; };
 export const SHOTS09: Shot[] = SHOTS_RAW.map((s) => { const cam = CAMS[s.id] ?? s.cam; return { ...s, cam: KEEP_FOV.has(s.id) ? cam : widen(cam) }; });
 
