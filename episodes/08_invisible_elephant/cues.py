@@ -65,7 +65,7 @@ SFX += [(G("kaching"), at(3, "Five") + 0.05, -23, 1.0), ("cup_set_down_01", at(3
 SFX.append(("crowd_murmur_02", B(4), -28, 1.2))
 # b5 Coach: a whinny on "climbed" (Coach doing it himself), the gallop, BONK into the tree, birds, the thud
 SFX += [("horse_neigh_01", at(5, "onto"), -27, 1.4), ("horse_gallop_dirt_01", at(5, "horse"), -25, 1.6),
-        ("cartoon_dazzle_01", at(5, "tree.") - 0.02, -16, 1.9), ("body_thud_01", at(5, "tree.") + 0.45, -22, 1.0)]
+        ("cartoon_dazzle_01", at(5, "real") + 0.27, -16, 1.9), ("body_thud_01", at(5, "real") + 0.75, -22, 1.0)]
 # b6 the hallway jam: kids yapping like their dogs, a laugh
 SFX += [("dog_bark_happy_01", at(6, "hallway"), -30, 2.0), ("laugh_children_01", at(6, "walk"), -31, 1.6)]
 # b7 Hayes: heels on tile, then the record scratch on her name (the music stops dead)
