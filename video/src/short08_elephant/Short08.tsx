@@ -20,10 +20,11 @@ export const SHOTS: Shot[] = CUTS.map(([id], i) => {
 });
 const Q0 = END - 3; // the on-screen question: the last 3 s (never spoken)
 export const POPS: PopSpec[] = [
-  { kind: "word", t0: 0, t1: E.lunch1, x: 0.5, y: 0.2, text: "$400", size: 1.5, color: "#7fe08a", color2: "#2f6a3a", rot: -4 },
+  { kind: "word", t0: -0.4, t1: E.lunch1, x: 0.5, y: 0.2, text: "$400", size: 1.5, color: "#7fe08a", color2: "#2f6a3a", rot: -4 },
   { kind: "word", t0: E.five, t1: E.leash3 + 0.3, x: 0.72, y: 0.22, text: "$5", size: 1.1, color: "#7fe08a", color2: "#2f6a3a", rot: 6 },
   { kind: "stamp", t0: E.real + 0.28, t1: P(6) - 0.12, x: 0.5, y: 0.3, text: "BONK!", size: 1.0, color2: "#d0322a", rot: -8 },
   { kind: "word", t0: E.fifty, t1: E.fifty + 1.0, x: 0.5, y: 0.22, text: "$50", size: 1.3, color: "#7fe08a", color2: "#2f6a3a", rot: 5 },
+  { kind: "word", t0: E.paid, t1: E.just, x: 0.5, y: 0.22, text: "SAME $50", size: 0.9, color: "#7fe08a", color2: "#2f6a3a", rot: -5 },
   { kind: "word", t0: E.forty, t1: E.forty + 1.1, x: 0.5, y: 0.2, text: "x40", size: 1.2, color: "#ffd84a", rot: -4 },
   { kind: "tag", t0: E.ten15, t1: E.ten15 + 0.9, x: 0.55, y: 0.24, text: "$10", size: 1.0, color: "#7fe08a", rot: -6 },
   { kind: "word", t0: Q0, t1: END + 1, x: 0.5, y: 0.2, text: "WHO SCAMMED", size: 0.62, color: "#ffffff", color2: "#1e4f8a", rot: -3 },

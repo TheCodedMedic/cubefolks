@@ -362,7 +362,7 @@ const s10: Shot = mk("s10_bonk", {
       <Stars c={head} t={t} t0={T_BONK + 0.15} />
       <Leaves t={t} t0={T_BONK} />
     </FieldSet>; },
-  cam: (t) => { const base = mv("s10_bonk", c([CONTACT_X + 2.5, 5.0, 15.5], [CONTACT_X - 1.2, 3.6, 0], 46), c([CONTACT_X + 2.2, 4.8, 14.0], [CONTACT_X - 1.0, 3.4, 0], 45))(t);
+  cam: (t) => { const base = mv("s10_bonk", c([CONTACT_X + 7.5, 5.6, 21.5], [CONTACT_X + 0.8, 3.6, 0], 42), c([CONTACT_X + 7.0, 5.4, 20.0], [CONTACT_X + 0.8, 3.4, 0], 41))(t);
     const sh = M.env(t, T_BONK, T_BONK + 0.3, 0.02, 0.25) * 0.18; return { ...base, pos: [base.pos[0] + sh * Math.sin(t * 90), base.pos[1] + sh * Math.cos(t * 77), base.pos[2]] }; },
 });
 
@@ -384,8 +384,8 @@ const jam = (t: number): JamKid[] => {
     { look: KIDS[0], a: pet([-3.8, 0, 1], 0.7, t0, 1), expr: "happy", leash: L(1) },
     { look: KIDS[2], a: walker([[2.4, 0, -8], [2.4, 0, 6]], t0, 2.6), expr: "smile", leash: L(2) },
     { look: KIDS[3], a: pet([4.0, 0, 6.5], 2.0, t0 + 0.5, 3), expr: "happy", leash: L(3) },
-    { look: KIDS[4], a: walker([[-1.2, 0, 16], [-1.2, 0, -4]], t0 + 0.2, 2.2), expr: "blank", leash: L(4) },
-    { look: KIDS[5], a: at0([1.6, 0, 11.5], Math.PI + 0.3, M.mix(M.idle(t, 5, 0.5), M.crossArms(t, t0), { head: [0.3, 0] })), expr: "worried", leash: null },
+    { look: KIDS[4], a: walker([[-1.2, 0, -6], [-1.2, 0, 13]], t0 + 0.2, 2.2), expr: "blank", leash: L(4) },
+    { look: KIDS[5], a: at0([1.6, 0, 11.5], 0.3, M.mix(M.idle(t, 5, 0.5), M.crossArms(t, t0), { head: [0.3, 0] })), expr: "worried", leash: null },
     { look: KIDS[6], a: pet([-4.6, 0, 9.5], 2.3, t0 + 0.9, 6), expr: "happy", leash: L(6) },
     { look: KIDS[8], a: pet([4.6, 0, -3], 1.2, t0 + 0.3, 7), expr: "happy", leash: L(7) },
     { look: KIDS[9], a: walker([[-3.6, 0, -16], [-3.6, 0, -4]], t0 - 0.4, 2.4), expr: "smile", leash: L(8) },
@@ -409,7 +409,7 @@ const s11: Shot = mk("s11_jam", {
     return <Hall focus={[0, 0, 3]}>
       {J.map((j, i) => <Ch key={i} look={j.look} a={j.a} t={t} scale={S.kid} expr={j.expr} blinkSeed={i} hold={j.leash ? { R: j.leash } : undefined} cs={CCS} others={all.filter((_, k) => k !== i)} />)}
     </Hall>; },
-  cam: mv("s11_jam", c([3.5, 10.6, 24], [-0.5, 1.0, 2], 46), c([2.5, 10.4, 21.5], [-0.5, 1.0, 1.5], 45)),
+  cam: mv("s11_jam", c([5.2, 10.7, 31], [-0.5, 1.5, 3], 44), c([4.8, 10.5, 29], [-0.5, 1.5, 2.5], 43)),
 });
 
 // s12_teacher: MW corridor. A row of kids crawls toward camera with their dogs; the teacher behind tries to squeeze past,

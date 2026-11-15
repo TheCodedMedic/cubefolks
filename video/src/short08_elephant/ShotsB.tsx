@@ -44,7 +44,7 @@ const GCS = (doors = 1): K.Box[] => [...gymCS(doors), ...stoolCS(STOOL_AT), ...r
 const GROUND = K.groundFn(GCS(1));
 /** Where a rider sits: over the stool's top step. */
 const RIDE_AT: V3 = [STOOL_AT[0], 0, STOOL_AT[2] - 0.4];
-const RIDE_YAW = 0.4; // riders face the hook camera (above the front of the line)
+const RIDE_YAW = -0.5; // riders sit 3/4 to the hook camera, so legs-out-on-air reads as SITTING (not standing)
 /** Hayes behind the ticket table (a step closer than HAYES_GYM so her hands reach over it), the customer mark in front. */
 const HT: V3 = [TTABLE_AT[0] - 0.5, 0, TTABLE_AT[2] - 2.3];
 const CUST: V3 = [TTABLE_AT[0] - 3.0, 0, TTABLE_AT[2] + 2.0];
@@ -156,7 +156,7 @@ const broGym = (t: number): Pp => {
   }
   const m = mount(t, B_MOUNT0, B_MOUNT1, s);
   const yee = env(t, END - 0.55, END + 1.25, 0.15, 0.2); // a cowboy wave over the loop point (s36 into the hook)
-  const pose = t < B_MOUNT1 ? m.pose : mix(m.pose, wave(t, END - 0.55, END + 1.25, 1, 0.8), { armR: -1.25 * yee, armROut: -0.42 * yee });
+  void yee; const pose = m.pose; // both fists forward on the invisible reins, bouncing (no wave: the ride must read at frame 0)
   const expr: Expr = t < B_MOUNT1 ? "grin" : Math.floor(t * 1.3) % 3 === 2 ? "laugh" : "happy";
   return { ...base, a: { position: RIDE_AT, yaw: m.yaw, pose }, lift: m.lift, noFeet: true, expr };
 };
@@ -380,7 +380,7 @@ export const SHOTS_B: Shot[] = [
   // ---------------------------------------------------------------- b1 THE HOOK: BRO riding the empty air, Hayes counting
   mk("s01_hook", {
     scene: (t) => hookScene(t, 1),
-    cam: mv("s01_hook", c([4.1, 6.6, 6.0], [1.0, 3.9, -4.6], 50), c([4.0, 6.4, 5.0], [1.0, 4.0, -4.6], 48), 0.008),
+    cam: mv("s01_hook", c([3.4, 6.4, 6.0], [0.9, 3.9, -4.6], 46), c([3.2, 6.1, 4.2], [1.0, 4.0, -4.6], 44), 0.008),
   }),
   mk("s02_cash", {
     scene: (t) => hookScene(t, 1),
@@ -453,12 +453,12 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s32_ticket", {
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0} roll={false}>{cast(t, gymCast(t, { line: (i) => i < 10 }), GCS(1))}</GymSet>,
-    cam: mv("s32_ticket", c([12.6, 7.0, 0.6], [3.4, 3.4, -2.2], 46), c([12.0, 6.8, 0.3], [3.4, 3.4, -2.2], 44)),
+    cam: mv("s32_ticket", c([15.0, 8.6, 2.6], [3.6, 3.6, -2.4], 40), c([14.4, 8.4, 2.3], [3.6, 3.6, -2.4], 38)),
   }),
   // ---------------------------------------------------------------- b17 he pays with THE fifty; $40 change
   mk("s33_fifty", {
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0} roll={false}>{cast(t, gymCast(t, { line: (i) => i < 6 }), GCS(1))}</GymSet>,
-    cam: mv("s33_fifty", c([11.0, 5.4, 1.6], [3.7, 3.4, -2.4], 40), c([10.5, 5.3, 1.2], [3.7, 3.4, -2.4], 36)),
+    cam: mv("s33_fifty", c([15.0, 8.4, 3.2], [3.7, 3.7, -2.5], 38), c([14.2, 8.1, 2.8], [3.7, 3.7, -2.5], 35)),
   }),
   mk("s34_climbs", {
     scene: (t) => <GymSet focus={stoolFocus} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 28 }), GCS(1))}</GymSet>,

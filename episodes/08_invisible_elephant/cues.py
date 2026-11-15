@@ -53,7 +53,7 @@ bed("crowd_murmur_01", at(14, "Forty"), END, -33)
 # ---------------------------------------------------------------- effects
 SFX = []
 # pops on every pop-in graphic (Short08.tsx POPS)
-for t in [0.0, at(3, "Five"), at(12, "fifty"), at(14, "Forty"), at(15, "ten"), END - 3.0]:
+for t in [0.0, at(3, "Five"), at(12, "fifty"), at(14, "Forty"), at(15, "ten"), at(17, "paid"), END - 3.0]:
     SFX.append(("pop_01", t, -24, 0.3))
 # b1 the hook: a giggle from the rider, cash being counted, a ka-ching on "four hundred"
 SFX += [("laugh_kid_01", 0.15, -26, 1.6), ("coins_handling_01", at(1, "made"), -28, 1.0), (G("kaching"), at(1, "four"), -17, 1.2)]
