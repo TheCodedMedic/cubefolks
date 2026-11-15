@@ -2,7 +2,7 @@
 // Expressions: classic blocky-game decal faces. "happy" = closed ^ ^ eyes + smile; "stare" = wide unblinking dot eyes, no mouth.
 export type Expr = "smile" | "grin" | "happy" | "worried" | "scared" | "surprised" | "blank" | "smirk" | "creepy" | "stare" | "talk" | "laugh";
 export type Look = { skin: string; shirt: string; pants: string; shirtPattern?: "plain" | "stripes" | "plaid" | "pajamas";
-  hair?: "short" | "bob" | "spiky" | "bun" | "cap" | "long" | "ponytail" | "emo" | "none"; hairColor?: string; hat?: "none" | "cap" | "beanie";
+  hair?: "short" | "bob" | "spiky" | "bun" | "cap" | "long" | "ponytail" | "emo" | "none"; hairColor?: string; hat?: "none" | "cap" | "capBack" | "beanie";
   /** hat colour (default: the shirt colour) */
   hatColor?: string;
   tie?: string; glasses?: boolean;

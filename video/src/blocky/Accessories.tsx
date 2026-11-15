@@ -32,7 +32,7 @@ const TopCap: React.FC<{ color: string; r?: number; h?: number; y?: number }> = 
 
 export const Hair: React.FC<{ look: Look }> = ({ look }) => {
   const c = look.hairColor ?? "#4a2e1c";
-  const hatOn = !!look.hat && look.hat !== "none";
+  const hatOn = !!look.hat && look.hat !== "none"; // cap, capBack, beanie
   // under a hat, only the hair that shows below it (back and sides)
   if (hatOn && look.hair !== "none") return <Hair look={{ ...look, hair: look.hair === "bob" || look.hair === "long" ? look.hair : "cap", hat: "none" }} />;
   switch (look.hair ?? "short") {
@@ -152,7 +152,18 @@ export const Hair: React.FC<{ look: Look }> = ({ look }) => {
 };
 
 export const Hat: React.FC<{ look: Look }> = ({ look }) => {
-  const kind = look.hat && look.hat !== "none" ? look.hat : look.hair === "cap" ? "cap" : "none";
+  const kind0 = look.hat && look.hat !== "none" ? look.hat : look.hair === "cap" ? "cap" : "none";
+  if (kind0 === "capBack") // a cap worn backwards: the same cap turned round, with the strap opening and snap tabs at the front
+    return (
+      <group rotation={[0, Math.PI, 0]}>
+        <Hat look={{ ...look, hat: "cap" }} />
+        <group position={[0, 0.5, -0.555]}>
+          <mesh position={[0, 0.05, 0]}><boxGeometry args={[0.36, 0.17, 0.05]} /><meshStandardMaterial color="#141418" roughness={0.8} /></mesh>
+          <mesh position={[0, -0.06, -0.01]}><boxGeometry args={[0.44, 0.07, 0.05]} />{mat(look.hatColor ?? look.shirt ?? "#d23b3b")}</mesh>
+        </group>
+      </group>
+    );
+  const kind = kind0;
   const col = look.hatColor ?? look.shirt ?? "#d23b3b";
   if (kind === "cap") {
     return (

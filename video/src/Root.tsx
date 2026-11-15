@@ -7,6 +7,7 @@ import { Short06Blocky, Short06BlockyClean, Short06BlockyAt, SHORT06_FRAMES } fr
 import { BlockFaceSheet } from "./blocky/FaceSheet";
 import { RigCloseup } from "./blocky/RigCloseup";
 import { ChannelBanner, ChannelAvatar } from "./blocky/ChannelArt";
+import { SubscribeBanner } from "./blocky/SubscribeBanner";
 import { MotionSheet, MotionCell, MOTION_SHEET_FRAMES } from "./blocky/MotionSheet";
 
 export const Root: React.FC = () => (
@@ -14,6 +15,7 @@ export const Root: React.FC = () => (
     <Composition id="Smoke" component={Smoke} width={1080} height={1920} fps={30} durationInFrames={90} />
     <Composition id="BlockFaceSheet" component={BlockFaceSheet} width={1080} height={1920} fps={30} durationInFrames={1} />
     <Composition id="MotionSheet" component={MotionSheet as any} width={1080} height={1920} fps={30} durationInFrames={MOTION_SHEET_FRAMES} />
+    <Composition id="SubscribeBanner" component={SubscribeBanner as any} width={2560} height={1440} fps={30} durationInFrames={1} />
     <Composition id="ChannelBanner" component={ChannelBanner as any} width={2560} height={1440} fps={30} durationInFrames={1} defaultProps={{ name: "KEWLHAT" }} />
     <Composition id="ChannelAvatar" component={ChannelAvatar as any} width={800} height={800} fps={30} durationInFrames={1} defaultProps={{ variant: "night" }} />
     <Composition id="RigCloseup" component={RigCloseup as any} width={1080} height={1440} fps={30} durationInFrames={60} />
