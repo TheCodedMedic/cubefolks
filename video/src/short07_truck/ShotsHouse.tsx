@@ -5,13 +5,14 @@
 //   MOM_T0 (= E.mom13) for s24-s27: the song follows Mom (cone glow, her bob, chest glow);
 //   s28-s29: SILENCE (the song stops dead on "Then"): she is still, tiny breathing only;
 //   BLAST_T0 (= BLAST_T0) for s30-s34: the whole song with bells; jolts on each note, hardest on the wrong note.
-import React from "react";
+import React, { useMemo } from "react";
+import * as THREE from "three";
 import { lerp, type Shot } from "../kit/core";
 import { BlockLights, Grade } from "../blocky/Look";
 import * as M from "../blocky/Motion";
 import * as K from "../blocky/Collide";
 import type { Expr, Pose } from "../blocky/types";
-import { Ch, st, mk, mv, c, E, T, P, PE, at, MOM_T0, BLAST_T0, ME_PJ, MOM, S, notePulse, isWrong, blinkOn, span, type V3, type CamS } from "./common";
+import { Ch, st, mk, mv, c, E, T, P, PE, at, MOM_T0, BLAST_T0, ME_PJ, MOM, S, notePulse, isWrong, blinkOn, span, JINGLE_NOTE, WRONG_IN_BAR, type V3, type CamS } from "./common";
 import { Cone, Flyer } from "./Props07";
 import {
   Bedroom07, Blanket, bedroomCS, BED, BED_SIT, DOORWAY_OUT, WINDOW_SPOT, curtainEdge, CURTAIN_Z,
@@ -49,7 +50,7 @@ const MOM_IN: V3 = [8.4, 0, 0.5];                       // where she stops after
 const ME_BACK: V3 = [BED_SIT.back, 0, BED_SIT.z];
 const momYawIn = M.yawTo(MOM_IN, ME_BACK);
 /** Both arms forward holding the cones (upright at ~1.3-1.5 rad). */
-const coneArms = (k = 1): Pose => ({ armL: 1.32 * k, armR: 1.32 * k, armLOut: -0.04 * k, armROut: -0.04 * k });
+const coneArms = (k = 1): Pose => ({ armL: 1.3 * k, armR: 1.3 * k, armLOut: -0.24 * k, armROut: -0.24 * k });
 const cones = (glow: number) => ({ R: <Cone glow={glow} />, L: <Cone glow={glow} /> });
 /** The jingle in her body: a jolt on each note (bigger on the wrong note). */
 const jolt = (t: number, t0: number, k = 1): Pose => {
@@ -60,6 +61,76 @@ const jolt = (t: number, t0: number, k = 1): Pose => {
 /** Her "speaker" glow: a pink light at her chest pulsing on the notes. */
 const ChestGlow: React.FC<{ at: V3; t: number; t0: number; base?: number; k?: number }> = ({ at, t, t0, base = 4, k = 30 }) =>
   <pointLight position={[at[0], 3.6, at[2]]} intensity={base + k * pulseSum(t, t0)} distance={14} decay={1.6} color="#ff7ab0" />;
+
+/** Cones lowered (the silence before the reveal): arms come down from holding them up to hanging forward, cones out of a tight frame. */
+const lowArms = (k: number): Pose => ({ armL: lerp(1.3, 0.3, k), armR: lerp(1.3, 0.3, k), armLOut: lerp(-0.24, 0.0, k), armROut: lerp(-0.24, 0.0, k) });
+/**
+ * A WIDE-open gaping mouth worn over the "stare" face (the kit's faces have no wide-open mouth): an ellipse decal on the
+ * head's curved front, following the head exactly (Collide.rigBoxes uses the renderer's skeleton). `open` 0..1 its height;
+ * `glow` 0..1 a pink light deep inside (the song).
+ */
+const MOUTH_TEX = (() => { let t: THREE.Texture | null = null; return () => {
+  if (t) return t;
+  const cv = document.createElement("canvas"); cv.width = 128; cv.height = 128; const g = cv.getContext("2d")!;
+  g.fillStyle = "#0b0507"; g.beginPath(); g.ellipse(64, 64, 62, 62, 0, 0, Math.PI * 2); g.fill();
+  t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t; }; })();
+const GapeMouth: React.FC<{ who: ReturnType<typeof st>; open: number; glow?: number }> = ({ who, open, glow = 0 }) => {
+  const head = K.rigBoxes(who).find((b) => b.part === "head")!;
+  const pos = new THREE.Vector3(), q = new THREE.Quaternion(), sc = new THREE.Vector3();
+  head.m.decompose(pos, q, sc);
+  const R = 0.595, w = 0.46, arc = w / R, h = 0.06 + 0.42 * open;
+  const geo = useMemo(() => new THREE.CylinderGeometry(R, R, 1, 24, 1, true, -arc / 2, arc), [arc]);
+  const geoIn = useMemo(() => new THREE.CylinderGeometry(R + 0.002, R + 0.002, 1, 24, 1, true, -arc * 0.3, arc * 0.6), [arc]);
+  if (open <= 0.01) return null;
+  return <group position={pos} quaternion={q} scale={sc}>
+    <mesh geometry={geo} position={[0, -0.13 - 0.05 * open, 0]} scale={[1, h, 1]}>
+      <meshBasicMaterial map={MOUTH_TEX()} transparent alphaTest={0.4} depthWrite={false} polygonOffset polygonOffsetFactor={-4} />
+    </mesh>
+    {glow > 0.01 && <mesh geometry={geoIn} position={[0, -0.16 - 0.05 * open, 0]} scale={[1, h * 0.55, 1]}>
+      <meshBasicMaterial map={MOUTH_TEX()} color="#ff5a9a" transparent alphaTest={0.4} opacity={0.85 * glow} toneMapped={false} depthWrite={false} polygonOffset polygonOffsetFactor={-6} />
+    </mesh>}
+  </group>;
+};
+/** Her mouth (world), facing -x at MOM_IN: the front of the head, a bit below its centre. */
+const MOUTH: V3 = [MOM_IN[0] - 0.62, 4.32, MOM_IN[2]];
+const NOTE_COLS = ["#ff7ab0", "#ffb0d4", "#ff5a9a", "#ffd0e6"];
+/**
+ * The song bursting out of her mouth: on each note onset (BLAST_T0 grid) a soft pink ring puffs out and a small musical
+ * note flies off, both drifting toward `toward` (the camera) and fading; the wrong note puffs a bigger, whiter ring.
+ */
+const SongBurst: React.FC<{ t: number; t0: number; from: V3; toward: V3 }> = ({ t, t0, from, toward }) => {
+  if (t < t0) return null;
+  const d = [toward[0] - from[0], toward[1] - from[1], toward[2] - from[2]], L = Math.hypot(d[0], d[1], d[2]);
+  const f: V3 = [d[0] / L, d[1] / L, d[2] / L];
+  const side: V3 = [-f[2], 0, f[0]];
+  const yaw = Math.atan2(f[0], f[2]);
+  const n = Math.floor((t - t0) / JINGLE_NOTE), out: React.ReactNode[] = [];
+  for (let k = Math.max(0, n - 5); k <= n; k++) {
+    const age = t - (t0 + k * JINGLE_NOTE), life = 0.85;
+    if (age < 0 || age > life) continue;
+    const u = age / life, wrong = ((k % 8) + 8) % 8 === WRONG_IN_BAR;
+    const fade = (1 - u) * Math.min(1, age / 0.05);
+    const dist = 0.25 + 2.6 * (1 - Math.pow(1 - u, 2));
+    const sd = (k % 2 ? 1 : -1) * (0.35 + 1.1 * u);
+    const ring: V3 = [from[0] + f[0] * dist + side[0] * sd, from[1] + f[1] * dist + 0.2 + 0.7 * u, from[2] + f[2] * dist + side[2] * sd];
+    const r = (wrong ? 0.3 : 0.16) + (wrong ? 0.8 : 0.42) * u;
+    out.push(<mesh key={"r" + k} position={ring} rotation={[0, yaw, 0]}>
+      <torusGeometry args={[r, wrong ? 0.07 : 0.045, 8, 40]} />
+      <meshBasicMaterial color={wrong ? "#fff0f6" : "#ff8ac0"} transparent opacity={0.7 * fade} toneMapped={false} depthWrite={false} />
+    </mesh>);
+    // a little musical note: head, stem, flag; flies up and out to one side
+    const sx = (k % 2 ? 1 : -1) * (0.5 + 0.35 * ((k * 7) % 3)) * u, up = 0.4 + 1.3 * u;
+    const np: V3 = [from[0] + f[0] * dist * 0.8 + side[0] * sx, from[1] + up, from[2] + f[2] * dist * 0.8 + side[2] * sx];
+    const col = wrong ? "#ffffff" : NOTE_COLS[k % NOTE_COLS.length], s = (wrong ? 1.4 : 1) * (0.8 + 0.3 * Math.sin(u * 3));
+    const mm = <meshBasicMaterial color={col} transparent opacity={fade} toneMapped={false} depthWrite={false} />;
+    out.push(<group key={"n" + k} position={np} rotation={[0, yaw, 0.25 * Math.sin(k + u * 4)]} scale={s}>
+      <mesh position={[0, 0, 0]} rotation={[0, 0, 0.4]} scale={[1.3, 1, 0.4]}><sphereGeometry args={[0.13, 12, 8]} />{mm}</mesh>
+      <mesh position={[0.15, 0.3, 0]}><boxGeometry args={[0.04, 0.6, 0.04]} />{mm}</mesh>
+      <mesh position={[0.26, 0.52, 0]} rotation={[0, 0, -0.6]}><boxGeometry args={[0.24, 0.07, 0.04]} />{mm}</mesh>
+    </group>);
+  }
+  return <group>{out}</group>;
+};
 
 // ---------------------------------------------------------------- s32-s34: the spare cone in front of ME
 const SPARE: V3 = [-6.8, 3.8, 1.8];                     // where her left hand ends (the cone stands on it)
@@ -195,7 +266,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={MOM} a={mom} t={t} expr="creepy" hold={cones(glow)} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
-    cam: mv("s25_cones", c([4.0, 4.1, 2.8], [12, 4.0, 0], 40), c([4.9, 4.2, 2.4], [12, 4.1, 0], 38)),
+    cam: mv("s25_cones", c([-0.6, 4.4, 3.4], [12.2, 3.9, 0], 34), c([0.6, 4.4, 3.1], [12.2, 4.0, 0], 33)),
     dom: grade,
   }),
 
@@ -225,7 +296,7 @@ export const SHOTS_HOUSE: Shot[] = [
     scene: (t) => {
       const [a] = span("s27_stepsin");
       const w = M.walkPath([[12.6, 0, -0.2], MOM_IN], t, a, { gait: "stroll", speed: 3.4, yaw1: momYawIn, turnOut: 0.3 });
-      const pose = M.mix(w.pose, coneArms(), { tilt: 0.12 }, jolt(t, MOM_T0, 0.55));
+      const pose = M.mix(w.pose, coneArms(), { armLOut: 0.1, armROut: 0.1, tilt: 0.12 }, jolt(t, MOM_T0, 0.55));
       const mom: M.Act = { position: w.position, yaw: w.yaw, walk: w.walk, pose };
       const me = bedAct(BED_SIT.back, t, M.mix(M.recoil(t, -10), shiver(t, 1)));
       const glow = 0.6 + 0.4 * notePulse(t, MOM_T0);
@@ -247,44 +318,51 @@ export const SHOTS_HOUSE: Shot[] = [
     scene: (t) => {
       const [a, b] = span("s28_tilt");
       const tilt = 0.12 + 0.32 * M.ease(M.seg(t, a + 0.02, b));
-      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.3), coneArms(), { tilt, head: [0.05, -0.05] }, { lean: 0.012 * Math.sin(t * 2.6), head: [0, 0.01 * Math.sin(t * 2.6)] }) };
+      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.2), coneArms(), { tilt, head: [0.05, -0.05] }, { lean: 0.012 * Math.sin(t * 2.6), head: [0, 0.01 * Math.sin(t * 2.6)] }) };
       return <Bedroom07 open={1} hall={1} stair={0.8} outside={0.5} lamp={0.3}>
         <Night focus={[6, 0, 1]} />
         <ChestGlow at={MOM_IN} t={t} t0={1e9} base={3} k={0} />
         <Ch look={MOM} a={mom} t={t} expr="creepy" blink={0} hold={cones(0.55)} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
-    cam: mv("s28_tilt", c([-3.6, 5.0, 1.8], [8.4, 4.0, 0.5], 34), c([-2.4, 4.9, 1.6], [8.4, 4.1, 0.5], 33)),
+    cam: mv("s28_tilt", c([-4.2, 4.9, 1.6], [8.4, 3.7, 0.5], 38), c([-2.6, 4.8, 1.45], [8.4, 3.8, 0.5], 37), 0.003),
     dom: grade,
   }),
 
-  // ---- s29: her mouth opens (grin, held) — close on her face
+  // ---- s29: the slow push continues to medium-close; her mouth opens WIDE on "opened" and holds (silence)
   mk("s29_mouth", {
     scene: (t) => {
-      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.2), coneArms(), { tilt: 0.44, head: [0.05, -0.08 * M.ease(M.seg(t, E.opened16, E.opened16 + 0.3))] }, { lean: 0.012 * Math.sin(t * 2.6), head: [0, 0.01 * Math.sin(t * 2.6)] }) };
-      const expr: Expr = t < E.opened16 + 0.05 ? "creepy" : "grin";
+      const op = M.ease(M.seg(t, E.opened16, E.opened16 + 0.25));
+      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.15), lowArms(1), { tilt: 0.44 - 0.14 * op, head: [0.05, -0.16 * op], lean: -0.03 * op }, { lean: 0.01 * Math.sin(t * 2.6) }) };
+      const expr: Expr = t < E.opened16 ? "creepy" : "stare";
       return <Bedroom07 open={1} hall={1} stair={0.8} outside={0.5} lamp={0.3}>
         <Night focus={[7, 0, 1]} />
         <ChestGlow at={MOM_IN} t={t} t0={1e9} base={3} k={0} />
-        <Ch look={MOM} a={mom} t={t} expr={expr} blink={0} hold={cones(0.7)} blinkSeed={6} cs={bedroomCS(1)} />
+        <Ch look={MOM} a={mom} t={t} expr={expr} blink={0} hold={cones(0.55)} blinkSeed={6} cs={bedroomCS(1)} />
+        <GapeMouth who={st(mom)} open={op} />
       </Bedroom07>;
     },
-    cam: mv("s29_mouth", c([2.2, 5.0, 2.3], [8.4, 4.3, 0.5], 34), c([2.9, 4.9, 2.1], [8.4, 4.35, 0.5], 32)),
+    cam: mv("s29_mouth", c([-0.4, 4.75, 1.35], [8.4, 3.95, 0.5], 33), c([1.6, 4.65, 1.15], [8.4, 4.0, 0.5], 33), 0.003),
     dom: grade,
   }),
 
   // ---- s30: THE TWIST: the whole jingle blasts out of her; she jolts on every note, hardest on the wrong note; pink pulses
   mk("s30_jingle", {
     scene: (t) => {
-      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(coneArms(), { tilt: 0.3 }, jolt(t, BLAST_T0, 1.4)) };
-      return <Bedroom07 open={1} hall={1} stair={1} outside={0.6} lamp={0.3}>
-        <Night focus={[7, 0, 1]} />
-        <ChestGlow at={MOM_IN} t={t} t0={BLAST_T0} base={8} k={55} />
-        <Ch look={MOM} a={mom} t={t} expr="grin" blink={0} hold={cones(0.8 + 0.6 * pulseSum(t, BLAST_T0))} blinkSeed={6} cs={bedroomCS(1)} />
+      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix({ ...jolt(t, BLAST_T0, 1.6), armL: 0, armR: 0 }, lowArms(1), { armL: -0.55, armR: -0.55, tilt: 0.3, head: [0.05, -0.16] }) };
+      const p = pulseSum(t, BLAST_T0);
+      return <Bedroom07 open={1} hall={0.6} stair={1} outside={0.4} lamp={0.15}>
+        <Night focus={[7, 0, 1]} fill={0.75} />
+        {/* the pink light from her SIDE (her right, -z), pulsing on every note, plus a faint glow at the mouth */}
+        <pointLight position={[MOM_IN[0] - 0.6, 5.0, MOM_IN[2] - 3.4]} intensity={22 + 70 * p} distance={12} decay={1.6} color="#ff6aa8" />
+        <pointLight position={[MOUTH[0] - 0.6, MOUTH[1], MOUTH[2]]} intensity={2 + 6 * p} distance={4} decay={2} color="#ffc0dc" />
+        <SongBurst t={t} t0={BLAST_T0} from={MOUTH} toward={[1.5, 4.6, 2.2]} />
+        <Ch look={MOM} a={mom} t={t} expr="stare" blink={0} hold={cones(0.8 + 0.6 * p)} blinkSeed={6} cs={bedroomCS(1)} />
+        <GapeMouth who={st(mom)} open={1 + 0.12 * p} glow={0.35 + 0.65 * Math.min(1, p)} />
       </Bedroom07>;
     },
     cam: (t) => {
-      const base = mv("s30_jingle", c([-3.8, 3.1, 5.0], [8.4, 3.8, 0.5], 40), c([-2.3, 3.2, 4.4], [8.4, 3.9, 0.5], 38))(t);
+      const base = mv("s30_jingle", c([1.8, 4.5, 2.4], [8.4, 3.95, 0.5], 36), c([2.6, 4.45, 2.15], [8.4, 4.0, 0.5], 36))(t);
       const k = 0.06 * pulseSum(t, BLAST_T0);
       return { ...base, pos: [base.pos[0], base.pos[1] + k, base.pos[2] + k * 0.5], roll: 0.012 * pulseSum(t, BLAST_T0) * (Math.floor((t - BLAST_T0) / 0.19) % 2 ? 1 : -1) } as CamS;
     },
