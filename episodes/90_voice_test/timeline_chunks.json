@@ -1,0 +1,42 @@
+[
+ {
+  "index": 1,
+  "speaker": "R",
+  "start": 0.05,
+  "end": 3.466,
+  "gap_after": 0.08,
+  "text": "A truck with no speaker sings outside my window at 3 a.m. every night."
+ },
+ {
+  "index": 2,
+  "speaker": "R",
+  "start": 3.546,
+  "end": 5.479,
+  "gap_after": 0.08,
+  "text": "Mom says we never take its free ice cream."
+ },
+ {
+  "index": 3,
+  "speaker": "R",
+  "start": 5.559,
+  "end": 6.932,
+  "gap_after": 0.08,
+  "text": "Toby took one last week."
+ },
+ {
+  "index": 4,
+  "speaker": "R",
+  "start": 7.012,
+  "end": 9.605,
+  "gap_after": 0.08,
+  "text": "The next day, he held his cone all through lunch without taking a bite."
+ },
+ {
+  "index": 5,
+  "speaker": "R",
+  "start": 9.685,
+  "end": 11.218,
+  "gap_after": 0.08,
+  "text": "It didn't melt, even on the hot slide."
+ }
+]
