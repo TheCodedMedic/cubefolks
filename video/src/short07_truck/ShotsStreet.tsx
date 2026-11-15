@@ -69,8 +69,8 @@ const tobyAct = (t: number) => {
 
 // ---------------------------------------------------------------- cameras
 // s01/s35 hook framing: low across the road (far side), looking back at the truck in front of our house.
-const HOOK0 = c([-24, 6.5, 72], [5, 7.4, 42], 40), HOOK1 = c([-16.5, 8.4, 63.5], [4, 9.5, 42], 34);
-const PRE = c([-27, 6.0, 75], [7, 7.2, 42], 42);
+const HOOK0 = c([-22, 6.5, 60.5], [5, 7.4, 42], 44), HOOK1 = c([-15.5, 8.4, 56], [4, 9.5, 42], 37);
+const PRE = c([-25, 6.0, 61.5], [7, 7.2, 42], 46);
 
 // ---------------------------------------------------------------- shots
 export const SHOTS_STREET: Shot[] = [
