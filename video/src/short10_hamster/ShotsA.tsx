@@ -150,7 +150,7 @@ const S6 = (t: number) => {
   }
   // lifted: the handle rides in front of her chest; she turns toward the sink and walks
   const end0: V3 = [pullH[0] - reachK, 0, pullH[2]];
-  const path: V3[] = [end0, [16.55, 0, 7.6], [16.1, 0, 12.6]];
+  const path: V3[] = [end0, [14.6, 0, 6.6], [15.4, 0, 12.6]];
   const tr = M.turn(PI / 2, M.yawTo(path[0], path[1]), t, tLift + 0.05, tTurn - tLift - 0.05);
   const w = M.walkPath(path, t, tTurn, { scale: KID, gait: "walk" });
   const yaw = t < tTurn ? tr.yaw : w.yaw;
@@ -233,7 +233,7 @@ export const SHOTS_A: Shot[] = [
     const a = M.act(w, M.recoil(t, E.vanished - 0.1), M.headSnap(t, E.vanished - 0.05, snapYaw, -0.05));
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t + 0.6)} />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "surprised", E.still3) }], CS())}</>;
-  }, (t) => move(cam([17.6, 5.0, -6.4], [17.6, 3.4, 5.0], 42), cam([17.7, 4.9, -5.6], [17.8, 3.4, 5.0], 41), t, C.s05b, C.s06)),
+  }, (t) => move(cam([16.6, 5.0, -6.6], [18.6, 3.5, 4.4], 42), cam([16.8, 4.9, -5.8], [18.7, 3.5, 4.4], 41), t, C.s05b, C.s06)),
 
   // (6) CLUE "All Maya did was wash his food drawer": Maya slides the drawer OUT (the hole shows) and carries it off
   mk("a06_drawer", C.s06, C.s07, (t) => {
@@ -245,7 +245,7 @@ export const SHOTS_A: Shot[] = [
     return <><Room drawer={m.drawer} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={1} focus={P.HOLE} />
       {m.drawer === null && <CarriedTray handle={m.handle} yaw={m.trayYaw} />}
       {cast(t, [{ look: MAYA, a, expr: M.faceAt(t, "smile", "happy", E.maya4 + 0.2) }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([11.2, 5.0, 12.4], [17.8, 2.7, 5.2], 38), cam([11.6, 4.9, 12.0], [17.6, 2.8, 5.8], 37), t, C.s06, C.s07)),
+  }, (t) => move(cam([16.2, 4.7, 13.8], [17.6, 2.7, 5.0], 40), cam([16.0, 4.6, 13.2], [17.4, 2.75, 5.2], 39), t, C.s06, C.s07)),
 
   // (7) "...drawer." / "We clean": Maya at the sink washing it, humming (eyes closed, head bobbing)
   mk("a07_sink", C.s07, C.s08, (t) => {
@@ -288,7 +288,7 @@ export const SHOTS_A: Shot[] = [
     const a = M.act(w, t < E.up5 ? M.pickUp(t, C.s09 - 0.45, 1.0) : {});
     return <><Room drawer={null} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={open} focus={P.POCKET} />
       {cast(t, [{ look: ME, a, expr: "smile" }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([11.0, 3.4, 9.6], [18.5, 1.95, 4.9], 36), cam([11.6, 3.35, 9.1], [18.5, 1.95, 4.9], 35), t, C.s09, C.s10)),
+  }, (t) => move(cam([11.0, 3.1, 9.6], [18.5, 1.45, 4.9], 37), cam([11.6, 3.05, 9.1], [18.5, 1.45, 4.9], 36), t, C.s09, C.s10)),
 
   // (10) "And by Monday's first lesson": Monday, the kids file in and stop: Sir Nibbles is back inside, eating
   mk("a10_monday", C.s10, C.s11, (t) => {
@@ -304,7 +304,7 @@ export const SHOTS_A: Shot[] = [
     });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} door={1} hamster={<Nibbles t={t} lookYaw={-0.5} />} />
       {cast(t, people, CS({ door: 1 }))}</>;
-  }, (t) => move(cam([20.6, 6.2, 11.0], [16.4, 3.0, -4.0], 46), cam([20.5, 6.1, 10.4], [16.4, 3.0, -4.0], 45), t, C.s10, C.s11)),
+  }, (t) => move(cam([21.2, 6.4, 12.2], [17.4, 2.7, -2.6], 48), cam([21.1, 6.3, 11.6], [17.4, 2.7, -2.6], 47), t, C.s10, C.s11)),
 
   // (11) "he's always back inside": Sir Nibbles, cheeks full, turns and looks right at us
   mk("a11_cheeks", C.s11, C.s12, (t) => {
@@ -338,7 +338,7 @@ export const SHOTS_A: Shot[] = [
     const a: Act = { position: pos, yaw, pose: M.mix({ armR: 1.95 + 0.15 * Math.sin(sw * PI), armROut: -0.35 + 0.65 * sw, lean: 0.12, head: [0, 0.1] }) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={P.CAGE_CENTER} hamster={<Nibbles t={t} lookYaw={0.9} />} />
       {cast(t, [{ look: ME, a, expr: "worried", hold: { R: <P.Magnifier /> } }], CS())}</>;
-  }, (t) => move(cam([16.5, 4.2, 1.4], [19.0, 3.7, 6.4], 38), cam([16.7, 4.15, 1.9], [19.0, 3.7, 6.4], 37), t, C.s14, C.s15)),
+  }, (t) => move(cam([15.8, 4.4, 0.2], [18.6, 3.8, 7.0], 34), cam([16.0, 4.35, 0.7], [18.6, 3.8, 7.0], 33), t, C.s14, C.s15)),
 
   // (15) "Nothing.": ME turns to us and shrugs
   mk("a15_nothing", C.s15, C.end, (t) => {
