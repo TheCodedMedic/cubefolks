@@ -1,9 +1,8 @@
 // Short 07 SCHOOL shots (School builder; notes/short07/CONTRACT.md): beats 4-10, cut ids s06..s18.
 // Sets: the lunch tables and the slide (./School07) in Short 6's SchoolYard; the corridor (blocky/SchoolHall); the classroom
 // (blocky/Classroom, owned by lead 10); the empty street out of the window (Short 6's MyStreet, day). RIG UNITS throughout.
-// Every time comes from E.* (word anchors) and the cut list (mk/mv). Jingle sync t0s: Toby's walk E.walked; the teacher's hum
-// E.hummed (s15); the hum that carries the WRONG NOTE in s17 is phrased from E.wrote, so its wrong note (note 6 of the bar)
-// lands on the word "wrong".
+// Every time comes from E.* (word anchors) and the cut list (mk/mv). Jingle sync: the sound's phrase grids from common.tsx,
+// TOBY_T0 (Toby's song in the corridor) and HUM_T0 (the teacher's hum, s15, and the wrong-note head tilt in s17).
 import React from "react";
 import type { Pose, Expr, Look } from "../blocky/types";
 import * as M from "../blocky/Motion";
@@ -13,7 +12,7 @@ import { BlockLights, Sky } from "../blocky/Look";
 import { SchoolYard, StreetSet } from "../short06_blocky/Town";
 import { Classroom, CLASSROOM_CS, DESK } from "../blocky/Classroom";
 import { Corridor, corridorCS } from "../blocky/SchoolHall";
-import { ActLike, c, Ch, E, KIDS, ME, mk, mv, notePulse, isWrong, JINGLE_NOTE, WRONG_IN_BAR, S, span, st, TEACHER, TOBY, V3, CamS, Shot } from "./common";
+import { ActLike, c, Ch, E, KIDS, ME, mk, mv, notePulse, isWrong, JINGLE_NOTE, WRONG_IN_BAR, HUM_T0, TOBY_T0, S, span, st, TEACHER, TOBY, V3, CamS, Shot } from "./common";
 import { SBox } from "../blocky/SchoolHall";
 import { LUNCH_AT, LUNCH_CS, LunchTable, lunchSeat, Slide, SLIDE, slideCS, slideSurface, WindowFrame, Sandwich, Pencil, Chalk, TestPaper, UprightCone, HeatShimmer } from "./School07";
 
@@ -156,7 +155,7 @@ const TOBY_LANE = -4.2;
 const tobyWalk = (t: number) => {
   const w = M.walkPath([[TOBY_LANE, 0, 5.8], [TOBY_LANE, 0, -16]], t, E.walked - 1.4, { scale: S.kid, gait: "stroll" });
   // the jingle comes out of him: a tiny bob and a head twitch on each note
-  const p = notePulse(t, E.walked);
+  const p = notePulse(t, TOBY_T0);
   return { a: M.act(w, { armR: 0.15, head: [0.03 * p, -0.03 * p], tilt: 0.05 * p }), lift: 0.05 * p };
 };
 const hallPeople = (t: number, meHead: number, meExpr: Expr): Person[] => {
@@ -280,9 +279,9 @@ const s16a = mk("s16a_test", {
 const hum = (t: number, t0: number): Expr => (t >= t0 && notePulse(t, t0) > 0.45 ? "talk" : "smile");
 const s15 = mk("s15_hum", {
   scene: (t) => {
-    const p = notePulse(t, E.hummed);
+    const p = notePulse(t, HUM_T0);
     const pose = M.mix(boardWrite(t), { armL: CONE_LOW, armLOut: 0.2, head: [-1.1, -0.03 + 0.04 * p], twist: -0.2, tilt: 0.04 * p }, M.idle(t, 31, 0.4));
-    return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, teacher: teacherAt({ yaw: WRITE_YAW, pose, expr: hum(t, E.hummed) }) }), CLASS_CS)}</Room>;
+    return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, teacher: teacherAt({ yaw: WRITE_YAW, pose, expr: hum(t, HUM_T0) }) }), CLASS_CS)}</Room>;
   },
   cam: mv("s15_hum", c([1.4, 7.0, -6.6], [-3, 4.2, -15.7], 44), c([1.0, 6.8, -7.6], [-3, 4.3, -15.7], 42)),
 });
@@ -296,12 +295,12 @@ const s16b = mk("s16b_lookup", {
   },
   cam: mv("s16b_lookup", c([-8.6, 5.4, -12.6], [-7.2, 2.9, 2.6], 46), c([-8.9, 5.3, -11.8], [-7.4, 2.9, 2.6], 45)),
 });
-/** The hum that carries the wrong note: phrased from E.wrote (its 6th note = the word "wrong"). */
-const WRONG_T0 = E.wrote;
+/** The hum that carries the wrong note: the sound's phrase grid HUM_T0 (common.tsx); its wrong note lands on "wrong". */
+const WRONG_T0 = HUM_T0;
 const s17 = mk("s17_wrongnote", {
   scene: (t) => {
     const p = notePulse(t, WRONG_T0), wrong = isWrong(t, WRONG_T0);
-    const wrongStart = WRONG_T0 + WRONG_IN_BAR * JINGLE_NOTE; // the 6th note of the bar
+    const wrongStart = WRONG_T0 + (WRONG_IN_BAR + 8) * JINGLE_NOTE; // the 6th note of the 2nd bar = the word "wrong"
     const tiltIn = M.snap(M.seg(t, wrongStart, wrongStart + 0.08), 2.5);
     const wob = wrong ? Math.sin((t - wrongStart) * 42) * 0.07 : 0;
     const tilt = 0.42 * tiltIn - 0.1 * M.ease(M.seg(t, wrongStart + 0.25, wrongStart + 0.6)) + wob;
