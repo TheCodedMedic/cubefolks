@@ -270,7 +270,7 @@ export const Blanket: React.FC<{ hipX: number; z: number; up: number; chinY: num
 // ================================================================= KITCHEN (morning)
 export const KITCHEN = { x0: -11, x1: 11, z0: -8, z1: 10, H: 11, counterTop: 3.0, counterZ: -5.4 } as const;
 /** The pedal bin (centre of its footprint), its top. */
-export const BIN = { p: [5.0, 0, -2.2] as V3, r: 0.75, top: 2.5 } as const;
+export const BIN = { p: [5.2, 0, -2.2] as V3, r: 0.75, top: 2.5 } as const;
 /** Mom beside the bin (feet); the bin is on her left. */
 export const KITCHEN_MOM: V3 = [2.2, 0, -3.0];
 export const kitchenCS = (): K.Box[] => [
