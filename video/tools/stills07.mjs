@@ -15,7 +15,7 @@ let i = 0;
 const work = async () => {
   while (i < times.length) {
     const u = times[i++];
-    const inputProps = { u, captions: true, debug: dbg === "debug" };
+    const inputProps = { u, captions: dbg !== "clean", debug: dbg === "debug" };
     const composition = await selectComposition({ serveUrl, id: comp, inputProps });
     await renderStill({ composition, serveUrl, output: path.join(outDir, `t${u.toFixed(2).padStart(6, "0")}.png`), inputProps, timeoutInMilliseconds: 240000 });
     process.stdout.write(".");
