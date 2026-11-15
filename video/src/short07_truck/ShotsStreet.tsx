@@ -8,7 +8,7 @@ import * as M from "../blocky/Motion";
 import * as K from "../blocky/Collide";
 import type { Shot } from "../kit/core";
 import { io, lerp, seg } from "../kit/core";
-import { add, c, Ch, E, eyeY, isWrong, mk, mv, notePulse, S, span, st, TOBY, V3 } from "./common";
+import { add, c, Ch, E, END, eyeY, isWrong, JINGLE_NOTE, mk, mv, notePulse, S, span, st, TOBY, V3 } from "./common";
 import { Cone, HAND_FIST, Truck, TRUCK, truckCS, truckPt } from "./Props07";
 
 // ---------------------------------------------------------------- the truck's moves
@@ -20,8 +20,10 @@ const roll = (t: number, x0: number, x1: number, a: number, b: number) => { cons
 const wheel = (x: number) => -x / 1.7;
 /** The jingle starts before frame 0 (it is already playing): picture pulses use this t0 (sound places the jingle here too). */
 export const JINGLE_T0 = -0.4;
-const TruckAt: React.FC<{ x: number; t: number; glow?: number; lights?: number; bob?: number; handOut?: number }> = ({ x, t, glow = 1, lights = 1, bob = 0, handOut = 0 }) =>
-  <Truck position={[x, 0.03, LANE_Z]} yaw={YAW} glow={glow} lights={lights} wheelTurn={wheel(x)} bob={bob} handOut={handOut} pulse={notePulse(t, JINGLE_T0)} spark={isWrong(t, JINGLE_T0) ? notePulse(t, JINGLE_T0) : 0} />;
+/** The loop: the s35 jingle is the same phrase that frame 0 hears, so at END it is exactly where frame 0 starts. */
+export const JINGLE_LOOP_T0 = END - (0 - JINGLE_T0) - 16 * JINGLE_NOTE;
+const TruckAt: React.FC<{ x: number; t: number; glow?: number; lights?: number; bob?: number; handOut?: number; j0?: number }> = ({ x, t, glow = 1, lights = 1, bob = 0, handOut = 0, j0 = JINGLE_T0 }) =>
+  <Truck position={[x, 0.03, LANE_Z]} yaw={YAW} glow={glow} lights={lights} wheelTurn={wheel(x)} bob={bob} handOut={handOut} pulse={notePulse(t, j0)} spark={isWrong(t, j0) ? notePulse(t, j0) : 0} />;
 
 // ---------------------------------------------------------------- the night street
 const Night: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, children }) => <>
@@ -131,7 +133,7 @@ export const SHOTS_STREET: Shot[] = [
   // (35) "its next speaker.": the same street, the truck rolling back in toward the hook's start; ends on s01's first frame
   mk("s35_loop", {
     scene: (t) => { const [a, b] = span("s35_loop"), x = lerp(28, 16, seg(t, a, b));
-      return <Night focus={[x, 0, LANE_Z]}><TruckAt t={t} x={x} bob={Math.sin(t * 6)} /></Night>; },
+      return <Night focus={[x, 0, LANE_Z]}><TruckAt t={t} x={x} bob={Math.sin(t * 6)} j0={JINGLE_LOOP_T0} /></Night>; },
     cam: (t) => { const [a, b] = span("s35_loop"), x = lerp(28, 16, seg(t, a, b)), m = truckPt([x, 0.03, LANE_Z], YAW, TRUCK.mount);
       const end = { ...HOOK0, target: add(truckPt([16, 0.03, LANE_Z], YAW, TRUCK.mount), [-1, -4.0, 0]) };
       return mv("s35_loop", { ...PRE, target: add(m, [-1, -4.2, 0]) }, end, 0)(t); },
