@@ -52,9 +52,9 @@ const lt = (id: Id, t: number) => t - C[id];
 
 // ───────────────────────────── bedroom ─────────────────────────────
 const NIGHT_LAMP: V3 = [-3.0, 4.6, -8.6];
-const Night: React.FC<{ focus: V3; clock?: string; peanut?: React.ReactNode; wheel?: number }> = ({ focus, clock = "11:59", peanut, wheel = 0 }) => <>
+const Night: React.FC<{ focus: V3; clock?: string; peanut?: React.ReactNode; wheel?: number; nestCU?: boolean }> = ({ focus, clock = "11:59", peanut, wheel = 0, nestCU = false }) => <>
   <Lights time="interiorNight" focus={focus} practicalAt={NIGHT_LAMP} />
-  <Pr.Bedroom clock={clock} peanutCage={<Pr.Cage color="#e86aa0" lock={false} tape={0} sideDoorOpen nest2 wheel={wheel}>{peanut}</Pr.Cage>} />
+  <Pr.Bedroom clock={clock} peanutCage={<Pr.Cage color="#e86aa0" lock={false} tape={0} sideDoorOpen nest2 wheel={wheel} barW={nestCU ? 1.5 : 5} nest1={nestCU} nestScale={nestCU ? 1.45 : 1} hideSideDoor={nestCU}>{peanut}</Pr.Cage>} />
 </>;
 const nightDom = () => <Grade time="interiorNight" />;
 /** Peanut's cage local floor height (bedding). */
@@ -218,16 +218,17 @@ const NEST_W = Pr.pcagePoint([-Pr.CAGE.w / 2 + 0.6, PB, Pr.CAGE.d / 2 - 0.6]);
 const s20 = mk("s20", {
   scene: (t) => {
     const u = c01(lt("s20", t) / 0.7);
-    const p0: V3 = [0.4, PB, 0.0], p1: V3 = [-1.0, PB, 0.25];
+    const p0: V3 = [0.6, PB, 0.0], p1: V3 = [-0.25, PB, 0.6]; // lead: she stops BESIDE the second nest so the white pile reads
     const p = L3(p0, p1, M.ease(u));
     return <>
-      <Night focus={NEST_W} wheel={0.3} peanut={<>
+      <pointLight position={add(Pr.PCAGE_POS, [-3.2, 3.2, -1.2])} intensity={22} distance={9} decay={2} color="#ffe2b8" />
+      <Night nestCU focus={NEST_W} wheel={0.3} peanut={<>
         <Pr.Hamster look={Pr.PEANUT} p={p} yaw={u < 1 ? -PI / 2 - 0.15 : -PI / 2 + 0.7} walk={u < 1 ? t * 30 : undefined} lookYaw={u >= 1 ? 0.35 * Math.sin(t * 5) : 0} />
         <Pr.Shells p={[-1.6, PB, 0.1]} r={0.3} n={4} seed={9} />
       </>} />
     </>;
   },
-  cam: mv("s20", cam([9.2, 4.25, -7.6], [9.85, 3.55, -3.1], 40), cam([9.3, 4.15, -7.0], [9.85, 3.55, -3.1], 38)),
+  cam: mv("s20", cam([8.0, 5.6, -8.2], [10.1, 3.55, -2.6], 32), cam([8.2, 5.4, -7.6], [10.1, 3.55, -2.6], 30)),
   dom: nightDom,
 });
 // 21 (MW) classroom, next Friday: ME props the phone on the book stack on desk 8, then points at the cage.
@@ -485,17 +486,18 @@ const s32 = mk("s32", {
   cam: mv("s32", cam([12.0, 4.0, 10.2], [18.9, 1.9, 4.9], 36), cam([12.6, 3.8, 9.6], [18.9, 1.9, 4.9], 34)),
 });
 // 33 (MW) Friday: ME sets the striped backpack down right beside the cage, pocket open, turns to the camera, smirks and winks.
-const ME33: V3 = [16.55, 0, Pr.HOLE[2]];
-const CAM33: V3 = [18.0, 5.2, -6.5];
+const ME33: V3 = [16.3, 0, Pr.HOLE[2] - 1.0];
+const ME33_YAW = 0.9;
+const CAM33: V3 = [14.2, 4.8, 12.6];
 const MAYA_SINK: V3 = [SINK[0] + 0.9, 0, SINK[2] - 0.6];
 const s33 = mk("s33", {
   scene: (t) => {
     const [a, b] = span("s33"), D = b - a;
     const down = M.ease(c01((t - a - 0.05) / (D * 0.38)));
     const meBag = Pr.BAG_ROW.find((g) => g.me)!;
-    const bag = L3(add(ME33, [1.15, 1.2, 0]), meBag.p, down);
+    const bag = L3(add(ME33, [Math.sin(ME33_YAW) * 1.15, 1.2, Math.cos(ME33_YAW) * 1.15]), meBag.p, down);
     const tt = a + D * 0.48;
-    const tr = M.turn(PI / 2, M.yawTo(ME33, CAM33), t, tt, 0.3);
+    const tr = M.turn(ME33_YAW, M.yawTo(ME33, CAM33), t, tt, 0.3);
     const wink = c01((t - (tt + 0.4)) / 0.12) * (1 - c01((t - (tt + 0.62)) / 0.12));
     const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.85 * (1 - down), armL: 0.85 * (1 - down) }, M.pickUp(t, a + 0.02, D * 0.62), { head: [0, -0.22 * Math.sin(PI * c01((t - a - 0.02) / (D * 0.62)))] }, M.point(t, tt + 0.3), { tilt: 0.16 * wink, head: [0, -0.04 * wink] });
     const maya = { position: MAYA_SINK, yaw: -0.4, pose: M.mix(M.idle(t, 3, 0.5), M.stir(t, a - 1, Infinity, 2.4)) };
@@ -509,7 +511,7 @@ const s33 = mk("s33", {
       <Ch look={MAYA} t={t} cs={CLASSROOM_CS} blinkSeed={7} a={maya} />
     </>;
   },
-  cam: mv("s33", cam(CAM33, [17.3, 2.4, 4.9], 44), cam(add(CAM33, [-0.2, -0.3, 1.2]), [17.2, 2.5, 4.9], 42)),
+  cam: mv("s33", cam(CAM33, [17.0, 2.6, 3.4], 42), cam(add(CAM33, [0.2, -0.2, -1.0]), [17.0, 2.7, 3.4], 40)),
 });
 // 34 (M) shot 1's angle: the empty cage, the wheel still turning, the door taped and padlocked. Ends on shot 1's first framing.
 const s34 = mk("s34", {
