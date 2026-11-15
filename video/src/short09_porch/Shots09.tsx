@@ -454,7 +454,7 @@ const bellDoorW = () => BELL_DOOR_AT;
 const CAMS: Record<string, (t: number) => CamS> = {
   s01_hook: mv("s01_hook", c(B([-4.4, 6.6, 13.2]), [-3, 5.6, 10], 30), c(B([-4.4, 6.55, 12.6]), [-3, 5.6, 10], 29)),
   s32_home: mv("s32_home", c(B([-4.4, 6.65, 13.8]), [-3, 5.7, 10], 31), c(B([-4.4, 6.6, 13.2]), [-3, 5.6, 10], 30)),
-  s02_nod: orbitCam("s02_nod", bellDoorW(), Math.PI, 8.6, 5.6, 3.6, 36),
+  s02_nod: orbitCam("s02_nod", bellDoorW(), Math.PI - 0.35, 8.6, 5.6, 3.6, 36),
   s06_bellflash: orbitCam("s06_bellflash", B([-4.6, F, 6.9]), Math.PI + 0.12, 10.8, 5.6, 4.3, 38),
   s07_watch: orbitCam("s07_watch", bellDoorW(), Math.PI - 0.12, 7.4, 4.9, 4.3, 28),
   s14_again: orbitCam("s14_again", B([-4.6, F, 6.9]), Math.PI - 0.05, 10.8, 7.2, 4.3, 38),
