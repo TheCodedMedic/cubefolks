@@ -120,8 +120,12 @@ const mk = (id: string, t0: number, t1: number, scene: (t: number) => React.Reac
 
 // shot 2 / 4 / 12: ME on a little step stool at the door tape (the door sits above a kid's reach from the floor)
 const STOOL_H = 0.85;
-const meTapeYaw = 1.3;
-const ME_TAPE: V3 = K.standToReach(tapePt(0, 0.5), meTapeYaw, -1, 1.5, KID, 0.1, STOOL_H);
+const meTapeYaw = 2.4;
+/** The hand stops a hair in front of the tape (the rig's square fist would poke into the cage's bars otherwise). */
+const TAPE_OFF: V3 = [-0.24, 0, 0];
+const ME_TAPE: V3 = K.standToReach(add(tapePt(0, 0.65), TAPE_OFF), meTapeYaw, -1, 1.6, KID, 0.1, STOOL_H);
+/** Cameras on the tape: from the front-left of the room (low z), so ME (on the cage's +z side) faces us and the door front reads. */
+const TAPE_CAM: V3 = [14.0, 5.3, -5.6];
 const STOOL_CS: K.Box = K.box([ME_TAPE[0] - 0.04, STOOL_H / 2, ME_TAPE[2]], [1.84, STOOL_H, 2.1], "stool");
 /** ME's wooden step stool (drawn where its collider is). */
 const Stool: React.FC = () => <group position={[ME_TAPE[0] - 0.04, 0, ME_TAPE[2]]}>
@@ -157,7 +161,7 @@ const S6 = (t: number) => {
   return { a, handle, drawer: null as number | null, trayYaw: yaw };
 };
 // shot 7: at the sink
-const SINK_TRAY = (t: number): V3 => [SINK[0] + 0.2 * Math.sin((t - C.s07) * 9), 3.5, SINK[2] + 1.0];
+const SINK_TRAY = (t: number): V3 => [SINK[0] + 0.2 * Math.sin((t - C.s07) * 9), 3.65, SINK[2] + 1.0];
 
 export const SHOTS_A: Shot[] = [
   // (1) frame 0: the empty cage, the wheel still turning, the door taped and padlocked; slow push. (The lead stamps ESCAPED (AGAIN).)
@@ -166,14 +170,14 @@ export const SHOTS_A: Shot[] = [
   // (2) "without opening the door": ME's finger presses the tape: unbroken
   mk("a02_tape", C.s02, C.s03, (t) => {
     const press = Math.sin(PI * M.seg(t, C.s02 + 0.2, C.s02 + 0.55)) * 0.12;
-    const tgt = add(tapePt(0, 0.55), [-0.12 + press * 0.3, 0, 0]);
-    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: M.mix({ lean: 0.1 + press * 0.15, armR: 1.5, head: [0, -0.05] }, M.idle(t, 2, 0.5)) };
+    const tgt = add(add(tapePt(0, 0.65), TAPE_OFF), [press * 0.12, 0, 0]);
+    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: M.mix({ lean: 0.1 + press * 0.1, armR: 1.6, head: [0, -0.05] }, M.idle(t, 2, 0.5)) };
     a = reach(a, KID, tgt);
-    const head = (t >= E.door1 ? 1 : 0) * lookAt(ME_TAPE, meTapeYaw, [14.6, 4.5, 6.8]);
+    const head = (t >= E.door1 ? 1 : 0) * lookAt(ME_TAPE, meTapeYaw, TAPE_CAM);
     a.pose = M.mix(a.pose, { head: [head * 0.6, -0.05] });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t + 0.6)} focus={tapePt(0, 0.5)} /><Stool />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "smirk", E.door1 - 0.05) }], CS({ stool: true }))}</>;
-  }, (t) => move(cam([15.4, 4.7, 7.4], [19.0, 3.95, 3.25], 36), cam([15.8, 4.6, 7.0], [19.0, 3.95, 3.3], 35), t, C.s02, C.s03)),
+  }, (t) => move(cam([15.2, 5.0, -2.2], [18.6, 4.0, 3.9], 36), cam([15.5, 4.95, -1.6], [18.6, 4.0, 3.9], 35), t, C.s02, C.s03)),
 
   // (3) "Maya has the spare key": Maya at her desk swings the key on its lanyard, turns back with a smirk
   mk("a03_key", C.s03, C.s04, (t) => {
@@ -188,20 +192,20 @@ export const SHOTS_A: Shot[] = [
         { look: ME, a: me, expr: M.faceAt(t, "blank", "worried", E.key) },
         ...kids,
       ], CS())}</>;
-  }, (t) => move(cam([9.2, 5.6, -11.6], [3.4, 3.7, -1.6], 40), cam([8.7, 5.5, -10.9], [3.4, 3.7, -1.6], 39), t, C.s03, C.s04)),
+  }, (t) => move(cam([8.4, 6.0, -12.8], [3.2, 3.4, -0.8], 42), cam([8.0, 5.9, -12.2], [3.2, 3.4, -0.8], 41), t, C.s03, C.s04)),
 
   // (4) "so I taped the door shut": ME rips the tape off the roll and seals it across the seam
   mk("a04_seal", C.s04, C.s05, (t) => {
     const tp = M.ease(M.seg(t, E.taped - 0.05, E.shut + 0.05));
     const f = c01(tp * 1.3); // the low strip's end (the hand drags it)
-    const tgt = tapePt(0, Math.max(0.05, f));
-    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: M.mix({ lean: 0.1, armR: 1.5, armL: 0.9, armLOut: 0.25 }, M.idle(t, 2, 0.4)) };
+    const tgt = add(tapePt(0, Math.max(0.1, f)), TAPE_OFF);
+    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: M.mix({ lean: 0.1, armR: 1.6, armL: 0.9, armLOut: 0.25 }, M.idle(t, 2, 0.4)) };
     a = reach(a, KID, tgt);
     const doneK = M.ease(M.seg(t, E.shut + 0.1, E.shut + 0.35));
-    a.pose = M.mix(a.pose, M.nod(t, E.shut + 0.1, 1, 3), { head: [lookAt(ME_TAPE, meTapeYaw, [14.6, 4.8, 8.2]) * 0.7 * doneK, 0] });
+    a.pose = M.mix(a.pose, M.nod(t, E.shut + 0.1, 1, 3), { head: [lookAt(ME_TAPE, meTapeYaw, TAPE_CAM) * 0.7 * doneK, 0] });
     return <><Room drawer={0} tape={tp} wheel={wheelSpin(t + 0.6)} focus={P.SEAM} /><Stool />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "talk", "smirk", E.shut), hold: { L: <P.TapeRoll /> } }], CS({ stool: true }))}</>;
-  }, (t) => move(cam([14.2, 5.3, 8.6], [18.8, 3.6, 3.1], 40), cam([14.6, 5.2, 8.1], [18.8, 3.7, 3.2], 39), t, C.s04, C.s05)),
+  }, (t) => move(cam(TAPE_CAM, [18.2, 3.6, 4.0], 40), cam(add(TAPE_CAM, [0.5, -0.1, 0.7]), [18.2, 3.6, 4.0], 39), t, C.s04, C.s05)),
 
   // (5) "I watched her all morning": ME at his desk, notebook up, eyes following Maya as she walks past
   mk("a05_watch", C.s05, C.s05b, (t) => {
@@ -218,30 +222,30 @@ export const SHOTS_A: Shot[] = [
         { look: MAYA, a: maya, expr: "happy" },
         ...kids,
       ], CS())}</>;
-  }, (t) => move(cam([12.0, 6.0, -5.2], [5.2, 3.2, 2.6], 42), cam([11.6, 5.9, -4.6], [5.2, 3.2, 2.6], 41), t, C.s05, C.s05b)),
+  }, (t) => move(cam([6.6, 6.2, -11.0], [5.0, 3.0, 2.4], 42), cam([6.4, 6.1, -10.4], [5.0, 3.0, 2.4], 41), t, C.s05, C.s05b)),
 
   // (5b) "but Sir Nibbles still vanished": ME hurries to the cage: empty, tape intact; he snaps round to us
   mk("a05b_gone", C.s05b, C.s06, (t) => {
-    const end: V3 = [16.9, 0, 0.4];
-    const w = M.walkPath([[12.6, 0, -3.4], end], t, C.s05b - 0.35, { scale: KID, gait: "hurry", yaw1: M.yawTo(end, P.CAGE_CENTER) });
-    const camP: V3 = [13.4, 4.8, 8.8];
+    const end: V3 = [17.3, 0, 7.4];
+    const w = M.walkPath([[13.2, 0, 13.0], end], t, C.s05b - 0.45, { scale: KID, gait: "hurry", yaw1: M.yawTo(end, P.CAGE_CENTER) });
+    const camP: V3 = [17.6, 5.0, -6.0];
     const snapYaw = lookAt(end, M.yawTo(end, P.CAGE_CENTER), camP, 1.3);
     const a = M.act(w, M.recoil(t, E.vanished - 0.1), M.headSnap(t, E.vanished - 0.05, snapYaw, -0.05));
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t + 0.6)} />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "surprised", E.still3) }], CS())}</>;
-  }, (t) => move(cam([13.4, 4.8, 8.8], [18.6, 3.5, 2.6], 42), cam([14.1, 4.7, 8.2], [18.8, 3.6, 2.6], 40), t, C.s05b, C.s06)),
+  }, (t) => move(cam([17.6, 5.0, -6.4], [17.6, 3.4, 5.0], 42), cam([17.7, 4.9, -5.6], [17.8, 3.4, 5.0], 41), t, C.s05b, C.s06)),
 
   // (6) CLUE "All Maya did was wash his food drawer": Maya slides the drawer OUT (the hole shows) and carries it off
   mk("a06_drawer", C.s06, C.s07, (t) => {
     const m = S6(t), yaw = m.a.yaw;
     const side = add(m.handle, sc3(fwd(yaw), m.drawer === null ? 0.3 : 0)), L = add(side, sc3(leftOf(yaw), 0.88)), R = add(side, sc3(leftOf(yaw), -0.88));
     const a = reach(m.a, KID, R, L);
-    const glance = M.env(t, E.maya4, E.wash + 0.1, 0.15, 0.2) * 0.55;
+    const glance = M.env(t, E.maya4 - 0.05, E.wash - 0.05, 0.15, 0.2) * 1.15 * (m.drawer === null ? 0.4 : 1);
     a.pose = M.mix(a.pose, { head: [-glance, -0.05] });
     return <><Room drawer={m.drawer} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={1} focus={P.HOLE} />
       {m.drawer === null && <CarriedTray handle={m.handle} yaw={m.trayYaw} />}
       {cast(t, [{ look: MAYA, a, expr: M.faceAt(t, "smile", "happy", E.maya4 + 0.2) }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([12.3, 4.5, 10.6], [18.2, 2.75, 4.9], 37), cam([12.8, 4.4, 10.1], [18.0, 2.8, 5.4], 36), t, C.s06, C.s07)),
+  }, (t) => move(cam([11.2, 5.0, 12.4], [17.8, 2.7, 5.2], 38), cam([11.6, 4.9, 12.0], [17.6, 2.8, 5.8], 37), t, C.s06, C.s07)),
 
   // (7) "...drawer." / "We clean": Maya at the sink washing it, humming (eyes closed, head bobbing)
   mk("a07_sink", C.s07, C.s08, (t) => {
@@ -249,13 +253,13 @@ export const SHOTS_A: Shot[] = [
     const h = SINK_TRAY(t);
     let a: Act = { position: pos, yaw, pose: M.mix({ armL: 1.5, armR: 1.5, lean: 0.06 }, M.idle(t, 3, 0.4)) };
     a = reach(a, KID, add(h, [-0.88, 0, 0.3]), add(h, [0.88, 0, 0.3]));
-    a.pose = M.mix(a.pose, { head: [-0.85, -0.06 + 0.06 * Math.sin((t - C.s07) * 7)], tilt: 0.12 * Math.sin((t - C.s07) * 3.5), roll: 0.03 * Math.sin((t - C.s07) * 3.5) });
+    a.pose = M.mix(a.pose, { twist: -0.12, head: [-1.1, -0.06 + 0.06 * Math.sin((t - C.s07) * 7)], tilt: 0.12 * Math.sin((t - C.s07) * 3.5), roll: 0.03 * Math.sin((t - C.s07) * 3.5) });
     const ws: V3 = [SINK[0] + 0.1, 5.0, SINK[2] + 2.3];
     return <><Room drawer={null} tape={1} wheel={wheelSpin(t + 0.6)} bags focus={pos} />
       <CarriedTray handle={h} yaw={yaw} />
       <Water t={t} top={ws} y1={3.85} />
       {cast(t, [{ look: MAYA, a, expr: "happy" }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([10.6, 5.6, 10.4], [16.0, 3.7, 15.0], 40), cam([11.0, 5.5, 10.8], [16.0, 3.8, 15.0], 39), t, C.s07, C.s08)),
+  }, (t) => move(cam([9.0, 5.4, 14.4], [16.0, 3.6, 15.0], 42), cam([9.5, 5.35, 14.6], [16.0, 3.6, 15.0], 41), t, C.s07, C.s08)),
 
   // (8) "We clean his cage every Friday and Monday": high over the cage corner: one kid wipes, one sweeps, ME sets his bag down
   mk("a08_clean", C.s08, C.s09, (t) => {
@@ -284,7 +288,7 @@ export const SHOTS_A: Shot[] = [
     const a = M.act(w, t < E.up5 ? M.pickUp(t, C.s09 - 0.45, 1.0) : {});
     return <><Room drawer={null} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={open} focus={P.POCKET} />
       {cast(t, [{ look: ME, a, expr: "smile" }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([12.6, 3.3, 8.6], [18.4, 1.9, 4.5], 36), cam([13.3, 3.25, 8.0], [18.4, 1.9, 4.6], 34), t, C.s09, C.s10)),
+  }, (t) => move(cam([11.0, 3.4, 9.6], [18.5, 1.95, 4.9], 36), cam([11.6, 3.35, 9.1], [18.5, 1.95, 4.9], 35), t, C.s09, C.s10)),
 
   // (10) "And by Monday's first lesson": Monday, the kids file in and stop: Sir Nibbles is back inside, eating
   mk("a10_monday", C.s10, C.s11, (t) => {
@@ -300,50 +304,50 @@ export const SHOTS_A: Shot[] = [
     });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} door={1} hamster={<Nibbles t={t} lookYaw={-0.5} />} />
       {cast(t, people, CS({ door: 1 }))}</>;
-  }, (t) => move(cam([21.2, 6.6, 10.6], [16.6, 3.3, -3.6], 44), cam([21.0, 6.4, 10.0], [16.6, 3.3, -3.6], 43), t, C.s10, C.s11)),
+  }, (t) => move(cam([20.6, 6.2, 11.0], [16.4, 3.0, -4.0], 46), cam([20.5, 6.1, 10.4], [16.4, 3.0, -4.0], 45), t, C.s10, C.s11)),
 
   // (11) "he's always back inside": Sir Nibbles, cheeks full, turns and looks right at us
   mk("a11_cheeks", C.s11, C.s12, (t) => {
     const ly = -0.55 + 0.55 * M.ease(M.seg(t, E.back6 - 0.1, E.back6 + 0.15));
     return <Room drawer={0} tape={1} wheel={0} board="Monday!" clock={8.5} focus={P.cagePoint([0.35, 1, 0.5])} hamster={<Nibbles t={t} lookYaw={ly} />} />;
-  }, (t) => move(cam([16.4, 3.95, 4.55], [20.25, 3.35, 4.35], 30), cam([16.9, 3.9, 4.5], [20.25, 3.35, 4.35], 29), t, C.s11, C.s12)),
+  }, (t) => move(cam([15.6, 4.1, 4.7], [20.2, 3.4, 4.35], 32), cam([16.1, 4.05, 4.6], [20.2, 3.4, 4.35], 31), t, C.s11, C.s12)),
 
   // (12) "My tape never broke": the tape still on; ME's jaw drops
   mk("a12_never", C.s12, C.s13, (t) => {
-    const tgt = add(tapePt(0, 0.4), [-0.03, 0, 0]);
-    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: { lean: 0.1, armR: 1.5 } };
+    const tgt = add(tapePt(0, 0.65), TAPE_OFF);
+    let a: Act = { position: ME_TAPE, yaw: meTapeYaw, pose: { lean: 0.1, armR: 1.6 } };
     const touch = 1 - M.ease(M.seg(t, E.never + 0.05, E.never + 0.3));
     a = reach(a, KID, tgt);
-    a.pose = M.mix(M.scale(a.pose ?? {}, touch), M.recoil(t, E.never + 0.05), { head: [lookAt(ME_TAPE, meTapeYaw, [15.0, 4.3, 7.4]) * 0.55 * (1 - touch), 0] });
+    a.pose = M.mix(M.scale(a.pose ?? {}, touch), M.recoil(t, E.never + 0.05), { head: [lookAt(ME_TAPE, meTapeYaw, TAPE_CAM) * 0.55 * (1 - touch), 0] });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={P.SEAM} hamster={<Nibbles t={t} lookYaw={-0.3} />} /><Stool />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "blank", "surprised", E.never) }], CS({ stool: true }))}</>;
-  }, (t) => move(cam([14.9, 4.4, 7.5], [18.7, 3.85, 3.0], 38), cam([15.3, 4.35, 7.1], [18.7, 3.85, 3.0], 37), t, C.s12, C.s13)),
+  }, (t) => move(cam([14.8, 4.5, -3.6], [18.0, 4.1, 4.2], 38), cam([15.1, 4.5, -3.1], [18.0, 4.1, 4.2], 37), t, C.s12, C.s13)),
 
   // (13) "I checked for bite marks": ME with the magnifying glass leans in and looks around the bars
   mk("a13_magnify", C.s13, C.s14, (t) => {
-    const pos: V3 = [17.6, 0, 7.6], yaw = M.yawTo(pos, [19.8, 0, 6.0]);
+    const pos: V3 = [17.7, 0, 8.3], yaw = 2.55;
     const a: Act = { position: pos, yaw, pose: M.mix({ armR: 1.95, armROut: -0.1 + 0.25 * Math.sin((t - C.s13) * 4) }, M.leanIn(t, C.s13 - 0.2), M.lookAround(t, E.checked, C.s14 + 0.2, 1, 0.5)) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={pos} hamster={<Nibbles t={t} lookYaw={0.6} />} />
       {cast(t, [{ look: ME, a, expr: "worried", hold: { R: <P.Magnifier /> } }], CS())}</>;
-  }, (t) => move(cam([13.6, 5.2, 0.6], [18.4, 3.6, 6.4], 42), cam([14.1, 5.1, 1.2], [18.4, 3.6, 6.4], 41), t, C.s13, C.s14)),
+  }, (t) => move(cam([14.4, 5.0, -2.4], [18.3, 3.4, 6.6], 42), cam([14.8, 4.95, -1.8], [18.3, 3.4, 6.6], 41), t, C.s13, C.s14)),
 
   // (14) "and gaps between the bars": close on the bars, the glass sweeps along them: no bite marks, no gaps
   mk("a14_bars", C.s14, C.s15, (t) => {
-    const pos: V3 = [17.6, 0, 7.6], yaw = M.yawTo(pos, [19.8, 0, 6.0]);
+    const pos: V3 = [17.7, 0, 8.3], yaw = 2.55;
     const sw = M.ease(M.seg(t, C.s14, C.s15));
     const a: Act = { position: pos, yaw, pose: M.mix({ armR: 1.95 + 0.15 * Math.sin(sw * PI), armROut: -0.35 + 0.65 * sw, lean: 0.12, head: [0, 0.1] }) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={P.CAGE_CENTER} hamster={<Nibbles t={t} lookYaw={0.9} />} />
       {cast(t, [{ look: ME, a, expr: "worried", hold: { R: <P.Magnifier /> } }], CS())}</>;
-  }, (t) => move(cam([16.3, 4.6, 9.8], [19.6, 3.9, 5.6], 36), cam([16.6, 4.6, 9.5], [19.8, 3.9, 5.4], 35), t, C.s14, C.s15)),
+  }, (t) => move(cam([16.5, 4.2, 1.4], [19.0, 3.7, 6.4], 38), cam([16.7, 4.15, 1.9], [19.0, 3.7, 6.4], 37), t, C.s14, C.s15)),
 
   // (15) "Nothing.": ME turns to us and shrugs
   mk("a15_nothing", C.s15, C.end, (t) => {
-    const pos: V3 = [17.2, 0, 6.8], camP: V3 = [12.0, 4.4, 9.8];
-    const tr = M.turn(M.yawTo(pos, [19.8, 0, 6.0]), M.yawTo(pos, camP), t, C.s15 + 0.05, 0.35);
+    const pos: V3 = [17.2, 0, 7.4], camP: V3 = [10.6, 4.6, 11.4];
+    const tr = M.turn(2.55, M.yawTo(pos, camP), t, C.s15 + 0.05, 0.35);
     const a: Act = { position: pos, yaw: tr.yaw, walk: tr.walk, pose: M.mix(M.shrug(t, E.nothing - 0.05, C.end + 0.5), M.idle(t, 6, 0.5), { armR: 0.3 * (1 - M.seg(t, C.s15, C.s15 + 0.3)) }) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={pos} hamster={<Nibbles t={t} lookYaw={-0.4} />} />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "blank", E.nothing), hold: { R: <P.Magnifier /> } }], CS())}</>;
-  }, (t) => move(cam([12.0, 4.4, 9.8], [17.6, 3.3, 5.6], 40), cam([12.5, 4.35, 9.4], [17.6, 3.3, 5.6], 39), t, C.s15, C.end)),
+  }, (t) => move(cam([10.6, 4.6, 11.4], [17.8, 3.2, 6.0], 40), cam([11.0, 4.55, 11.0], [17.8, 3.2, 6.0], 39), t, C.s15, C.end)),
 ];
 
 /** Small clue pops (top third, clear of the caption band and the clue props). The lead adds the hook stamp and the question. */
