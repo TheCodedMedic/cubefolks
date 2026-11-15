@@ -10,7 +10,7 @@ import type { Shot } from "../kit/core";
 import { rnd } from "../kit/core";
 import * as K from "../blocky/Collide";
 import {
-  act, mix, idle, walkPath, turn, yawTo, dAng, env, ease, seg, wave, raise, cheer, clap, headSnap, lookAround, recoil,
+  act, mix, scale as scaleP, idle, walkPath, turn, yawTo, dAng, env, ease, seg, wave, raise, cheer, clap, headSnap, lookAround, recoil,
   crossArms, spread, talk, stagger, leanIn, laugh, nod, hips, type Act,
 } from "../blocky/Motion";
 import { Corridor, Gym, GYM, gymCS, corridorCS, CORRIDOR_SPOTS } from "../blocky/SchoolHall";
@@ -46,8 +46,8 @@ const GROUND = K.groundFn(GCS(1));
 const RIDE_AT: V3 = [STOOL_AT[0], 0, STOOL_AT[2] - 0.4];
 const RIDE_YAW = 0.45;
 /** Hayes behind the ticket table (a step closer than HAYES_GYM so her hands reach over it), the customer mark in front. */
-const HT: V3 = [TTABLE_AT[0] - 0.5, 0, TTABLE_AT[2] - 2.1];
-const CUST: V3 = [TTABLE_AT[0] - 2.5, 0, TTABLE_AT[2] + 1.75];
+const HT: V3 = [TTABLE_AT[0] - 0.5, 0, TTABLE_AT[2] - 2.3];
+const CUST: V3 = [TTABLE_AT[0] - 3.0, 0, TTABLE_AT[2] + 2.0];
 
 /** THE LINE OF FORTY: lane A is the lead's GYM_LINE (two columns toward the doors), then it bends right along the doors
  *  wall (lane B) and comes back down the right side (lane C). Everyone faces the kid in front. */
@@ -107,10 +107,10 @@ const hop = (t: number, t0: number, from: V3, to: V3, dur = 0.45, h = 1.0) => {
   };
 };
 /** A rider getting on: from standing on the stool top, a hop up onto the empty air, spinning to face the line. */
-const mount = (t: number, t0: number, t1: number, s: number) => {
+const mount = (t: number, t0: number, t1: number, s: number, yaw0 = Math.PI) => {
   const r = ride(t, t1, RIDE_Y, s as typeof S.kid), u = ease(seg(t, t0, t1));
   const lift = t < t1 ? STOOL.top + (r.lift - STOOL.top) * u + Math.sin(Math.PI * seg(t, t0, t1)) * 0.9 : r.lift;
-  const yaw = t < t1 ? Math.PI + dAng(Math.PI, RIDE_YAW) * u : RIDE_YAW;
+  const yaw = t < t1 ? yaw0 + dAng(yaw0, RIDE_YAW) * u : RIDE_YAW;
   const pose: Pose = t < t1 ? { legL: (Math.PI / 2) * u, legR: (Math.PI / 2) * u, armL: 2.5 * (1 - u) + 1.25 * u, armR: 2.5 * (1 - u) + 1.25 * u } : r.pose;
   return { lift, yaw, pose };
 };
@@ -118,7 +118,7 @@ const mount = (t: number, t0: number, t1: number, s: number) => {
 // ---------------------------------------------------------------- BRO in the gym
 const BRO_WAIT: V3 = [-1.4, 0, 10.6];
 const B_RUN0 = T0("s31_front") - 1.1;
-const B_RUN: V3[] = [BRO_WAIT, [-1.3, 0, 4.4], [CUST[0] - 0.6, 0, CUST[2] + 2.2], CUST];
+const B_RUN: V3[] = [BRO_WAIT, [-1.3, 0, 4.4], [-0.8, 0, 1.2], CUST];
 const B_CLIMB0 = T0("s34_climbs") - 0.25;
 const B_HOP0 = B_CLIMB0 + 0.62;
 const B_MOUNT0 = B_HOP0 + 0.62, B_MOUNT1 = B_MOUNT0 + 0.42;
@@ -138,11 +138,10 @@ const broGym = (t: number): Pp => {
     const here = !w.moving && w.done;
     const c0: K.CharState = { position: w.position, yaw: w.yaw, scale: s, pose: { ...w.pose, lean: 0.15 } };
     const rk = here ? env(t, E.paid - 0.3, CHANGE + 0.55, 0.2, 0.25) : 0, lk = here ? env(t, E.ticket - 0.3, E.ticket + 0.4, 0.15, 0.25) : 0;
-    const rr = K.reachArm({ ...c0, pose: { ...c0.pose, armR: 2.2 } }, -1, [CUST[0] + 0.95, 3.25, CUST[2] - 1.55]).pose;
+    const rr = K.reachArm({ ...c0, pose: { ...c0.pose, armR: 2.2 } }, -1, [CUST[0] + 0.95, 3.6, CUST[2] - 1.25]).pose;
     const ll = K.reachArm({ ...c0, pose: { ...c0.pose, armL: 2.2 } }, 1, [CUST[0] - 0.75, 3.25, CUST[2] - 1.5]).pose;
-    const up = t < E.paid - 0.3 ? 1 : 0;
     const pose = mix(w.pose, here && idle(t, 7, 0.5), here && { lean: 0.15 * Math.max(rk, lk) },
-      { armR: (rr.armR ?? 0) * rk + 2.7 * up * (1 - rk), armROut: (rr.armROut ?? 0) * rk + 0.1 * up },
+      { armR: (rr.armR ?? 0) * rk + 2.7 * (1 - rk), armROut: (rr.armROut ?? 0) * rk + 0.1 * (1 - rk) },
       { armL: (ll.armL ?? 0) * lk, armLOut: (ll.armLOut ?? 0) * lk },
       t > CHANGE + 0.5 && cheer(t, CHANGE + 0.5, B_CLIMB0 + 0.2));
     const R = t < E.paid ? <HeldBill v={50} /> : t >= CHANGE ? <FanTens k={0.9} /> : undefined;
@@ -173,13 +172,12 @@ const dkGym = (t: number): Pp => {
   const s = S.kid, base = { id: "dk", look: DK_LOOK, s };
   if (t < DK_WALK0) return { ...base, a: { position: DK0, yaw: Math.PI + 0.2, pose: mix(idle(t, 3, 1), lookAt(DK0, Math.PI + 0.2, [0, 1, -4], 0.8), { head: [0, 0.25] }) }, expr: "smile" };
   if (t < DK_HOP0) { const w = walkPath([DK0, STOOL_FRONT], t, DK_WALK0, { scale: s }); return { ...base, a: { ...w, pose: mix(w.pose, { head: [0, 0.1] }) }, expr: "smile" }; }
-  if (t < DK_TOP) { const h = hop(t, DK_HOP0, STOOL_FRONT, STOOL_TOP, 0.5, 1.0); return { ...base, a: { position: h.position, yaw: Math.PI, pose: h.pose }, noFeet: h.air, expr: "grin" }; }
+  if (t < DK_TOP) { const h = hop(t, DK_HOP0, STOOL_FRONT, STOOL_TOP, 0.5, 1.0); return { ...base, a: { position: h.position, yaw: Math.PI + dAng(Math.PI, RIDE_YAW) * ease(seg(t, DK_HOP0 + 0.1, DK_TOP)), pose: h.pose }, noFeet: h.air, expr: "grin" }; }
   if (t < DK_MOUNT0) { // on top: turns round, hesitates, looks around (is it there?)
-    const tr = turn(Math.PI, RIDE_YAW, t, DK_TOP + 0.05, 0.4);
-    return { ...base, a: { position: STOOL_TOP, yaw: tr.yaw, walk: tr.walk, pose: mix(idle(t, 3, 0.6), lookAround(t, DK_TOP + 0.4, DK_MOUNT0, 1, 0.8), { armL: 0.25, armR: 0.25, armLOut: 0.15, armROut: 0.15 }) }, expr: "worried" };
+    return { ...base, a: { position: STOOL_TOP, yaw: RIDE_YAW, pose: mix(idle(t, 3, 0.6), lookAround(t, DK_TOP + 0.1, DK_MOUNT0, 1, 0.8), { armL: 0.25, armR: 0.25, armLOut: 0.15, armROut: 0.15 }) }, expr: "worried" };
   }
   if (t < T0("s31_front")) {
-    const m = mount(t, DK_MOUNT0, DK_MOUNT1, s);
+    const m = mount(t, DK_MOUNT0, DK_MOUNT1, s, RIDE_YAW);
     const pose = t < DK_MOUNT1 ? m.pose : mix(m.pose, { armL: 1.4, armLOut: 0.35 + 0.2 * Math.sin(t * 11) });
     return { ...base, a: { position: RIDE_AT, yaw: m.yaw, pose }, lift: m.lift, noFeet: true, expr: t < DK_MOUNT1 ? "surprised" : "laugh" };
   }
@@ -190,17 +188,17 @@ const dkGym = (t: number): Pp => {
 
 // ---------------------------------------------------------------- the next customer (pays the $10 Hayes takes)
 const NK_LOOK = KIDS[6];
-const NK_GO = T0("s30_take10") + 0.75;
-const NK_SIDE: V3 = [11.2, 0, 1.6];
+const NK_GO = E.each + 0.15;
+const NK_SIDE: V3 = [11.2, 0, 1.0];
 const nkGym = (t: number): Pp => {
   const s = S.kid, base = { id: "nk", look: NK_LOOK, s };
   if (t < NK_GO) {
     const c0: K.CharState = { position: CUST, yaw: Math.PI, scale: s, pose: { lean: 0.18 } };
     const give = env(t, E.ten15 - 0.3, E.each + 0.2, 0.25, 0.2);
     const r = K.reachArm({ ...c0, pose: { lean: 0.18, armR: 2.0 } }, -1, [CUST[0] + 1.15, 3.45, CUST[2] - 1.45]).pose;
-    return { ...base, a: { position: CUST, yaw: Math.PI, pose: mix(idle(t, 9, 0.6), { armR: (r.armR ?? 0) * give, armROut: (r.armROut ?? 0) * give, lean: 0.18 * give }, { head: [0, 0.1 * give] }) }, expr: "grin", hold: { R: t < E.each ? <HeldBill v={10} /> : undefined } };
+    return { ...base, a: { position: CUST, yaw: Math.PI, pose: mix(idle(t, 9, 0.6), { armR: (r.armR ?? 0) * give + 2.6 * (1 - give), armROut: (r.armROut ?? 0) * give, lean: 0.18 * give }, { head: [0, 0.1 * give] }) }, expr: "grin", hold: { R: t < E.each ? <HeldBill v={10} /> : undefined } };
   }
-  const w = walkPath([CUST, [CUST[0] + 1.2, 0, CUST[2] + 2.2], [CUST[0] + 4.5, 0, CUST[2] + 2.4], NK_SIDE], t, NK_GO, { scale: s, yaw0: Math.PI, turnIn: 0.25, yaw1: -0.7 });
+  const w = walkPath([CUST, [CUST[0], 0, CUST[2] + 1.8], [CUST[0] + 2.5, 0, 1.5], NK_SIDE], t, NK_GO, { scale: s, gait: "hurry", yaw0: Math.PI, turnIn: 0.25, yaw1: -0.7 });
   return { ...base, a: { ...w, pose: mix(w.pose, !w.moving && idle(t, 9, 0.6), w.done && lookAt(NK_SIDE, -0.7, RIDER_HEAD, 1)) }, expr: "happy" };
 };
 
@@ -235,7 +233,8 @@ const hayesGym = (t: number): Pp => {
   }
   // at the table: takes the $10 (s30), hands out ticket #1 (s32), takes THE fifty and gives $40 change (s33),
   // pockets the ten with a smirk at us (s35), then counts the money (s36 and the hook)
-  const lean = 0.34;
+  const lean = 0.42;
+  const HL: V3 = [HT[0] + 2.0, 0, HT[2]];
   const c0: K.CharState = { position: HT, yaw: 0, scale: 1, pose: { lean } };
   const reachR = (p: V3) => K.reachArm({ ...c0, pose: { lean, armR: 1.6 } }, -1, p).pose;
   const takeR = reachR([CUST[0] + 1.0, 3.6, CUST[2] - 2.0]);
@@ -245,11 +244,12 @@ const hayesGym = (t: number): Pp => {
   const wPay = env(t, E.paid - 0.2, CHANGE + 0.55, 0.2, 0.3);
   const w = Math.max(wTake, wTick, wPay);
   const pocket = env(t, E.first18 - 0.2, Infinity, 0.3);
-  const late = t > E.first18 + 0.45;
+  const late = t >= T0("s36_wide"); // she has stepped to the end of the table (her face clear of the cash box lid)
+  const fold = late ? 0 : 1 - Math.max(w, pocket);
   const pose = mix(late ? counting(t) : idle(t, 4, 0.6),
+    !late && (() => { const ca = crossArms(t, -10); return { armL: (ca.armL ?? 0) + 0.15 + lean * w * 1.1, armLOut: ca.armLOut, armR: ((ca.armR ?? 0) + 0.15) * fold, armROut: (ca.armROut ?? 0) * fold }; })(),
     !late && { lean: lean * w },
     { armR: (takeR.armR ?? 0) * wTake + (tickR.armR ?? 0) * wTick + (payR.armR ?? 0) * wPay, armROut: (takeR.armROut ?? 0) * wTake + (tickR.armROut ?? 0) * wTick + (payR.armROut ?? 0) * wPay },
-    !late && t > CHANGE + 0.3 && { armL: 0.25, armLOut: 0.05 },
     !late && pocket > 0 && { armR: -0.12 * pocket, armROut: 0.3 * pocket },
     !late && t > E.first18 - 0.3 && headSnap(t, E.first18 - 0.25, 0.42, -0.04, E.first18 + 0.6),
   );
@@ -258,7 +258,7 @@ const hayesGym = (t: number): Pp => {
     late ? <HeldBill v={10} /> : undefined;
   const L = t >= CHANGE ? <HeldBill v={50} /> : undefined;
   const expr: Expr = t > E.first18 - 0.3 ? "smirk" : t > E.paid && t < CHANGE + 0.6 ? "smirk" : wTick > 0.3 ? "smile" : talk(t, [E.ten15, E.each], "smirk");
-  return { ...base, a: { position: HT, yaw: 0, pose }, expr, hold: { R, L } };
+  return { ...base, a: { position: late ? HL : HT, yaw: 0, pose }, expr, hold: { R, L } };
 };
 
 /** Everyone in the gym at story time t (line filtered for cost where a shot sees only part of it). */
@@ -284,7 +284,7 @@ const hookScene = (t: number, cash: number) => {
 };
 
 // ================================================================================================ THE CORRIDOR
-const BAG_AT: V3 = [CORRIDOR_SPOTS.officeWallProp[0] - 0.3, 0, CORRIDOR_SPOTS.officeWallProp[2]];
+const BAG_AT: V3 = [CORRIDOR_SPOTS.officeWallProp[0] - 0.3, 0, CORRIDOR_SPOTS.officeWallProp[2] - 0.6];
 const BAG_YAW = -0.75;
 const CCS = (open = 1): K.Box[] => [...corridorCS(open), ...peanutCS(BAG_AT)];
 const ME_PATH: V3[] = [[0.5, 0, -23.2], [0.5, 0, -16.9]];
@@ -342,8 +342,8 @@ const CorrSet: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, c
 const corrScene = (t: number, focus: V3, hayes = false) => <CorrSet focus={focus}>{cast(t, corrCast(t, hayes), CCS(1))}</CorrSet>;
 
 // ================================================================================================ the doors (s25)
-const HD_PATH: V3[] = [[0, 0, 34.5], [0, 0, 29.4]];
-const HD0 = T0("s25_doors") - 0.25;
+const HD_PATH: V3[] = [[0, 0, 33.6], [0, 0, 30.0]];
+const HD0 = T0("s25_doors") - 0.9;
 const PUSH0 = E.opened - 0.3, PUSH1 = E.opened + 0.2;
 const doorsOpen = (t: number) => (t < PUSH0 ? 0 : t < PUSH1 ? 0.33 * ease(seg(t, PUSH0, PUSH1)) : 0.33 + 0.67 * ease(seg(t, PUSH1, E.doors + 0.1)));
 const HIN_PATH: V3[] = [[0, 0, 28.6], [0.2, 0, 23.0]];
@@ -358,15 +358,15 @@ const hayesDoors = (t: number): Pp => {
   const base = { id: "hayes", look: HAYES, s: 1 };
   if (t < HIN0) {
     const w = walkPath(HD_PATH, t, HD0, { yaw1: Math.PI });
-    const step = ease(seg(t, PUSH0 - 0.05, PUSH1)) * 0.75; // a step in with the push
+    const step = ease(seg(t, PUSH0 - 0.05, PUSH1)) * 1.2; // a step in with the push
     const pos: V3 = [w.position[0], 0, w.position[2] - step];
-    const c0: K.CharState = { position: pos, yaw: Math.PI, scale: 1, pose: { lean: 0.12 } };
+    const c0: K.CharState = { position: pos, yaw: Math.PI, scale: 1, pose: { lean: 0.2 } };
     const o = doorsOpen(Math.min(t, PUSH1));
     const hold = env(t, PUSH0 - 0.3, PUSH1 + 0.12, 0.2, 0.15);
-    const rL = K.reachArm({ ...c0, pose: { lean: 0.12, armL: 1.5 } }, 1, leafPoint(1, o, 3.4)).pose;
-    const rR = K.reachArm({ ...c0, pose: { lean: 0.12, armR: 1.5 } }, -1, leafPoint(-1, o, 3.4)).pose;
-    const pose = mix(w.pose, idle(t, 4, 0.5), { lean: 0.12 * hold, armL: (rL.armL ?? 0) * hold, armLOut: (rL.armLOut ?? 0) * hold, armR: (rR.armR ?? 0) * hold, armROut: (rR.armROut ?? 0) * hold });
-    return { ...base, a: { position: pos, yaw: Math.PI, walk: w.walk, pose }, expr: t < PUSH0 ? "smile" : "smirk" };
+    const rL = K.reachArm({ ...c0, pose: { lean: 0.2, armL: 1.5 } }, 1, leafPoint(1, o, 3.4)).pose;
+    const rR = K.reachArm({ ...c0, pose: { lean: 0.2, armR: 1.5 } }, -1, leafPoint(-1, o, 3.4)).pose;
+    const pose = mix(w.pose, idle(t, 4, 0.5), { lean: 0.2 * hold, armL: (rL.armL ?? 0) * hold, armLOut: Math.max(-0.2, rL.armLOut ?? 0) * hold, armR: (rR.armR ?? 0) * hold, armROut: Math.max(-0.2, rR.armROut ?? 0) * hold });
+    return { ...base, a: { position: pos, yaw: Math.PI, walk: w.walk, pose }, expr: t < PUSH0 ? "smile" : "smirk", allow: ["door"] };
   }
   const w = walkPath(HIN_PATH, t, HIN0, { gait: "walk" });
   return { ...base, a: { ...w, pose: mix(w.pose, spread(t, E.doors - 0.05, E.doors + 1.0)) }, expr: "grin" };
@@ -378,11 +378,11 @@ export const SHOTS_B: Shot[] = [
   // ---------------------------------------------------------------- b1 THE HOOK: BRO riding the empty air, Hayes counting
   mk("s01_hook", {
     scene: (t) => hookScene(t, 1),
-    cam: mv("s01_hook", c([-6.6, 3.2, 9.8], [2.4, 3.9, -3.8], 50), c([-5.3, 3.4, 7.4], [2.5, 4.0, -3.9], 47), 0.008),
+    cam: mv("s01_hook", c([4.4, 6.0, 9.8], [3.0, 3.8, -4.0], 50), c([4.2, 5.6, 8.0], [3.0, 3.9, -4.0], 47), 0.008),
   }),
   mk("s02_cash", {
     scene: (t) => hookScene(t, 1),
-    cam: mv("s02_cash", c([8.8, 6.1, 2.2], [4.9, 3.7, -3.2], 42), c([8.4, 5.9, 1.4], [4.9, 3.8, -3.4], 39), 0.005),
+    cam: mv("s02_cash", c([3.0, 6.6, 3.2], [5.6, 3.8, -3.6], 44), c([3.2, 6.4, 2.4], [5.7, 3.9, -3.7], 40), 0.005),
   }),
 
   // ---------------------------------------------------------------- b10 the office corridor, next morning
@@ -392,7 +392,7 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s20_bag", { // CLUE: the giant bag of peanuts by the PRINCIPAL door; ME's head snaps to it
     scene: (t) => corrScene(t, [3, 0, -15]),
-    cam: mv("s20_bag", c([3.8, 4.6, -1.0], [3.9, 3.0, -16.0], 48), c([3.8, 4.4, -2.2], [4.0, 3.0, -15.8], 45)),
+    cam: mv("s20_bag", c([2.8, 4.8, 1.0], [4.3, 3.0, -15.5], 54), c([2.9, 4.6, -0.2], [4.4, 3.0, -15.4], 51)),
   }),
   mk("s21_bagwide", {
     scene: (t) => corrScene(t, [3, 0, -16]),
@@ -417,6 +417,7 @@ export const SHOTS_B: Shot[] = [
   mk("s25_doors", {
     scene: (t) => <GymSet doors={doorsOpen(t)} focus={[0, 0, 26]} cover={1}>
       <pointLight position={[0, 9, 36]} intensity={90} distance={26} color="#fff2dc" />
+      <mesh position={[0, 6, 44.5]} receiveShadow><boxGeometry args={[30, 12, 1]} /><meshStandardMaterial color="#e6dcc6" roughness={0.9} /></mesh>
       {cast(t, [...theLine(t, 40, (i) => i < 22), broGym(t), hayesDoors(t)], [...gymCS(doorsOpen(t)), ...stoolCS(STOOL_AT), ...ridesCS(SIGN), ...ticketTableCS(TTABLE_AT)])}
     </GymSet>,
     cam: mv("s25_doors", c([-7.5, 5.6, 13.5], [0.4, 4.6, 27.5], 52), c([-6.8, 5.0, 12.0], [0.6, 4.4, 26.5], 50)),
@@ -468,7 +469,7 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s36_wide", { // wide high: BRO riding mid-gym, the forty behind; cranes down toward the hook's framing (cuts into s01)
     scene: (t) => <GymSet focus={[3, 0, 0]} cover={0} cash={1}>{cast(t, gymCast(t), GCS(1))}</GymSet>,
-    cam: mv("s36_wide", c([-15, 18, 22], [3, 1.5, 0], 54), c([-8.2, 8.2, 12.6], [2.4, 3.7, -3.8], 50), 0.008),
+    cam: mv("s36_wide", c([14, 19, 25], [3, 1.5, 0], 56), c([6.0, 8.6, 13.5], [3.0, 3.8, -4.0], 50), 0.008),
   }),
 ];
 void [eyeY, nod, laugh, hips, act];
