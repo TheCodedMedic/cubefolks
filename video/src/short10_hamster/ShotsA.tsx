@@ -245,7 +245,7 @@ export const SHOTS_A: Shot[] = [
     return <><Room drawer={m.drawer} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={1} focus={P.HOLE} />
       {m.drawer === null && <CarriedTray handle={m.handle} yaw={m.trayYaw} />}
       {cast(t, [{ look: MAYA, a, expr: M.faceAt(t, "smile", "happy", E.maya4 + 0.2) }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([16.2, 4.7, 13.8], [17.6, 2.7, 5.0], 40), cam([16.0, 4.6, 13.2], [17.4, 2.75, 5.2], 39), t, C.s06, C.s07)),
+  }, (t) => move(cam([15.0, 4.9, 14.2], [18.2, 2.6, 5.0], 38), cam([15.2, 4.85, 13.6], [18.2, 2.65, 5.0], 37), t, C.s06, C.s07)),
 
   // (7) "...drawer." / "We clean": Maya at the sink washing it, humming (eyes closed, head bobbing)
   mk("a07_sink", C.s07, C.s08, (t) => {
@@ -304,7 +304,7 @@ export const SHOTS_A: Shot[] = [
     });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} door={1} hamster={<Nibbles t={t} lookYaw={-0.5} />} />
       {cast(t, people, CS({ door: 1 }))}</>;
-  }, (t) => move(cam([21.2, 6.4, 12.2], [17.4, 2.7, -2.6], 48), cam([21.1, 6.3, 11.6], [17.4, 2.7, -2.6], 47), t, C.s10, C.s11)),
+  }, (t) => move(cam([17.4, 6.2, 12.8], [17.6, 2.8, -3.0], 46), cam([17.4, 6.1, 12.2], [17.6, 2.8, -3.0], 45), t, C.s10, C.s11)),
 
   // (11) "he's always back inside": Sir Nibbles, cheeks full, turns and looks right at us
   mk("a11_cheeks", C.s11, C.s12, (t) => {
@@ -331,14 +331,14 @@ export const SHOTS_A: Shot[] = [
       {cast(t, [{ look: ME, a, expr: "worried", hold: { R: <P.Magnifier /> } }], CS())}</>;
   }, (t) => move(cam([14.4, 5.0, -2.4], [18.3, 3.4, 6.6], 42), cam([14.8, 4.95, -1.8], [18.3, 3.4, 6.6], 41), t, C.s13, C.s14)),
 
-  // (14) "and gaps between the bars": close on the bars, the glass sweeps along them: no bite marks, no gaps
+  // (14) "and gaps between the bars": from inside the cage (Sir Nibbles' view): the bars in front, ME peering through the glass
   mk("a14_bars", C.s14, C.s15, (t) => {
     const pos: V3 = [17.7, 0, 8.3], yaw = 2.55;
     const sw = M.ease(M.seg(t, C.s14, C.s15));
     const a: Act = { position: pos, yaw, pose: M.mix({ armR: 1.95 + 0.15 * Math.sin(sw * PI), armROut: -0.35 + 0.65 * sw, lean: 0.12, head: [0, 0.1] }) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={P.CAGE_CENTER} hamster={<Nibbles t={t} lookYaw={0.9} />} />
       {cast(t, [{ look: ME, a, expr: "worried", hold: { R: <P.Magnifier /> } }], CS())}</>;
-  }, (t) => move(cam([15.8, 4.4, 0.2], [18.6, 3.8, 7.0], 34), cam([16.0, 4.35, 0.7], [18.6, 3.8, 7.0], 33), t, C.s14, C.s15)),
+  }, (t) => move(cam([20.85, 4.5, 4.1], [17.9, 3.7, 8.0], 44), cam([20.75, 4.45, 4.3], [17.9, 3.7, 8.0], 42), t, C.s14, C.s15)),
 
   // (15) "Nothing.": ME turns to us and shrugs
   mk("a15_nothing", C.s15, C.end, (t) => {

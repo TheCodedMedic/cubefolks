@@ -514,11 +514,13 @@ const s33 = mk("s33", {
 // 34 (M) shot 1's angle: the empty cage, the wheel still turning, the door taped and padlocked. Ends on shot 1's first framing.
 const s34 = mk("s34", {
   scene: (t) => <>
-    <Lights focus={Pr.CAGE_POS} />
-    <Classroom clock={2.25} />
-    <Pr.ClassCage drawer={0} wheel={t * 3.2} tape={1} lock />
+    <Lights focus={Pr.CAGE_CENTER} />
+    <Classroom />
+    <Pr.ClassCage drawer={0} wheel={((u) => 7.5 * u - 0.6 * u * u)(t - T.END + 0.6)} tape={1} lock />
   </>,
-  cam: (t) => { const [a, b] = span("s34"), u = M.ease(c01((t - a) / (b - a))); const end = shot1Cam(0); return backOff(end, 1.2 * (1 - u)); },
+  // lead: shot 1's own push run backwards in time (SHOT1_CAM extrapolates for t < 0), the same room/clock/wheel phase as
+  // shot 1, so the last frame continues straight into frame 0.
+  cam: (t) => shot1Cam(t - T.END),
 });
 void Ch;
 
