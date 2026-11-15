@@ -60,7 +60,7 @@ const nightDom = () => <Grade time="interiorNight" />;
 /** Peanut's cage local floor height (bedding). */
 const PB = Pr.CAGE.base;
 /** Peanut's cage is drawn at 0.8: a hamster drawn in world coordinates near it uses this scale. */
-const HS = 1.0;
+const HS = 0.85;
 /** The tip-out spot on the bed (shots 16-18): the bag lies on the blanket, its pocket toward the camera side. */
 const BED_BAG: V3 = [-5.65, 2.03, -0.9];
 const BED_BAG_YAW = -1.0;
@@ -360,8 +360,8 @@ const s27 = mk("s27", {
       <Night focus={BED_HIP} />
       <Quilt />
       <InBed t={t} up={1} expr={g < 1 ? "worried" : "stare"} pose={{ armL: 0.4 + 0.75 * g + Math.sin(PI * g) * 0.5, armLOut: 0.5 * Math.sin(PI * g), armR: 0.3 + 0.9 * g + 0.18 * press, head: [0.35 * (1 - g), 0.3 * g], twist: 0.25 * Math.sin(PI * g) }} />
-      <Pr.Phone p={ph} r={[g * 0.35 - (1 - g) * PI / 2, PI, 0]} screen={t > at(16, "video") ? "play" : "rec"} />
-      {g > 0.5 && <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={6} distance={3.5} decay={2} color="#9cc4ff" />}
+      <Pr.Phone p={ph} r={[g * 0.95 - (1 - g) * PI / 2, PI, 0]} screen={t > at(16, "video") ? "play" : "rec"} />
+      {g > 0.5 && <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={2.2} distance={3.5} decay={2} color="#9cc4ff" />}
     </>;
   },
   cam: mv("s27", cam([-5.0, 4.9, 2.2], [-7.8, 3.3, -5.0], 40), cam([-5.4, 4.7, 1.4], [-7.8, 3.4, -5.0], 38)),
@@ -418,7 +418,7 @@ const N_TOP: V3 = add(HB, [0, 2.0, 0]);
 const N_DESK: V3 = [Pr.HOME_DESK.x0 + 0.35, Pr.DESK_H, -2.2];
 const N_DOOR: V3 = [Pr.PCAGE_POS[0] - 0.35, Pr.DESK_H, -4.15];
 const N_IN: V3 = [Pr.PCAGE_POS[0] - 0.35, Pr.DESK_H + PB * 0.8, -3.35];
-const N_NEST: V3 = add(NEST_W, [0.05, 0, -0.25]);
+const N_NEST: V3 = [Pr.PCAGE_POS[0] - 0.05, Pr.DESK_H + PB * 0.8, -2.45];
 const nibbles30 = (t: number): { p: V3; yaw: number; walk?: number; curl: number } => {
   const [a] = span("s30");
   const k = [0.0, 0.3, 0.5, 0.82, 0.98, 1.12];
@@ -435,12 +435,16 @@ const s30 = mk("s30", {
     const n = nibbles30(t), [a] = span("s30");
     const pc = M.ease(c01((t - a - 1.15) / 0.25));
     return <>
-      <Night focus={[8.4, 0, -2.4]} wheel={t * 1.5} peanut={<Pr.Hamster look={Pr.PEANUT} p={[-Pr.CAGE.w / 2 + 0.75, PB, Pr.CAGE.d / 2 - 0.45]} yaw={-PI / 2 - 0.8} curl={pc} lookYaw={pc < 0.2 ? 0.4 : 0} blink={pc} />} />
+      <Night focus={[8.4, 0, -2.4]} wheel={t * 1.5} peanut={<Pr.Hamster look={Pr.PEANUT} p={[-1.2, PB, 0.35]} yaw={-PI / 2 - 0.8} curl={pc} lookYaw={pc < 0.2 ? 0.4 : 0} blink={pc} />} />
       <Pr.Backpack p={HB} yaw={HB_YAW} color={Pr.ME_BAG.color} stripe={Pr.ME_BAG.stripe} open={1} wiggle={t - a < 0.3 ? 1 : 0} t={t} />
       <Pr.Hamster look={Pr.NIBBLES} p={n.p} yaw={n.yaw} walk={n.walk} curl={n.curl} blink={n.curl} s={HS} cheeks={0.2} />
     </>;
   },
-  cam: mv("s30", cam([-2.4, 5.6, -2.9], [8.6, 2.3, -2.1], 40), cam([-1.6, 5.5, -2.9], [8.6, 2.4, -2.1], 38)),
+  cam: (t) => {
+    const [a, b] = span("s30"), tp = a + 0.95;
+    const wide = move(cam([-2.4, 5.6, -2.9], [8.6, 2.3, -2.1], 40), cam([-1.8, 5.5, -2.9], [8.6, 2.4, -2.1], 39), t, a, tp, 0.015);
+    return move(wide, cam([5.4, 5.5, -5.8], [10.0, 3.8, -2.9], 38), t, tp, b - 0.05, 0.01);
+  },
   dom: nightDom,
 });
 // 31 (M) ME, sitting up in bed with the phone, looks up from the screen toward Peanut's cage and slowly smirks.
@@ -452,8 +456,8 @@ const s31 = mk("s31", {
       <Night focus={BED_HIP} />
       <Quilt />
       <InBed t={t} up={1} expr={up < 0.5 ? "smile" : "smirk"} pose={{ armL: 1.15, armR: 1.2, head: [0.75 * up, 0.3 * (1 - up) - 0.04 * up], tilt: 0.12 * up, twist: 0.12 * up }} />
-      <Pr.Phone p={PHONE_HELD} r={[0.35, PI, 0]} screen="play" />
-      <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={6} distance={3.5} decay={2} color="#9cc4ff" />
+      <Pr.Phone p={PHONE_HELD} r={[0.95, PI, 0]} screen="play" />
+      <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={2.2} distance={3.5} decay={2} color="#9cc4ff" />
     </>;
   },
   cam: mv("s31", cam([-5.6, 4.9, 1.6], [-8.0, 3.7, -5.3], 40), cam([-6.0, 4.8, 0.6], [-8.0, 3.75, -5.3], 38)),
