@@ -14,3 +14,6 @@
 | 10 | 873-969 | claude/short08-part10 |
 | 11 | 970-1066 | claude/short08-part11 |
 | 12 | 1067-1166 | claude/short08-part12 |
+
+## v2 (coordinator notes, frozen ad3bbb2): parts 01, 04, 05, 10, 11, 12 re-rendered on branches claude/short08-v2-partKK;
+parts 02, 03, 06, 07, 08, 09 from 766c567 are unchanged by ad3bbb2 (no shot, pop or rider in those frames changed).
