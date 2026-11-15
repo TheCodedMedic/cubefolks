@@ -487,7 +487,7 @@ const s32 = mk("s32", {
 });
 // 33 (MW) Friday: ME sets the striped backpack down right beside the cage, pocket open, turns to the camera, smirks and winks.
 const ME33: V3 = [16.3, 0, Pr.HOLE[2] - 1.0];
-const ME33_YAW = 0.9;
+const ME33_YAW = 0.35; // lead: nearly facing the camera while lowering the bag (no back of the head)
 const CAM33: V3 = [14.2, 4.8, 12.6];
 const MAYA_SINK: V3 = [SINK[0] + 0.9, 0, SINK[2] - 0.6];
 const s33 = mk("s33", {
@@ -499,7 +499,7 @@ const s33 = mk("s33", {
     const tt = a + D * 0.48;
     const tr = M.turn(ME33_YAW, M.yawTo(ME33, CAM33), t, tt, 0.3);
     const wink = c01((t - (tt + 0.4)) / 0.12) * (1 - c01((t - (tt + 0.62)) / 0.12));
-    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.85 * (1 - down), armL: 0.85 * (1 - down) }, M.pickUp(t, a + 0.02, D * 0.62), { head: [0, -0.22 * Math.sin(PI * c01((t - a - 0.02) / (D * 0.62)))] }, M.point(t, tt + 0.3), { tilt: 0.16 * wink, head: [0, -0.04 * wink] });
+    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.85 * (1 - down), armL: 0.85 * (1 - down) }, M.scale(M.pickUp(t, a + 0.02, D * 0.62), 0.55), { head: [0.35, -0.08 * Math.sin(PI * c01((t - a - 0.02) / (D * 0.62)))] }, M.point(t, tt + 0.3), { tilt: 0.16 * wink, head: [0, -0.04 * wink] });
     const maya = { position: MAYA_SINK, yaw: -0.4, pose: M.mix(M.idle(t, 3, 0.5), M.stir(t, a - 1, Infinity, 2.4)) };
     return <>
       <Lights focus={[17, 0, 4]} />
