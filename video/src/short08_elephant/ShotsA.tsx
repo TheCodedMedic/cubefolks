@@ -581,7 +581,7 @@ const s18: Shot = mk("s18_list", {
     const h: ActLike = { ...r, pose: { ...r.pose, armL: lerp(r.pose!.armL ?? 0, -0.22, away), armLOut: lerp(r.pose!.armLOut ?? 0, 0.32, away) } };
     const bro = at0(BRO_T, -0.3, M.mix(M.idle(t, 1, 0.5), { head: [-0.6, -0.1] }));
     return <Yard focus={listPoint(0, 0)}>
-      <Stand glow={0.3} boxes={0} certs={0} />
+      <Stand glow={0.3} boxes={0} certs={0} cash={false} />
       <Ch look={HAYES} a={h} t={t} expr={t < E.left ? M.talk(t, [E.which, E.pets9], "blank") : "smirk"} blink={blinkOn(t, E.left + 0.25)} cs={YCS} others={[st(bro, S.bro)]} />
       <Ch look={BRO} a={bro} t={t} scale={S.bro} expr="worried" cs={YCS} others={[st(h, 1)]} />
     </Yard>;
