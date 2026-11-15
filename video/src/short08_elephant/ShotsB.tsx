@@ -251,7 +251,7 @@ const hayesGym = (t: number): Pp => {
     !late && { lean: lean * w },
     { armR: (takeR.armR ?? 0) * wTake + (tickR.armR ?? 0) * wTick + (payR.armR ?? 0) * wPay, armROut: (takeR.armROut ?? 0) * wTake + (tickR.armROut ?? 0) * wTick + (payR.armROut ?? 0) * wPay },
     !late && pocket > 0 && { armR: -0.12 * pocket, armROut: 0.3 * pocket },
-    !late && t > E.first18 - 0.3 && headSnap(t, E.first18 - 0.25, 0.65, -0.04, E.first18 + 0.6),
+    !late && t > E.first18 - 0.3 && headSnap(t, E.first18 - 0.25, 1.15, -0.08, E.first18 + 0.6),
   );
   const R = t > E.each - 0.05 && t < E.first16 - 0.3 ? <HeldBill v={10} /> : t >= E.first16 - 0.3 && t < E.ticket ? <HeldTicket n={1} /> :
     t >= E.paid && t < CHANGE ? <HeldBill v={50} /> : t >= CHANGE - 0.02 && t < CHANGE + 0.02 ? undefined : t > CHANGE + 0.3 && t < E.first18 + 0.25 ? <HeldBill v={10} /> :
@@ -451,7 +451,7 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s32_ticket", {
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 10 }), GCS(1))}</GymSet>,
-    cam: mv("s32_ticket", c([13.0, 5.6, 3.0], [3.6, 3.3, -2.5], 44), c([12.4, 5.5, 2.6], [3.6, 3.3, -2.5], 42)),
+    cam: mv("s32_ticket", c([12.6, 7.0, 0.6], [3.4, 3.4, -2.2], 46), c([12.0, 6.8, 0.3], [3.4, 3.4, -2.2], 44)),
   }),
   // ---------------------------------------------------------------- b17 he pays with THE fifty; $40 change
   mk("s33_fifty", {
@@ -465,7 +465,7 @@ export const SHOTS_B: Shot[] = [
   // ---------------------------------------------------------------- b18 the first ten dollars she made
   mk("s35_smirk", {
     scene: (t) => <GymSet focus={[5, 0, -3]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 12 }), GCS(1))}</GymSet>,
-    cam: mv("s35_smirk", c([9.6, 5.2, 1.6], [5.0, 4.3, -4.8], 40), c([9.2, 5.1, 1.0], [5.0, 4.4, -4.8], 36)),
+    cam: mv("s35_smirk", c([13.8, 6.4, -1.2], [5.2, 4.5, -4.6], 42), c([13.0, 6.2, -1.5], [5.2, 4.6, -4.6], 39)),
   }),
   mk("s36_wide", { // wide high: BRO riding mid-gym, the forty behind; cranes down toward the hook's framing (cuts into s01)
     scene: (t) => <GymSet focus={[3, 0, 0]} cover={0} cash={1}>{cast(t, gymCast(t), GCS(1))}</GymSet>,
