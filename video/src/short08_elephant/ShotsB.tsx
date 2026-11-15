@@ -174,7 +174,7 @@ const dkGym = (t: number): Pp => {
   if (t < DK_HOP0) { const w = walkPath([DK0, STOOL_FRONT], t, DK_WALK0, { scale: s }); return { ...base, a: { ...w, pose: mix(w.pose, { head: [0, 0.1] }) }, expr: "smile" }; }
   if (t < DK_TOP) { const h = hop(t, DK_HOP0, STOOL_FRONT, STOOL_TOP, 0.5, 1.0); return { ...base, a: { position: h.position, yaw: Math.PI + dAng(Math.PI, RIDE_YAW) * ease(seg(t, DK_HOP0 + 0.1, DK_TOP)), pose: h.pose }, noFeet: h.air, expr: "grin" }; }
   if (t < DK_MOUNT0) { // on top: turns round, hesitates, looks around (is it there?)
-    return { ...base, a: { position: STOOL_TOP, yaw: RIDE_YAW, pose: mix(idle(t, 3, 0.6), lookAround(t, DK_TOP + 0.1, DK_MOUNT0, 1, 0.8), { armL: 0.25, armR: 0.25, armLOut: 0.15, armROut: 0.15 }) }, expr: "worried" };
+    return { ...base, a: { position: STOOL_TOP, yaw: RIDE_YAW, pose: mix(idle(t, 3, 0.6), lookAround(t, DK_TOP + 0.1, DK_MOUNT0, -1, 0.8), { armL: 0.25, armR: 0.25, armLOut: 0.15, armROut: 0.15 }) }, expr: "worried" };
   }
   if (t < T0("s31_front")) {
     const m = mount(t, DK_MOUNT0, DK_MOUNT1, s, RIDE_YAW);
@@ -189,7 +189,7 @@ const dkGym = (t: number): Pp => {
 // ---------------------------------------------------------------- the next customer (pays the $10 Hayes takes)
 const NK_LOOK = KIDS[6];
 const NK_GO = E.each + 0.15;
-const NK_SIDE: V3 = [11.2, 0, 1.0];
+const NK_SIDE: V3 = [11.6, 0, 5.0];
 const nkGym = (t: number): Pp => {
   const s = S.kid, base = { id: "nk", look: NK_LOOK, s };
   if (t < NK_GO) {
@@ -198,7 +198,7 @@ const nkGym = (t: number): Pp => {
     const r = K.reachArm({ ...c0, pose: { lean: 0.18, armR: 2.0 } }, -1, [CUST[0] + 1.15, 3.45, CUST[2] - 1.45]).pose;
     return { ...base, a: { position: CUST, yaw: Math.PI, pose: mix(idle(t, 9, 0.6), { armR: (r.armR ?? 0) * give + 2.6 * (1 - give), armROut: (r.armROut ?? 0) * give, lean: 0.18 * give }, { head: [0, 0.1 * give] }) }, expr: "grin", hold: { R: t < E.each ? <HeldBill v={10} /> : undefined } };
   }
-  const w = walkPath([CUST, [CUST[0], 0, CUST[2] + 1.8], [CUST[0] + 2.5, 0, 1.5], NK_SIDE], t, NK_GO, { scale: s, gait: "hurry", yaw0: Math.PI, turnIn: 0.25, yaw1: -0.7 });
+  const w = walkPath([CUST, [CUST[0], 0, CUST[2] + 1.8], [CUST[0] + 2.5, 0, 1.2], [8.0, 0, 1.2], NK_SIDE], t, NK_GO, { scale: s, gait: "hurry", yaw0: Math.PI, turnIn: 0.25, yaw1: -0.7 });
   return { ...base, a: { ...w, pose: mix(w.pose, !w.moving && idle(t, 9, 0.6), w.done && lookAt(NK_SIDE, -0.7, RIDER_HEAD, 1)) }, expr: "happy" };
 };
 
@@ -251,12 +251,12 @@ const hayesGym = (t: number): Pp => {
     !late && { lean: lean * w },
     { armR: (takeR.armR ?? 0) * wTake + (tickR.armR ?? 0) * wTick + (payR.armR ?? 0) * wPay, armROut: (takeR.armROut ?? 0) * wTake + (tickR.armROut ?? 0) * wTick + (payR.armROut ?? 0) * wPay },
     !late && pocket > 0 && { armR: -0.12 * pocket, armROut: 0.3 * pocket },
-    !late && t > E.first18 - 0.3 && headSnap(t, E.first18 - 0.25, 0.42, -0.04, E.first18 + 0.6),
+    !late && t > E.first18 - 0.3 && headSnap(t, E.first18 - 0.25, 0.65, -0.04, E.first18 + 0.6),
   );
   const R = t > E.each - 0.05 && t < E.first16 - 0.3 ? <HeldBill v={10} /> : t >= E.first16 - 0.3 && t < E.ticket ? <HeldTicket n={1} /> :
     t >= E.paid && t < CHANGE ? <HeldBill v={50} /> : t >= CHANGE - 0.02 && t < CHANGE + 0.02 ? undefined : t > CHANGE + 0.3 && t < E.first18 + 0.25 ? <HeldBill v={10} /> :
     late ? <HeldBill v={10} /> : undefined;
-  const L = t >= CHANGE ? <HeldBill v={50} /> : undefined;
+  const L = (t >= CHANGE && t < E.first18 - 0.6) || late ? <HeldBill v={50} /> : undefined;
   const expr: Expr = t > E.first18 - 0.3 ? "smirk" : t > E.paid && t < CHANGE + 0.6 ? "smirk" : wTick > 0.3 ? "smile" : talk(t, [E.ten15, E.each], "smirk");
   return { ...base, a: { position: late ? HL : HT, yaw: 0, pose }, expr, hold: { R, L } };
 };
@@ -378,7 +378,7 @@ export const SHOTS_B: Shot[] = [
   // ---------------------------------------------------------------- b1 THE HOOK: BRO riding the empty air, Hayes counting
   mk("s01_hook", {
     scene: (t) => hookScene(t, 1),
-    cam: mv("s01_hook", c([4.4, 6.0, 9.8], [3.0, 3.8, -4.0], 50), c([4.2, 5.6, 8.0], [3.0, 3.9, -4.0], 47), 0.008),
+    cam: mv("s01_hook", c([4.4, 6.6, 12.8], [3.4, 3.2, -4.2], 52), c([4.3, 6.2, 11.0], [3.4, 3.3, -4.2], 50), 0.008),
   }),
   mk("s02_cash", {
     scene: (t) => hookScene(t, 1),
@@ -429,7 +429,7 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s27_stool", {
     scene: (t) => <GymSet focus={stoolFocus} cover={1}>{cast(t, gymCast(t, { line: (i) => i < 12, nk: false }), GCS(1))}</GymSet>,
-    cam: mv("s27_stool", c([-2.0, 3.6, 8.0], [0.2, 2.8, -3.8], 46), c([-1.6, 3.8, 6.8], [0.2, 3.0, -4.0], 44)),
+    cam: mv("s27_stool", c([-4.2, 4.4, 12.0], [0, 2.8, -3.0], 46), c([-3.6, 4.4, 10.6], [0, 3.0, -3.4], 44)),
   }),
   // ---------------------------------------------------------------- b15 THE TWIST: ELEPHANT RIDES $10
   mk("s28_sign", {
@@ -442,7 +442,7 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s30_take10", { // close on the money: her hand takes the $10
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 6 }), GCS(1))}</GymSet>,
-    cam: mv("s30_take10", c([2.0, 4.6, -6.6], [3.7, 3.4, -1.8], 44), c([2.2, 4.5, -6.2], [3.8, 3.4, -1.8], 40)),
+    cam: mv("s30_take10", c([13.2, 5.8, 2.9], [3.8, 3.5, -2.6], 44), c([12.6, 5.6, 2.4], [3.8, 3.5, -2.6], 41)),
   }),
   // ---------------------------------------------------------------- b16 BRO buys the first ticket
   mk("s31_front", {
@@ -451,12 +451,12 @@ export const SHOTS_B: Shot[] = [
   }),
   mk("s32_ticket", {
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 10 }), GCS(1))}</GymSet>,
-    cam: mv("s32_ticket", c([-0.6, 4.2, -6.2], [3.8, 3.2, -1.8], 48), c([-0.3, 4.2, -5.8], [3.8, 3.3, -1.8], 46)),
+    cam: mv("s32_ticket", c([13.0, 5.6, 3.0], [3.6, 3.3, -2.5], 44), c([12.4, 5.5, 2.6], [3.6, 3.3, -2.5], 42)),
   }),
   // ---------------------------------------------------------------- b17 he pays with THE fifty; $40 change
   mk("s33_fifty", {
     scene: (t) => <GymSet focus={[4.5, 0, -2]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 6 }), GCS(1))}</GymSet>,
-    cam: mv("s33_fifty", c([0.8, 4.4, -5.2], [3.9, 3.3, -1.9], 42), c([1.0, 4.3, -4.9], [3.9, 3.3, -1.9], 38)),
+    cam: mv("s33_fifty", c([11.0, 5.4, 1.6], [3.7, 3.4, -2.4], 40), c([10.5, 5.3, 1.2], [3.7, 3.4, -2.4], 36)),
   }),
   mk("s34_climbs", {
     scene: (t) => <GymSet focus={stoolFocus} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 28 }), GCS(1))}</GymSet>,
@@ -465,11 +465,11 @@ export const SHOTS_B: Shot[] = [
   // ---------------------------------------------------------------- b18 the first ten dollars she made
   mk("s35_smirk", {
     scene: (t) => <GymSet focus={[5, 0, -3]} cover={0}>{cast(t, gymCast(t, { line: (i) => i < 12 }), GCS(1))}</GymSet>,
-    cam: mv("s35_smirk", c([8.6, 5.6, 2.6], [5.0, 4.4, -4.6], 44), c([8.2, 5.5, 1.8], [5.0, 4.4, -4.6], 40)),
+    cam: mv("s35_smirk", c([9.6, 5.2, 1.6], [5.0, 4.3, -4.8], 40), c([9.2, 5.1, 1.0], [5.0, 4.4, -4.8], 36)),
   }),
   mk("s36_wide", { // wide high: BRO riding mid-gym, the forty behind; cranes down toward the hook's framing (cuts into s01)
     scene: (t) => <GymSet focus={[3, 0, 0]} cover={0} cash={1}>{cast(t, gymCast(t), GCS(1))}</GymSet>,
-    cam: mv("s36_wide", c([14, 19, 25], [3, 1.5, 0], 56), c([6.0, 8.6, 13.5], [3.0, 3.8, -4.0], 50), 0.008),
+    cam: mv("s36_wide", c([14, 19, 25], [3, 1.5, 0], 56), c([5.5, 8.4, 15.5], [3.3, 3.3, -4.2], 52), 0.008),
   }),
 ];
 void [eyeY, nod, laugh, hips, act];
