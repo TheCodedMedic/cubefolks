@@ -14,3 +14,8 @@ Frozen commit f7f48df44165bc22409f889cb606e6c7155609f0, composition `Short09`, 1
 | 09 | 828-919 | claude/short09-part09 |
 | 10 | 920-1011 | claude/short09-part10 |
 | 11 | 1012-1100 | claude/short09-part11 |
+
+## v2 (after the coordinator's review), the delivered render
+Frozen commit 3803099 on 12 sessions (branches claude/short09-v2-partKK, same frame table); part 00 re-rendered locally at
+ed8a8d5 (s02 camera off the door). Joined 1101 frames, no black runs; finished -14.1 LUFS, true peak -2.1 dBFS.
+Export: exports/short09_porch_light_v1.mp4. Drive: https://drive.google.com/open?id=1HUJXBMCed-Jr5Gv6LX-ZzBm6lPnMkrxJ
