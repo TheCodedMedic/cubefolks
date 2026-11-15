@@ -2,7 +2,7 @@
 // Sets: ./Rooms07.tsx (RIG UNITS). Contract: notes/short07/CONTRACT.md. Every time is a word anchor (E.*, at(), P()).
 // Jingle sync (the lead places the sound at the same t0s):
 //   JINGLE_NEAR = E.song12 (s22-s26: the stair glow / cone glow pulse as the song comes closer),
-//   E.music (s27-s29: Mom's bob and chest glow; "the music followed her"),
+//   MOM_T0 (s27-s29: Mom's bob and chest glow; "the music followed her"),
 //   E.whole (s30-s34: the whole song with bells; Mom jolts on each note, harder on the wrong note).
 import React from "react";
 import { lerp, type Shot } from "../kit/core";
@@ -10,7 +10,11 @@ import { BlockLights, Grade } from "../blocky/Look";
 import * as M from "../blocky/Motion";
 import * as K from "../blocky/Collide";
 import type { Expr, Pose } from "../blocky/types";
-import { Ch, st, mk, mv, c, E, T, P, PE, at, ME_PJ, MOM, S, notePulse, isWrong, blinkOn, span, type V3, type CamS } from "./common";
+import { Ch, st, mk, mv, c, E, T, P, PE, at, ME_PJ, MOM, S, blinkOn, span, type V3, type CamS, notePulse as NP0, isWrong as IW0, MOM_T0 } from "./common";
+/** The song stops dead on "Then" (b16) and comes back on "whole" (b17): no pulses in the silence (lead, sound plan). */
+const sung = (t: number) => t < E.then16 || t >= E.whole;
+const notePulse = (t: number, t0: number) => (sung(t) ? NP0(t, t0) : 0);
+const isWrong = (t: number, t0: number) => sung(t) && IW0(t, t0);
 import { Cone, Flyer } from "./Props07";
 import {
   Bedroom07, Blanket, bedroomCS, BED, BED_SIT, DOORWAY_OUT, WINDOW_SPOT, curtainEdge, CURTAIN_Z,
@@ -18,7 +22,7 @@ import {
 } from "./Rooms07";
 
 const KS = S.kid;
-const JINGLE_NEAR = E.song12;
+const JINGLE_NEAR = MOM_T0; // one continuous grid with the sound (j11_closer)
 const Night: React.FC<{ focus: V3; fill?: number }> = ({ focus, fill = 1 }) => <BlockLights time="interiorNight" focus={focus} fill={fill} />;
 const grade = () => <Grade time="interiorNight" />;
 /** Words of a beat as [start, end] (Mom's mouth when the narrator quotes her). */
@@ -218,19 +222,19 @@ export const SHOTS_HOUSE: Shot[] = [
     dom: grade,
   }),
 
-  // ---- s27: Mom steps in slowly; the music comes from her (bob + chest glow on the notes, t0 = E.music)
+  // ---- s27: Mom steps in slowly; the music comes from her (bob + chest glow on the notes, t0 = MOM_T0)
   mk("s27_stepsin", {
     scene: (t) => {
       const [a] = span("s27_stepsin");
       const w = M.walkPath([[12.6, 0, -0.2], MOM_IN], t, a, { gait: "stroll", speed: 3.4, yaw1: momYawIn, turnOut: 0.3 });
-      const pose = M.mix(w.pose, coneArms(), { tilt: 0.12 }, jolt(t, E.music, 0.55));
+      const pose = M.mix(w.pose, coneArms(), { tilt: 0.12 }, jolt(t, MOM_T0, 0.55));
       const mom: M.Act = { position: w.position, yaw: w.yaw, walk: w.walk, pose };
       const me = bedAct(BED_SIT.back, t, M.mix(M.recoil(t, -10), shiver(t, 1)));
-      const glow = 0.6 + 0.4 * notePulse(t, E.music);
+      const glow = 0.6 + 0.4 * notePulse(t, MOM_T0);
       const cs = bedroomCS(1);
       return <Bedroom07 open={1} hall={1} stair={0.8} outside={0.5} lamp={0.3}>
         <Night focus={[2, 0, 0]} />
-        <ChestGlow at={w.position} t={t} t0={E.music} base={3} k={18} />
+        <ChestGlow at={w.position} t={t} t0={MOM_T0} base={3} k={18} />
         <Blanket hipX={BED_SIT.back} z={BED_SIT.z} up={0.15} chinY={chinY} />
         <Ch look={MOM} a={mom} t={t} expr="creepy" hold={cones(glow)} blinkSeed={6} cs={cs} others={[st(me, KS)]} />
         <Ch look={ME_PJ} scale={KS} a={me} t={t} expr="scared" blinkSeed={3} cs={cs} allow={BED_ALLOW} noFeet others={[st(mom)]} />
@@ -245,11 +249,11 @@ export const SHOTS_HOUSE: Shot[] = [
     scene: (t) => {
       const [a, b] = span("s28_tilt");
       const tilt = 0.12 + 0.32 * M.ease(M.seg(t, a + 0.02, b));
-      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.3), coneArms(), { tilt, head: [0.05, -0.05] }, jolt(t, E.music, 0.4)) };
+      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.3), coneArms(), { tilt, head: [0.05, -0.05] }, jolt(t, MOM_T0, 0.4)) };
       return <Bedroom07 open={1} hall={1} stair={0.8} outside={0.5} lamp={0.3}>
         <Night focus={[6, 0, 1]} />
-        <ChestGlow at={MOM_IN} t={t} t0={E.music} base={3} k={18} />
-        <Ch look={MOM} a={mom} t={t} expr="creepy" blink={0} hold={cones(0.6 + 0.4 * notePulse(t, E.music))} blinkSeed={6} cs={bedroomCS(1)} />
+        <ChestGlow at={MOM_IN} t={t} t0={MOM_T0} base={3} k={18} />
+        <Ch look={MOM} a={mom} t={t} expr="creepy" blink={0} hold={cones(0.6 + 0.4 * notePulse(t, MOM_T0))} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
     cam: mv("s28_tilt", c([-4.1, 5.5, 5.5], [8.4, 3.6, 0.5], 38), c([-2.8, 5.3, 5.0], [8.4, 3.7, 0.5], 37)),
@@ -259,11 +263,11 @@ export const SHOTS_HOUSE: Shot[] = [
   // ---- s29: her mouth opens (grin, held) — close on her face
   mk("s29_mouth", {
     scene: (t) => {
-      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.2), coneArms(), { tilt: 0.44, head: [0.05, -0.08 * M.ease(M.seg(t, E.opened16, E.opened16 + 0.3))] }, jolt(t, E.music, 0.3)) };
+      const mom: M.Act = { position: MOM_IN, yaw: momYawIn, pose: M.mix(M.idle(t, 6, 0.2), coneArms(), { tilt: 0.44, head: [0.05, -0.08 * M.ease(M.seg(t, E.opened16, E.opened16 + 0.3))] }, jolt(t, MOM_T0, 0.3)) };
       const expr: Expr = t < E.opened16 + 0.05 ? "creepy" : "grin";
       return <Bedroom07 open={1} hall={1} stair={0.8} outside={0.5} lamp={0.3}>
         <Night focus={[7, 0, 1]} />
-        <ChestGlow at={MOM_IN} t={t} t0={E.music} base={3} k={14} />
+        <ChestGlow at={MOM_IN} t={t} t0={MOM_T0} base={3} k={14} />
         <Ch look={MOM} a={mom} t={t} expr={expr} blink={0} hold={cones(0.7)} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
