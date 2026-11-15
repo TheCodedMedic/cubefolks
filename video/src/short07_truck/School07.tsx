@@ -15,7 +15,7 @@ import type { CamS, V3 } from "../kit/core";
 
 // ================================================================ the lunch tables
 /** Table top height (top face), bench top height, table depth, bench centre distance from the table's centre line. */
-export const LUNCH = { top: 2.85, seat: 1.32, depth: 3.2, benchZ: 2.6, benchD: 1.4, len: 13 } as const;
+export const LUNCH = { top: 2.2, seat: 1.0, depth: 3.2, benchZ: 2.6, benchD: 1.4, len: 13 } as const;
 /** Where the lunch tables stand in the SchoolYard (table centres, long side along x; the school wall is at z = -20). */
 export const LUNCH_AT: V3[] = [[-4, 0, 4], [-6, 0, -9]];
 /** A seat on table `k`'s bench `side` (1 = the +z bench, its sitter faces -z; -1 = the -z bench, faces +z), `x` along it. */
@@ -130,19 +130,19 @@ export const WindowFrame: React.FC<{ cam: CamS; d?: number; w?: number; h?: numb
   const m = new THREE.Matrix4().lookAt(c, p, new THREE.Vector3(0, 1, 0)); // +z of the group points back at the camera
   const q = new THREE.Quaternion().setFromRotationMatrix(m);
   const e = new THREE.Euler().setFromQuaternion(q);
-  const F = 0.16, WALL = "#e8e0cc", TRIM = "#f8f6f0";
+  const F = w * 0.07, WALL = "#e8e0cc", TRIM = "#f8f6f0";
   return <group position={[c.x, c.y, c.z]} rotation={[e.x, e.y, e.z]}>
     {/* wall around the opening (four big slabs) */}
-    <SBox p={[0, h / 2 + 3, -0.05]} s={[w + 12, 6, 0.1]} c={WALL} shadow={false} />
-    <SBox p={[0, -h / 2 - 3, -0.05]} s={[w + 12, 6, 0.1]} c={WALL} shadow={false} />
-    <SBox p={[-w / 2 - 3, 0, -0.05]} s={[6, h, 0.1]} c={WALL} shadow={false} />
-    <SBox p={[w / 2 + 3, 0, -0.05]} s={[6, h, 0.1]} c={WALL} shadow={false} />
+    <SBox p={[0, h / 2 + w, -0.01]} s={[w * 5, w * 2, 0.01]} c={WALL} shadow={false} />
+    <SBox p={[0, -h / 2 - w, -0.01]} s={[w * 5, w * 2, 0.01]} c={WALL} shadow={false} />
+    <SBox p={[-w * 1.5, 0, -0.01]} s={[w * 2, h, 0.01]} c={WALL} shadow={false} />
+    <SBox p={[w * 1.5, 0, -0.01]} s={[w * 2, h, 0.01]} c={WALL} shadow={false} />
     {/* frame, cross bars, sill */}
-    {[-1, 1].map((s) => <SBox key={`v${s}`} p={[s * (w / 2), 0, 0]} s={[F * 1.4, h + F, 0.12]} c={TRIM} shadow={false} />)}
-    {[-1, 1].map((s) => <SBox key={`h${s}`} p={[0, s * (h / 2), 0]} s={[w + F, F * 1.4, 0.12]} c={TRIM} shadow={false} />)}
-    <SBox p={[0, 0.25, 0.01]} s={[w, F * 0.8, 0.08]} c={TRIM} shadow={false} />
-    <SBox p={[0, 0.25, 0.01]} s={[F * 0.8, h, 0.08]} c={TRIM} shadow={false} />
-    <SBox p={[0, -h / 2 - 0.08, 0.25]} s={[w + 0.6, 0.12, 0.6]} c={TRIM} shadow={false} />
+    {[-1, 1].map((s) => <SBox key={`v${s}`} p={[s * (w / 2), 0, 0]} s={[F * 1.4, h + F, 0.03]} c={TRIM} shadow={false} />)}
+    {[-1, 1].map((s) => <SBox key={`h${s}`} p={[0, s * (h / 2), 0]} s={[w + F, F * 1.4, 0.03]} c={TRIM} shadow={false} />)}
+    <SBox p={[0, h * 0.08, 0.01]} s={[w, F * 0.6, 0.02]} c={TRIM} shadow={false} />
+    <SBox p={[0, 0, 0.01]} s={[F * 0.6, h, 0.02]} c={TRIM} shadow={false} />
+    <SBox p={[0, -h / 2 - F * 0.5, F * 1.5]} s={[w + F * 4, F * 0.8, F * 3]} c={TRIM} shadow={false} />
   </group>;
 };
 
@@ -175,8 +175,8 @@ export const TestPaper: React.FC<{ at: V3; rot?: number }> = ({ at, rot = 0 }) =
   </mesh>;
 };
 /** A Cone held at any forward arm angle `arm` (radians, the same number given to armL/armR) that stays upright. */
-export const UprightCone: React.FC<{ arm: number; glow?: number }> = ({ arm, glow = 0.15 }) =>
-  <group rotation={[arm - Math.PI / 2, 0, 0]}><Cone glow={glow} /></group>;
+export const UprightCone: React.FC<{ arm: number; glow?: number; scale?: number }> = ({ arm, glow = 0.15, scale = 0.75 }) =>
+  <group rotation={[arm - Math.PI / 2, 0, 0]}><Cone glow={glow} scale={scale} /></group>;
 
 // ================================================================ the heat layer (2D, over the hot-slide shots)
 /** Hot sun: a warm glare from the top corner and faint wavy heat bands rising off the ground. Subtle on purpose. */

@@ -14,6 +14,7 @@ import { SchoolYard, StreetSet } from "../short06_blocky/Town";
 import { Classroom, CLASSROOM_CS, DESK } from "../blocky/Classroom";
 import { Corridor, corridorCS } from "../blocky/SchoolHall";
 import { ActLike, c, Ch, E, KIDS, ME, mk, mv, notePulse, isWrong, JINGLE_NOTE, WRONG_IN_BAR, S, span, st, TEACHER, TOBY, V3, CamS, Shot } from "./common";
+import { SBox } from "../blocky/SchoolHall";
 import { LUNCH_AT, LUNCH_CS, LunchTable, lunchSeat, Slide, SLIDE, slideCS, slideSurface, WindowFrame, Sandwich, Pencil, Chalk, TestPaper, UprightCone, HeatShimmer } from "./School07";
 
 const PI = Math.PI;
@@ -29,6 +30,8 @@ const people = (t: number, ps: Person[], cs: K.Box[]) => ps.map((p, i) =>
   <Ch key={i} look={p.look} a={p.a} t={t} scale={p.s} expr={p.expr} hold={p.hold} blink={p.blink} still={p.still} noFeet={p.noFeet} lift={p.lift ?? 0}
     blinkSeed={p.seed} cs={cs} others={ps.filter((_, j) => j !== i).map((q) => st(q.a, q.s, q.lift ?? 0))} />);
 
+/** A seated idle without the foot kick (legs under a table top). */
+const seatedIdleNoKick = (t: number, seed: number, amount = 1): Pose => ({ ...M.seatedIdle(t, seed, amount), legL: 0, legR: 0 });
 /** Seated on a seat whose top centre is `seat` (legs straight out, the game's sit), facing `yaw`, plus pose layers. */
 const seated = (seat: V3, yaw: number, s: number, ...ps: (Pose | false | undefined)[]): ActLike =>
   ({ position: [seat[0], M.seatedY(seat[1], s), seat[2]], yaw, pose: M.mix({ legL: PI / 2, legR: PI / 2, armL: 0.12, armR: 0.12 }, ...ps) });
@@ -36,7 +39,7 @@ const seated = (seat: V3, yaw: number, s: number, ...ps: (Pose | false | undefin
 // ---------------------------------------------------------------- poses
 /** Eating a sandwich in the right hand: rest over the tray, up to the mouth for a bite every ~2.5 s (seeded). */
 const eatArm = (t: number, seed: number) => { const P = 2.1 + (seed % 3) * 0.35, ph = (((t + seed * 0.73) % P) + P) % P / P; return Math.sin(PI * M.clamp01((ph - 0.45) / 0.4)); };
-const eat = (t: number, seed: number): Pose => { const up = eatArm(t, seed); return { armR: 1.8 + 0.55 * up, armROut: -0.14 * up, head: [0, 0.06 * up], lean: 0.04 }; };
+const eat = (t: number, seed: number): Pose => { const up = eatArm(t, seed); return { armR: 1.65 + 0.75 * up, armROut: -0.14 * up, head: [0, 0.06 * up], lean: 0.04 }; };
 const eatFace = (t: number, seed: number, base: Expr = "smile"): Expr => (eatArm(t, seed) > 0.75 ? "talk" : base);
 /** Writing on a desk with the right hand (pencil, raised over the desk top), head down over the paper. `k` 0..1 how bent
  *  over; `scribble` 0..1 how much the hand moves. */
@@ -55,16 +58,16 @@ const TOBY_CONE_ARM = 2.05;
 const lunchPeople = (t: number, o: { tobyExpr: Expr; tobyHead?: [number, number]; tobyTilt?: number; meLook: number }): Person[] => {
   const ps: Person[] = [];
   const kid = (look: Look, sp: { seat: V3; yaw: number }, seed: number, extra?: Pose, expr?: Expr) =>
-    ps.push({ look, s: S.kid, seed, a: seated(sp.seat, sp.yaw, S.kid, eat(t, seed), M.seatedIdle(t, seed, 0.5), extra), expr: expr ?? eatFace(t, seed), hold: { R: <Up arm={1.8 + 0.55 * eatArm(t, seed)}><Sandwich fill={["#d8584a", "#7ab83a", "#e8b84a"][seed % 3]} /></Up> } });
+    ps.push({ look, s: S.kid, seed, noFeet: true, a: seated(sp.seat, sp.yaw, S.kid, eat(t, seed), seatedIdleNoKick(t, seed, 0.5), extra), expr: expr ?? eatFace(t, seed), hold: { R: <Up arm={1.65 + 0.75 * eatArm(t, seed)}><group scale={0.75}><Sandwich fill={["#d8584a", "#7ab83a", "#e8b84a"][seed % 3]} /></group></Up> } });
   // Toby: perfectly still, the cone held up, never biting
-  ps.push({ look: TOBY, s: S.kid, seed: 11, still: true, blink: 0, expr: o.tobyExpr,
+  ps.push({ look: TOBY, s: S.kid, seed: 11, noFeet: true, still: true, blink: 0, expr: o.tobyExpr,
     a: seated(tobyLunch.seat, tobyLunch.yaw, S.kid, { armR: TOBY_CONE_ARM, armROut: -0.06, armL: 0.12, head: o.tobyHead ?? [0, 0], tilt: o.tobyTilt ?? 0 }),
     hold: { R: <UprightCone arm={TOBY_CONE_ARM} glow={0.12} /> } });
   // ME beside him: eating, then the head turns to Toby's cone
   const meHead = o.meLook;
-  ps.push({ look: ME, s: S.kid, seed: 21, expr: meHead > 0.3 ? "worried" : eatFace(t, 21),
-    a: seated(meLunch.seat, meLunch.yaw, S.kid, { armR: 1.8 + 0.55 * eatArm(t, 21) * (1 - meHead), lean: 0.04 }, { head: [-0.85 * meHead, -0.05 * meHead], twist: -0.12 * meHead }, M.seatedIdle(t, 21, 0.4)),
-    hold: { R: <Up arm={1.8 + 0.55 * eatArm(t, 21) * (1 - meHead)}><Sandwich /></Up> } });
+  ps.push({ look: ME, s: S.kid, seed: 21, noFeet: true, expr: meHead > 0.3 ? "worried" : eatFace(t, 21),
+    a: seated(meLunch.seat, meLunch.yaw, S.kid, { armR: 1.65 + 0.75 * eatArm(t, 21) * (1 - meHead), lean: 0.04 }, { head: [-0.85 * meHead, -0.05 * meHead], twist: -0.12 * meHead }, seatedIdleNoKick(t, 21, 0.4)),
+    hold: { R: <Up arm={1.65 + 0.75 * eatArm(t, 21) * (1 - meHead)}><group scale={0.75}><Sandwich /></group></Up> } });
   kid(KIDS[1], lunchSeat(0, -1, -4.2), 3, undefined, M.talk(t, [E.held4, E.cone4, E.lunch], "happy"));
   kid(KIDS[3], lunchSeat(0, 1, -4.4), 5);
   kid(KIDS[0], lunchSeat(1, -1, -3.6), 7);
@@ -86,14 +89,14 @@ const YardLunch: React.FC<{ t: number; children?: React.ReactNode }> = ({ childr
 
 const s06 = mk("s06_lunch", {
   scene: (t) => <YardLunch t={t}>{people(t, lunchPeople(t, { tobyExpr: "smile", meLook: M.ease(M.seg(t, E.cone4, E.cone4 + 0.3)) }), LUNCH_CS)}</YardLunch>,
-  cam: mv("s06_lunch", c([5, 5.6, 15.5], [-3.6, 3.0, 2.0], 40), c([3.8, 5.1, 13.4], [-3.8, 3.0, 2.0], 39)),
+  cam: mv("s06_lunch", c([3.8, 8.2, 17.0], [-4.2, 2.9, 0.2], 46), c([2.8, 7.4, 15.2], [-4.2, 3.0, 0.2], 45)),
 });
 const s07 = mk("s07_tobystare", {
   scene: (t) => {
     const [a, b] = span("s07_tobystare"), u = M.ease(M.seg(t, a, b));
     return <YardLunch t={t}>{people(t, lunchPeople(t, { tobyExpr: t < E.lunch ? "smile" : "creepy", tobyHead: [0.18 * u, -0.04 * u], tobyTilt: 0.12 * u, meLook: 1 }), LUNCH_CS)}</YardLunch>;
   },
-  cam: mv("s07_tobystare", c([-2.3, 4.3, 9.6], [-4, 3.55, 1.4], 36), c([-2.8, 4.1, 8.0], [-4, 3.6, 1.4], 34)),
+  cam: mv("s07_tobystare", c([-1.6, 5.6, 12.6], [-4, 3.0, 1.4], 42), c([-2.1, 5.2, 10.8], [-4, 3.1, 1.4], 41)),
 });
 
 // ================================================================ the hot slide (s08, s09)
@@ -119,20 +122,30 @@ const s08 = mk("s08_slide", {
       // a kid waiting at the ladder, looking up after him
       { look: KIDS[5], s: S.kid, seed: 4, a: { position: [SLIDE.x0 - 4.6, 0, SLIDE.z + 2.2], yaw: 1.2, pose: M.mix(M.idle(t, 4), { head: [0.3, -0.15] }) }, expr: "surprised" }], SLIDE_CS)}</HotYard>;
   },
-  cam: mv("s08_slide", c([36.5, 4.6, 17.5], [25.5, 3.6, 28], 42), c([36.0, 4.0, 18.5], [28.5, 2.8, 28], 42)),
+  cam: mv("s08_slide", c([42.5, 6.4, 21.0], [27, 3.6, 28], 48), c([43.0, 5.8, 22.0], [29.5, 2.8, 28], 48)),
   dom: (t) => <HeatShimmer t={t} />,
 });
 const S09_ARM = 1.9;
+/** Toby at the bottom of the slide in s09, and the arm angle (the cone lifted a touch over the shot). */
+const toby09 = (t: number) => {
+  const [a, b] = span("s09_cone"), u = M.seg(t, a, b), arm = S09_ARM + 0.08 * M.ease(u);
+  return { u, arm, a: tobySliding(t, SLIDE.x0 + 12.4, arm, { head: [0.25 * M.ease(u), -0.05], tilt: 0.1 * M.ease(u) }) };
+};
 const s09 = mk("s09_cone", {
   scene: (t) => {
-    const [a, b] = span("s09_cone"), u = M.seg(t, a, b);
-    // he has stopped at the bottom; the cone is lifted a touch higher and turned slowly (showing it from every side)
-    const arm = S09_ARM + 0.08 * M.ease(u);
-    const toby = tobySliding(t, SLIDE.x0 + 12.4, arm, { head: [0.25 * M.ease(u), -0.05], tilt: 0.1 * M.ease(u) });
-    return <HotYard>{people(t, [{ look: TOBY, s: S.kid, seed: 11, a: toby, still: true, blink: 0, expr: "creepy", noFeet: true,
-      hold: { R: <Up arm={arm}><group rotation={[0, 1.4 * u, 0]}><UprightCone arm={PI / 2} glow={0.18} /></group></Up> } }], SLIDE_CS)}</HotYard>;
+    // he has stopped at the bottom; the cone turns slowly in his hand (perfect from every side, not one drip)
+    const { u, arm, a } = toby09(t);
+    return <HotYard>{people(t, [{ look: TOBY, s: S.kid, seed: 11, a, still: true, blink: 0, expr: "creepy", noFeet: true,
+      hold: { R: <Up arm={arm}><group rotation={[0, 1.4 * u, 0]}><UprightCone arm={PI / 2} glow={0.2} /></group></Up> } }], SLIDE_CS)}</HotYard>;
   },
-  cam: mv("s09_cone", c([SLIDE.x0 + 16.6, 3.0, SLIDE.z - 3.6], [SLIDE.x0 + 13.0, 4.7, SLIDE.z - 0.4], 34), c([SLIDE.x0 + 16.0, 3.1, SLIDE.z - 3.0], [SLIDE.x0 + 13.0, 4.75, SLIDE.z - 0.4], 31)),
+  // CLUE framing: the cone in the upper part of the frame, lit by the sun, Toby's face beside it; a slow push
+  cam: (t) => {
+    const { u, a } = toby09(t), h = K.handEnd(st(a, S.kid), -1);
+    const head: V3 = [a.position[0], a.position[1] + 4.4 * S.kid, a.position[2]];
+    const cone: V3 = [h[0], h[1] + 1.0, h[2]], tg: V3 = [(cone[0] + head[0]) / 2, (cone[1] + head[1]) / 2 - 0.5, (cone[2] + head[2]) / 2];
+    const d = lerp(9.4, 8.2, M.ease(u)), dir = [0.86, 0.06, -0.5];
+    return c([tg[0] + dir[0] * d, tg[1] + dir[1] * d, tg[2] + dir[2] * d], tg, 40);
+  },
   dom: (t) => <HeatShimmer t={t} strength={0.8} />,
 });
 
@@ -141,7 +154,7 @@ const COR_CS = corridorCS();
 const ME_HALL: V3 = [-0.6, 0, 1];
 const TOBY_LANE = -4.2;
 const tobyWalk = (t: number) => {
-  const w = M.walkPath([[TOBY_LANE, 0, 5.8], [TOBY_LANE, 0, -16]], t, E.walked - 1.0, { scale: S.kid, gait: "stroll" });
+  const w = M.walkPath([[TOBY_LANE, 0, 5.8], [TOBY_LANE, 0, -16]], t, E.walked - 1.4, { scale: S.kid, gait: "stroll" });
   // the jingle comes out of him: a tiny bob and a head twitch on each note
   const p = notePulse(t, E.walked);
   return { a: M.act(w, { armR: 0.15, head: [0.03 * p, -0.03 * p], tilt: 0.05 * p }), lift: 0.05 * p };
@@ -163,14 +176,18 @@ const hallPeople = (t: number, meHead: number, meExpr: Expr): Person[] => {
 const tobyAt = (t: number): V3 => tobyWalk(t).a.position;
 const Hall: React.FC<{ children?: React.ReactNode }> = ({ children }) => <>
   <BlockLights time="interior" focus={[-1, 0, 0]} />
-  <Corridor />{children}
+  <Corridor />
+  {/* the corridor's near end (open in the shared set): a wall with double doors, so a camera looking down +z sees a wall */}
+  <SBox p={[0, 6, 50.5]} s={[18, 12, 1]} c="#ece6da" kind="plaster" />
+  {[-1.6, 1.6].map((x) => <SBox key={x} p={[x, 3.8, 49.95]} s={[3.0, 7.6, 0.12]} c="#8a5a34" kind="wood" />)}
+  {children}
 </>;
 const s10 = mk("s10_corridor", {
   scene: (t) => {
     const want = lookYaw(ME_HALL, PI, tobyAt(t), 1.0), k = M.ease(M.seg(t, E.walked - 0.1, E.past));
     return <Hall>{people(t, hallPeople(t, want * k * 0.8, t < E.past ? "smile" : "worried"), COR_CS)}</Hall>;
   },
-  cam: mv("s10_corridor", c([1.6, 4.7, -6.0], [-2.4, 3.2, 3.6], 42), c([1.3, 4.5, -8.0], [-2.6, 3.2, 0.8], 42)),
+  cam: mv("s10_corridor", c([0.8, 5.4, -13.0], [-2.4, 2.8, 2.6], 46), c([0.5, 5.2, -15.0], [-2.6, 2.8, 0.6], 46)),
 });
 const s11 = mk("s11_me", {
   scene: (t) => {
@@ -178,7 +195,7 @@ const s11 = mk("s11_me", {
     const head = 0.8 * want * (1 - M.snap(M.seg(t, E.heard, E.heard + 0.14), 3)) + want * M.snap(M.seg(t, E.heard, E.heard + 0.14), 3);
     return <Hall>{people(t, hallPeople(t, head, t < E.heard ? "worried" : "scared"), COR_CS)}</Hall>;
   },
-  cam: mv("s11_me", c([-2.4, 3.9, -6.4], [-0.9, 3.2, 1], 40), c([-2.2, 3.8, -5.4], [-0.9, 3.25, 1], 38)),
+  cam: mv("s11_me", c([-2.6, 4.7, -9.8], [-0.7, 3.0, 1], 44), c([-2.3, 4.5, -8.6], [-0.7, 3.05, 1], 43)),
 });
 
 // ================================================================ the classroom (s13, s14, s16a, s15, s16b, s17, s18)
@@ -223,7 +240,7 @@ const teacherAt = (o: { yaw: number; pose: Pose; expr: Expr; blink?: number; sti
   hold: { L: <UprightCone arm={(o.pose.armL as number) ?? CONE_ARM_T} glow={0.15} />, R: <Chalk /> },
 });
 const WRITE_YAW = PI - 0.45;
-const boardWrite = (t: number, k = 1): Pose => ({ armR: (2.0 + 0.07 * Math.sin(t * 9)) * k, armROut: (0.05 + 0.12 * Math.sin(t * 4.3)) * k, lean: 0.1 * k });
+const boardWrite = (t: number, k = 1): Pose => ({ armR: (1.85 + 0.07 * Math.sin(t * 9)) * k, armROut: (0.05 + 0.12 * Math.sin(t * 4.3)) * k, lean: 0.1 * k });
 /** While she faces the board the cone hand is held low and out to her side (clear of the wall). */
 const CONE_LOW = 0.35;
 
@@ -231,15 +248,15 @@ const s13 = mk("s13_lookaround", {
   scene: (t) => {
     const MD = DESK(ME_DESK);
     // he was looking out of the window (to his left); on "wasn't" his head whips round the room
-    const head = lerp(1.1, -0.75, M.snap(M.seg(t, E.wasnt - 0.05, E.wasnt + 0.2), 1.5)) + 0.35 * M.ease(M.seg(t, E.wasnt + 0.3, E.truck7));
+    const head = lerp(0.95, -0.55, M.snap(M.seg(t, E.wasnt - 0.08, E.wasnt + 0.1), 1.5)) - 0.25 * M.ease(M.seg(t, E.wasnt + 0.12, E.truck7));
     const meA = seated(MD.seat, MD.yaw, S.kid, { head: [head, -0.08], twist: 0.18 * Math.sign(head) * Math.min(1, Math.abs(head)), armR: 0.3, armL: 0.3 });
     return <Room focus={[-11, 0, 0]}>{people(t, classPeople(t, { desk: true, meA, meExpr: "worried", meHold: <Pencil /> }), CLASS_CS)}</Room>;
   },
-  cam: mv("s13_lookaround", c([-16.2, 4.5, -4.4], [-11, 3.1, 2.3], 40), c([-15.9, 4.4, -3.9], [-11, 3.1, 2.3], 39)),
+  cam: mv("s13_lookaround", c([-5.6, 5.2, -7.0], [-12.4, 3.2, 2.6], 44), c([-6.0, 5.0, -6.2], [-12.4, 3.2, 2.6], 43)),
 });
-const NOSTREET: [CamS, CamS] = [c([4, 13.5, 76], [-8, 1.5, 44], 44), c([3.4, 13.2, 75.2], [-10.5, 1.5, 44], 44)];
+const NOSTREET: [CamS, CamS] = [c([4, 13.5, 76], [-8, 1.5, 44], 50), c([3.7, 13.4, 75.6], [-9.5, 1.5, 44], 50)];
 const s12 = mk("s12_nostreet", {
-  scene: () => <><StreetSet time="day" focus={[-8, 0, 44]} /><WindowFrame cam={NOSTREET[0]} d={2.6} w={2.9} h={4.6} /></>,
+  scene: () => <><StreetSet time="day" focus={[-8, 0, 44]} /><WindowFrame cam={NOSTREET[0]} d={2.6} w={1.05} h={1.9} /></>,
   cam: mv("s12_nostreet", NOSTREET[0], NOSTREET[1], 0.003),
 });
 const s14 = mk("s14_class", {
@@ -254,20 +271,20 @@ const s14 = mk("s14_class", {
     teacher.a = { ...teacher.a, walk: tr.walk };
     return <Room focus={[-3, 0, -12]}>{people(t, classPeople(t, { desk: false, teacher }), CLASS_CS)}</Room>;
   },
-  cam: mv("s14_class", c([7.8, 7.6, -0.6], [-3, 4.3, -15], 42), c([6.6, 7.0, -2.6], [-3, 4.6, -15.5], 40)),
+  cam: mv("s14_class", c([3.2, 7.4, -1.4], [-2.4, 4.0, -15.7], 46), c([2.4, 7.0, -3.2], [-2.6, 4.2, -15.7], 45)),
 });
 const s16a = mk("s16a_test", {
   scene: (t) => <Room focus={[-5, 0, 3]}>{people(t, classPeople(t, { desk: true, meExpr: "worried" }), CLASS_CS)}</Room>,
-  cam: mv("s16a_test", c([-1.6, 5.4, -5.2], [-5.6, 2.5, 3.0], 42), c([-0.6, 5.1, -4.6], [-5.0, 2.5, 3.2], 41)),
+  cam: mv("s16a_test", c([0.8, 8.4, -10.6], [-5.6, 2.4, 2.4], 46), c([1.6, 8.1, -10.2], [-5.0, 2.4, 2.4], 45)),
 });
 const hum = (t: number, t0: number): Expr => (t >= t0 && notePulse(t, t0) > 0.45 ? "talk" : "smile");
 const s15 = mk("s15_hum", {
   scene: (t) => {
     const p = notePulse(t, E.hummed);
-    const pose = M.mix(boardWrite(t), { armL: CONE_LOW, armLOut: 0.2, head: [-0.95, -0.03 + 0.04 * p], twist: -0.12, tilt: 0.04 * p }, M.idle(t, 31, 0.4));
+    const pose = M.mix(boardWrite(t), { armL: CONE_LOW, armLOut: 0.2, head: [-1.1, -0.03 + 0.04 * p], twist: -0.2, tilt: 0.04 * p }, M.idle(t, 31, 0.4));
     return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, teacher: teacherAt({ yaw: WRITE_YAW, pose, expr: hum(t, E.hummed) }) }), CLASS_CS)}</Room>;
   },
-  cam: mv("s15_hum", c([2.6, 5.6, -11.2], [-3, 4.7, -16.2], 40), c([2.0, 5.4, -11.8], [-3, 4.7, -16.4], 38)),
+  cam: mv("s15_hum", c([1.4, 7.0, -6.6], [-3, 4.2, -15.7], 44), c([1.0, 6.8, -7.6], [-3, 4.3, -15.7], 42)),
 });
 const s16b = mk("s16b_lookup", {
   scene: (t) => {
@@ -277,7 +294,7 @@ const s16b = mk("s16b_lookup", {
     const meA = seated(MD.seat, MD.yaw, S.kid, write(t, 21, 1 - meUp), { head: [lookYaw([MD.seat[0], 0, MD.seat[2]], PI, [-3, 4.6, -16.4], 0.8) * meUp, 0] });
     return <Room focus={[-6, 0, 2]}>{people(t, classPeople(t, { desk: true, lookUp, meA, meExpr: meUp > 0.5 ? "worried" : "smile" }), CLASS_CS)}</Room>;
   },
-  cam: mv("s16b_lookup", c([-1.8, 6.2, -11.2], [-6.5, 2.9, 3.0], 40), c([-2.4, 6.0, -10.4], [-6.8, 2.9, 3.0], 39)),
+  cam: mv("s16b_lookup", c([-8.6, 5.4, -12.6], [-7.2, 2.9, 2.6], 46), c([-8.9, 5.3, -11.8], [-7.4, 2.9, 2.6], 45)),
 });
 /** The hum that carries the wrong note: phrased from E.wrote (its 6th note = the word "wrong"). */
 const WRONG_T0 = E.wrote;
@@ -292,7 +309,7 @@ const s17 = mk("s17_wrongnote", {
     const expr: Expr = t < wrongStart ? hum(t, WRONG_T0) : "creepy";
     return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, lookUp: () => 1, teacher: teacherAt({ yaw: 0.25, pose, expr, blink: t > wrongStart ? 0 : undefined, still: t > wrongStart }) }), CLASS_CS)}</Room>;
   },
-  cam: mv("s17_wrongnote", c([-0.8, 5.0, -9.6], [-3, 4.55, -16.2], 34), c([-1.2, 4.95, -10.6], [-3, 4.6, -16.2], 31)),
+  cam: mv("s17_wrongnote", c([-0.9, 5.2, -7.6], [-3, 4.3, -15.7], 38), c([-1.3, 5.1, -8.6], [-3, 4.4, -15.7], 34)),
 });
 const s18 = mk("s18_mefreeze", {
   scene: (t) => {
@@ -302,7 +319,7 @@ const s18 = mk("s18_mefreeze", {
     const meA = seated(MD.seat, MD.yaw, S.kid, { armR: arm + tr, armROut: -0.16, lean: 0.1 * (1 - up) - 0.02 * up, head: [0.12 * up, 0.45 * (1 - up) - 0.06 * up], tilt: tr * 2 });
     return <Room focus={[-11, 0, 0]}>{people(t, classPeople(t, { desk: true, lookUp: () => 1, frozen: 1, meA, meExpr: "scared", meHold: <Up arm={arm}><Pencil /></Up> }), CLASS_CS)}</Room>;
   },
-  cam: mv("s18_mefreeze", c([-7.6, 4.3, -4.8], [-11, 3.15, 2.3], 38), c([-8.1, 4.1, -3.7], [-11, 3.2, 2.3], 35)),
+  cam: mv("s18_mefreeze", c([-5.5, 5.2, -7.0], [-11, 3.0, 2.3], 44), c([-6.1, 4.9, -5.8], [-11, 3.1, 2.3], 41)),
 });
 
 export const SHOTS_SCHOOL: Shot[] = [s06, s07, s08, s09, s10, s11, s13, s12, s14, s16a, s15, s16b, s17, s18];
