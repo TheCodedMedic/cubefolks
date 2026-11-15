@@ -392,7 +392,16 @@ const jam = (t: number): JamKid[] => {
     { look: KIDS[10], a: pet([0.6, 0, -9], -0.6, t0 + 0.2, 9), expr: "happy", leash: L(9) },
   ];
 };
-const Hall: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, children }) => <Indoor focus={focus}><Corridor />{children}</Indoor>;
+/** The corridor's open (+z) end closed off with a wall and double doors (the shared Corridor leaves it open). */
+const EndWall: React.FC = () => <group position={[0, 0, 49.6]}>
+  <Bx p={[0, 6, 0]} s={[17, 12, 0.4]} c="#e9e3d2" />
+  <Bx p={[0, 1.2, -0.25]} s={[17, 2.4, 0.12]} c="#3f6f9a" />
+  <Bx p={[0, 4.0, -0.3]} s={[6.4, 8.0, 0.2]} c="#f6f2e8" />
+  {[-1.5, 1.5].map((x) => <Bx key={x} p={[x, 3.8, -0.42]} s={[2.8, 7.4, 0.15]} c="#b03a2e" />)}
+  {[-1.5, 1.5].map((x) => <Bx key={`w${x}`} p={[x, 5.2, -0.52]} s={[1.2, 2.2, 0.05]} c="#bcd8ee" />)}
+  <Bx p={[0, 8.9, -0.3]} s={[1.6, 0.6, 0.08]} c="#d0322a" />
+</group>;
+const Hall: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, children }) => <Indoor focus={focus}><Corridor /><EndWall />{children}</Indoor>;
 
 // s11_jam: corridor, high (just under the ceiling): kids with leashes clog the hallway, stopping dead to pet the air.
 const s11: Shot = mk("s11_jam", {
@@ -470,7 +479,7 @@ const s14: Shot = mk("s14_hayes", {
 const s15: Shot = mk("s15_freeze", {
   scene: (t) => {
     const s = S.kid;
-    const spots: [V3, number, number][] = [[[-3.4, 0, 0.5], Math.PI - 0.35, 0], [[0.2, 0, 2.2], Math.PI + 0.05, 1], [[3.6, 0, 0.2], Math.PI + 0.4, 2]];
+    const spots: [V3, number, number][] = [[[-2.7, 0, 0.3], Math.PI - 0.35, 0], [[0.2, 0, 2.4], Math.PI + 0.05, 1], [[3.5, 0, 0.1], Math.PI + 0.4, 2]];
     const kids = spots.map(([p, yaw, i]) => {
       const tf = E.hayes + [0, 0.07, 0.03][i];
       const fz = M.snap(M.seg(t, tf, tf + 0.12), 2.5);
@@ -487,7 +496,7 @@ const s15: Shot = mk("s15_freeze", {
         hold={{ R: <Leash reach={2.4} drop={1.45} /> }} cs={CCS} others={all.filter((_, k2) => k2 !== i)} />)}
     </Hall>;
   },
-  cam: mv("s15_freeze", c([0.4, 4.4, -12.6], [0.1, 2.8, 1.0], 40), c([0.4, 4.3, -11.4], [0.1, 2.9, 1.0], 40)),
+  cam: mv("s15_freeze", c([0.4, 4.8, -15.5], [0.1, 2.8, 1.4], 40), c([0.4, 4.7, -14.4], [0.1, 2.85, 1.4], 40)),
 });
 
 // ================================================================================================ beat 8-9: back at the stand
@@ -495,7 +504,7 @@ const HAYES_T: V3 = [YARD_TABLE[0] + TABLE.w / 2 + 1.3, 0, YARD_TABLE[2]];
 const HAYES_YAW = -Math.PI / 2 + 0.2;
 const HAYES_LEAN = 0.6;
 const hayesLean = (t: number) => {
-  const w = M.walkPath([[HAYES_T[0] + 4.5, 0, HAYES_T[2] + 5.5], HAYES_T], t, P(8) - 1.45, { gait: "walk", yaw1: HAYES_YAW });
+  const w = M.walkPath([[HAYES_T[0] + 4.0, 0, HAYES_T[2] - 4.5], HAYES_T], t, P(8) - 1.3, { gait: "walk", yaw1: HAYES_YAW });
   const ln = M.env(t, E.asked8 - 0.25, Infinity, 0.3);
   const base: ActLike = { ...w, pose: M.mix(w.pose, { lean: HAYES_LEAN * ln, head: [0, -0.45 * ln] }) };
   if (ln <= 0) return base;
