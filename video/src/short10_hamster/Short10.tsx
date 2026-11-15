@@ -11,8 +11,11 @@ export const T = makeTiming(TIMING as TimingJSON);
 export const SHORT10_FRAMES = Math.round(T.END * FPS);
 const EMPTY: Shot = { id: "empty", t0: 0, t1: T.END, scene: () => null, cam: () => ({ pos: [0, 3, 10], target: [0, 3, 0], fov: 40 }), bg: "#203040" };
 import { PREVIEW } from "./ClassPreview";
-export const SHOTS: Shot[] = PREVIEW.length ? PREVIEW : [EMPTY];
-export const POPS: PopSpec[] = [];
+import { SHOTS_A, POPS_A } from "./ShotsA";
+import { SHOTS_B, POPS_B } from "./ShotsB";
+/** Shots A (beats 1-9) then B (beats 10-19); the preview fills in until both land. */
+export const SHOTS: Shot[] = SHOTS_A.length || SHOTS_B.length ? [...SHOTS_A, ...SHOTS_B].sort((a, b) => a.t0 - b.t0) : PREVIEW.length ? PREVIEW : [EMPTY];
+export const POPS: PopSpec[] = [...POPS_A, ...POPS_B];
 const HIGHLIGHT: string[] = [];
 const Frame: React.FC<{ t: number; captions: boolean }> = ({ t, captions }) => (
   <ShortFrame shots={SHOTS} t={t} T={captions ? T : undefined} pops={captions ? POPS : []} highlight={HIGHLIGHT} single captionY={0.7} />
