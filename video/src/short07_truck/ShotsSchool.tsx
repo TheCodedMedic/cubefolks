@@ -13,7 +13,7 @@ import { BlockLights, Sky } from "../blocky/Look";
 import { SchoolYard, StreetSet } from "../short06_blocky/Town";
 import { Classroom, CLASSROOM_CS, DESK } from "../blocky/Classroom";
 import { Corridor, corridorCS } from "../blocky/SchoolHall";
-import { ActLike, c, Ch, E, KIDS, ME, mk, mv, notePulse, isWrong, JINGLE_NOTE, WRONG_IN_BAR, S, span, st, TEACHER, TOBY, V3, CamS, Shot } from "./common";
+import { ActLike, c, Ch, E, HUM_T0, KIDS, ME, mk, mv, notePulse, isWrong, JINGLE_NOTE, WRONG_IN_BAR, S, span, st, TEACHER, TOBY, V3, CamS, Shot } from "./common";
 import { SBox } from "../blocky/SchoolHall";
 import { LUNCH_AT, LUNCH_CS, LunchTable, lunchSeat, Slide, SLIDE, slideCS, slideSurface, WindowFrame, Sandwich, Pencil, Chalk, TestPaper, UprightCone, HeatShimmer } from "./School07";
 
@@ -277,12 +277,12 @@ const s16a = mk("s16a_test", {
   scene: (t) => <Room focus={[-5, 0, 3]}>{people(t, classPeople(t, { desk: true, meExpr: "worried" }), CLASS_CS)}</Room>,
   cam: mv("s16a_test", c([0.8, 8.4, -10.6], [-5.6, 2.4, 2.4], 46), c([1.6, 8.1, -10.2], [-5.0, 2.4, 2.4], 45)),
 });
-const hum = (t: number, t0: number): Expr => (t >= t0 && notePulse(t, t0) > 0.45 ? "talk" : "smile");
+const hum = (t: number, t0: number): Expr => (t >= Math.max(t0, E.hummed) && notePulse(t, t0) > 0.45 ? "talk" : "smile");
 const s15 = mk("s15_hum", {
   scene: (t) => {
-    const p = notePulse(t, E.hummed);
+    const p = t >= E.hummed ? notePulse(t, HUM_T0) : 0;
     const pose = M.mix(boardWrite(t), { armL: CONE_LOW, armLOut: 0.2, head: [-1.1, -0.03 + 0.04 * p], twist: -0.2, tilt: 0.04 * p }, M.idle(t, 31, 0.4));
-    return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, teacher: teacherAt({ yaw: WRITE_YAW, pose, expr: hum(t, E.hummed) }) }), CLASS_CS)}</Room>;
+    return <Room focus={[-3, 0, -14]}>{people(t, classPeople(t, { desk: true, teacher: teacherAt({ yaw: WRITE_YAW, pose, expr: hum(t, HUM_T0) }) }), CLASS_CS)}</Room>;
   },
   cam: mv("s15_hum", c([1.4, 7.0, -6.6], [-3, 4.2, -15.7], 44), c([1.0, 6.8, -7.6], [-3, 4.3, -15.7], 42)),
 });
@@ -297,7 +297,7 @@ const s16b = mk("s16b_lookup", {
   cam: mv("s16b_lookup", c([-8.6, 5.4, -12.6], [-7.2, 2.9, 2.6], 46), c([-8.9, 5.3, -11.8], [-7.4, 2.9, 2.6], 45)),
 });
 /** The hum that carries the wrong note: phrased from E.wrote (its 6th note = the word "wrong"). */
-const WRONG_T0 = E.wrote;
+const WRONG_T0 = HUM_T0; // lead: the sound's hum grid (its wrong note lands on "wrong")
 const s17 = mk("s17_wrongnote", {
   scene: (t) => {
     const p = notePulse(t, WRONG_T0), wrong = isWrong(t, WRONG_T0);
