@@ -6,6 +6,7 @@ import TIMING from "./timing.json";
 import { makeTiming, Shot, TimingJSON } from "../kit/core";
 import { FPS, ShortFrame } from "../kit/Short";
 import { PopSpec } from "../kit/Pop";
+import { SetPreview } from "./SetPreview";
 
 export const T = makeTiming(TIMING as TimingJSON);
 export const SHORT08_FRAMES = Math.round(T.END * FPS);
@@ -19,4 +20,5 @@ const Frame: React.FC<{ t: number; captions: boolean }> = ({ t, captions }) => (
 export const Short08: React.FC = () => <Frame t={useCurrentFrame() / FPS} captions />;
 export const Short08Clean: React.FC = () => <Frame t={useCurrentFrame() / FPS} captions={false} />;
 /** One still at time u (s) for review: --props '{"u":12.3}'. */
-export const Short08At: React.FC<{ u: number; captions?: boolean }> = ({ u, captions = true }) => <Frame t={u} captions={captions} />;
+export const Short08At: React.FC<{ u: number; captions?: boolean; preview?: number }> = ({ u, captions = true, preview }) =>
+  preview !== undefined ? <SetPreview v={preview} /> : <Frame t={u} captions={captions} />;
