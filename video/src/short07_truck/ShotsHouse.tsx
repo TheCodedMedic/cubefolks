@@ -38,7 +38,7 @@ const bedAct = (x: number, t: number, extra: Pose, seed = 3): M.Act => ({
   pose: M.mix({ legL: Math.PI / 2, legR: Math.PI / 2, armL: 0.6, armR: 0.6 }, M.seatedIdle(t, seed, 0.6), extra),
 });
 const meHead = (x: number): V3 => [x, seatY + M.seatedY(0, 0) * 0 + 4.56 * KS, BED_SIT.z];
-const chinY = seatY + 3.9 * KS;
+const chinY = seatY + 3.4 * KS;
 /** Trembling (small, fast) for a scared kid. */
 const shiver = (t: number, k = 1): Pose => ({ roll: 0.012 * Math.sin(t * 37) * k, head: [0.02 * Math.sin(t * 29) * k, 0.015 * Math.sin(t * 41) * k] });
 
@@ -71,7 +71,7 @@ const momReach = (t: number, tStep: number, tArm: number, t0: number) => {
   const a0: M.Act = { position: w.position, yaw: w.yaw, walk: w.walk, pose: base };
   const r = REACH_FINAL;
   const k = M.ease(M.seg(t, tArm, tArm + 0.38));
-  return { ...a0, pose: { ...base, armL: 0.25 * (1 - k) + (r.pose.armL ?? 0) * k, armLOut: 0.05 * (1 - k) + (r.pose.armLOut ?? 0) * k } };
+  return { ...a0, pose: { ...base, armL: 1.15 * (1 - k) + (r.pose.armL ?? 0) * k, armLOut: 0.05 * (1 - k) + (r.pose.armLOut ?? 0) * k } };
 };
 
 // ================================================================= the shots
@@ -95,7 +95,7 @@ export const SHOTS_HOUSE: Shot[] = [
           <Ch look={ME_PJ} scale={KS} a={me} t={t} expr={expr} blinkSeed={2} cs={bedroomCS(0)} />
         </Bedroom07>;
       },
-      cam: mv(id, c([-3.6, 4.4, -4.6], [2.5, 3.7, -7.3], 42), c([-2.6, 4.2, -5.0], [2.5, 3.8, -7.3], 38)),
+      cam: mv(id, c([-9.3, 5.3, -1.2], [2.4, 3.0, -7.4], 40), c([-7.5, 5.0, -2.1], [2.4, 3.1, -7.4], 37)),
       dom: grade,
     });
   })(),
@@ -103,7 +103,7 @@ export const SHOTS_HOUSE: Shot[] = [
   // ---- s03: morning kitchen, ME's POV: Mom drops the free-cone flyer in the bin at her side, then wags a finger at us
   (() => {
     const id = "s03_kitchen", [a] = span(id);
-    const camP: V3 = [-0.6, 4.0, 7.2];
+    const camP: V3 = [-2.6, 4.2, 8.6];
     const yaw = M.yawTo(KITCHEN_MOM, camP);
     const tRel = E.mom2 + 0.12;
     const over: V3 = [BIN.p[0] - 0.15, BIN.top + 0.85, BIN.p[2]];
@@ -112,11 +112,11 @@ export const SHOTS_HOUSE: Shot[] = [
       scene: (t) => {
         // she looks down at the bin, arm out over it, lets go; head back to us; the right hand points and wags on "never take"
         const look = M.ease(M.seg(t, a - 0.3, a)) * (1 - M.ease(M.seg(t, tRel + 0.15, tRel + 0.4)));
-        const kIn = M.ease(M.seg(t, a - 0.5, a)), kL = kIn * (1 - M.ease(M.seg(t, tRel + 0.16, tRel + 0.4))), kO = kIn * (1 - M.ease(M.seg(t, tRel + 0.04, tRel + 0.22)));
+        const kIn = M.ease(M.seg(t, a - 0.5, a)), kL = kIn * (1 - M.ease(M.seg(t, tRel + 0.16, tRel + 0.4))), kO = kIn * (1 - M.ease(M.seg(t, tRel + 0.08, tRel + 0.3)));
         const wag = M.clamp01(M.seg(t, E.never, E.never + 0.1)) * (1 - M.seg(t, PE(2) - 0.1, PE(2) + 0.1));
         const pose: Pose = M.mix(M.idle(t, 4, 0.5),
           { head: [0.8 * look, 0.25 * look], twist: 0.15 * look },
-          { armL: 0.05 + ((drop.pose.armL ?? 0) - 0.05) * kL, armLOut: (drop.pose.armLOut ?? 0) * kO },
+          { armL: 0.05 + ((drop.pose.armL ?? 0) - 0.05) * kL + 0.45 * Math.sin(Math.PI * M.seg(t, tRel, tRel + 0.4)), armLOut: (drop.pose.armLOut ?? 0) * kO },
           M.point(t, E.never - 0.12, PE(2) + 0.3, 0.3), { armROut: 0.22 * Math.sin((t - E.never) * Math.PI * 2 * 3.2) * wag, lean: 0.05 * wag },
           M.headShake(t, E.take, E.take + 0.5, 3));
         const mom: M.Act = { position: KITCHEN_MOM, yaw, pose };
@@ -133,7 +133,7 @@ export const SHOTS_HOUSE: Shot[] = [
           <Ch look={MOM} a={mom} t={t} expr={expr} blinkSeed={5} cs={kitchenCS()} />
         </Kitchen07>;
       },
-      cam: mv(id, c(camP, [3.2, 3.9, -2.4], 44), c([-0.2, 4.0, 6.0], [2.8, 4.1, -2.8], 40)),
+      cam: mv(id, c(camP, [2.8, 3.2, -2.6], 40), c([-1.9, 4.2, 8.6], [2.6, 3.4, -2.8], 38)),
     });
   })(),
 
@@ -154,7 +154,7 @@ export const SHOTS_HOUSE: Shot[] = [
   mk("s23_bed", {
     scene: (t) => {
       const up = 0.15 + 0.85 * M.ease(M.seg(t, E.getting + 0.02, E.getting + 0.42));
-      const pose: Pose = M.mix({ armL: 0.75 + 1.15 * up, armR: 0.75 + 1.15 * up, armLOut: -0.32 * up, armROut: -0.32 * up, head: [0, -0.04] }, shiver(t, up));
+      const pose: Pose = M.mix({ armL: 0.7 + 0.5 * up, armR: 0.7 + 0.5 * up, armLOut: -0.2 * up, armROut: -0.2 * up, head: [0, -0.04] }, shiver(t, up));
       const me = bedAct(BED_SIT.start, t, pose);
       const expr: Expr = t < E.closer ? "worried" : "scared";
       return <Bedroom07 open={0} outside={0.6} stair={0.6} lamp={0.3}>
@@ -163,7 +163,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={ME_PJ} scale={KS} a={me} t={t} expr={expr} blinkSeed={3} cs={bedroomCS(0)} allow={BED_ALLOW} noFeet />
       </Bedroom07>;
     },
-    cam: mv("s23_bed", c([-1.4, 4.9, -5.2], [-6.3, 3.9, 0.2], 40), c([-2.2, 4.8, -4.3], [-6.4, 4.0, 0.2], 37)),
+    cam: mv("s23_bed", c([3.4, 6.3, -7.4], [-6.4, 3.0, 0.4], 38), c([2.4, 6.0, -6.9], [-6.4, 3.2, 0.4], 36)),
     dom: grade,
   }),
 
@@ -179,7 +179,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={MOM} a={mom} t={t} expr={t < E.door13 ? "smile" : "creepy"} hold={cones(glow)} blinkSeed={6} cs={csDoor} />
       </Bedroom07>;
     },
-    cam: mv("s24_door", c([-2.6, 5.4, 4.2], [12, 4.3, -0.4], 36), c([-1.4, 5.3, 3.8], [12, 4.4, -0.4], 33)),
+    cam: mv("s24_door", c([-8.4, 5.6, 5.6], [12, 4.0, -0.2], 31), c([-7.0, 5.5, 5.0], [12, 4.1, -0.2], 29)),
     dom: grade,
   }),
 
@@ -193,7 +193,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={MOM} a={mom} t={t} expr="creepy" hold={cones(glow)} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
-    cam: mv("s25_cones", c([7.0, 4.0, -1.6], [11.6, 4.3, 0], 42), c([7.8, 4.1, -1.2], [11.6, 4.4, 0], 40)),
+    cam: mv("s25_cones", c([4.0, 4.1, 2.8], [12, 4.0, 0], 40), c([4.9, 4.2, 2.4], [12, 4.1, 0], 38)),
     dom: grade,
   }),
 
@@ -214,7 +214,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={ME_PJ} scale={KS} a={me} t={t} lift={hop} expr="scared" blinkSeed={3} cs={bedroomCS(1)} allow={BED_ALLOW} noFeet />
       </Bedroom07>;
     },
-    cam: mv("s26_backs", c([-1.4, 5.0, 5.6], [-7.2, 3.6, 0.2], 40), c([-2.0, 4.9, 5.0], [-7.6, 3.7, 0.2], 38)),
+    cam: mv("s26_backs", c([2.3, 6.2, 8.6], [-7.4, 2.9, 0.5], 38), c([1.4, 6.0, 8.0], [-7.6, 3.0, 0.5], 36)),
     dom: grade,
   }),
 
@@ -252,7 +252,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={MOM} a={mom} t={t} expr="creepy" blink={0} hold={cones(0.6 + 0.4 * notePulse(t, E.music))} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
-    cam: mv("s28_tilt", c([3.0, 4.7, 2.0], [8.4, 4.0, 0.5], 40), c([3.6, 4.7, 1.8], [8.4, 4.1, 0.5], 38)),
+    cam: mv("s28_tilt", c([-4.1, 5.5, 5.5], [8.4, 3.6, 0.5], 38), c([-2.8, 5.3, 5.0], [8.4, 3.7, 0.5], 37)),
     dom: grade,
   }),
 
@@ -267,7 +267,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={MOM} a={mom} t={t} expr={expr} blink={0} hold={cones(0.7)} blinkSeed={6} cs={bedroomCS(1)} />
       </Bedroom07>;
     },
-    cam: mv("s29_mouth", c([5.1, 4.75, 0.75], [8.4, 4.55, 0.5], 36), c([5.6, 4.7, 0.7], [8.4, 4.6, 0.5], 34)),
+    cam: mv("s29_mouth", c([2.2, 5.0, 2.3], [8.4, 4.3, 0.5], 34), c([2.9, 4.9, 2.1], [8.4, 4.35, 0.5], 32)),
     dom: grade,
   }),
 
@@ -282,7 +282,7 @@ export const SHOTS_HOUSE: Shot[] = [
       </Bedroom07>;
     },
     cam: (t) => {
-      const base = mv("s30_jingle", c([3.4, 3.6, 2.3], [8.4, 4.3, 0.5], 42), c([4.2, 3.7, 1.9], [8.4, 4.4, 0.5], 39))(t);
+      const base = mv("s30_jingle", c([-3.8, 3.1, 5.0], [8.4, 3.8, 0.5], 40), c([-2.3, 3.2, 4.4], [8.4, 3.9, 0.5], 38))(t);
       const k = 0.06 * pulseSum(t, E.whole);
       return { ...base, pos: [base.pos[0], base.pos[1] + k, base.pos[2] + k * 0.5], roll: 0.012 * pulseSum(t, E.whole) * (Math.floor((t - E.whole) / 0.19) % 2 ? 1 : -1) } as CamS;
     },
@@ -300,7 +300,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={ME_PJ} scale={KS} a={me} t={t} expr="scared" blinkSeed={3} cs={bedroomCS(1)} allow={BED_ALLOW} noFeet />
       </Bedroom07>;
     },
-    cam: mv("s31_cower", c([-1.6, 5.4, 5.8], [-7.6, 3.6, 0.0], 42), c([-2.4, 5.2, 5.0], [-7.8, 3.7, 0.0], 39)),
+    cam: mv("s31_cower", c([1.5, 6.3, 7.4], [-8.2, 3.0, 0.5], 40), c([0.6, 6.1, 6.8], [-8.3, 3.1, 0.5], 38)),
     dom: grade,
   }),
 
@@ -319,7 +319,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={ME_PJ} scale={KS} a={me} t={t} expr="scared" blinkSeed={3} cs={cs} allow={BED_ALLOW} noFeet others={[st(mom)]} />
       </Bedroom07>;
     },
-    cam: mv("s32_offer", c([-7.6, 7.4, -3.2], [-5.2, 3.8, 3.2], 44), c([-7.3, 7.0, -3.0], [-5.6, 3.8, 3.0], 41)),
+    cam: mv("s32_offer", c([-3.6, 7.4, -6.8], [-5.9, 3.5, 3.0], 42), c([-3.9, 7.1, -6.2], [-6.0, 3.6, 3.0], 40)),
     dom: grade,
   }),
 
@@ -339,7 +339,7 @@ export const SHOTS_HOUSE: Shot[] = [
       </Bedroom07>;
     },
     cam: (t) => {
-      const base = mv("s33_spare", c([-3.4, 4.6, 3.6], [-7.0, 4.4, 0.5], 40), c([-3.9, 4.7, 3.1], [-7.0, 4.5, 0.6], 37))(t);
+      const base = mv("s33_spare", c([-2.4, 5.2, -3.6], [-7.4, 4.6, 1.2], 44), c([-2.9, 5.1, -3.2], [-7.4, 4.6, 1.2], 41))(t);
       const h = 0.015 * notePulse(t, E.whole);
       return { ...base, pos: [base.pos[0] + h, base.pos[1], base.pos[2]] };
     },
@@ -362,7 +362,7 @@ export const SHOTS_HOUSE: Shot[] = [
         <Ch look={ME_PJ} scale={KS} a={me} t={t} expr={expr} blink={expr === "stare" ? 0 : undefined} blinkSeed={3} cs={cs} allow={BED_ALLOW} noFeet others={[st(mom)]} />
       </Bedroom07>;
     },
-    cam: mv("s34_meface", c([-4.6, 4.7, -2.6], [-8.6, 4.3, 0.2], 40), c([-5.6, 4.6, -1.9], [-8.6, 4.35, 0.2], 36)),
+    cam: mv("s34_meface", c([-3.4, 3.8, -1.4], [-8.5, 4.0, 0.5], 38), c([-4.3, 3.9, -0.9], [-8.5, 4.1, 0.5], 35)),
     dom: grade,
   }),
 ];
