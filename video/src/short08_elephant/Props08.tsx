@@ -172,7 +172,7 @@ export const PeanutBag: React.FC<{ p?: V3; yaw?: number; lean?: number }> = ({ p
   <group position={p} rotation={[0, yaw, 0]}>
     <group rotation={[-lean, 0, 0]}>
       <mesh position={[0, 2.2, 0]} castShadow receiveShadow scale={[1.5, 2.2, 1.0]}><sphereGeometry args={[1, 20, 16]} /><meshStandardMaterial color="#c8a46a" roughness={0.95} /></mesh>
-      <mesh position={[0, 2.1, 0.98]} scale={[1, 1, 1]}><planeGeometry args={[2.3, 2.9]} /><meshStandardMaterial map={peanutTex()} roughness={0.95} transparent alphaTest={0.1} /></mesh>
+      <mesh position={[0, 2.1, 1.07]} rotation={[-0.08, 0, 0]}><planeGeometry args={[2.1, 2.6]} /><meshStandardMaterial map={peanutTex()} roughness={0.95} transparent alphaTest={0.1} /></mesh>
       <mesh position={[0, 4.55, -0.1]} castShadow><cylinderGeometry args={[0.35, 0.8, 0.9, 12]} /><meshStandardMaterial color="#b8945a" roughness={0.95} /></mesh>
       <mesh position={[0, 4.75, -0.1]} rotation={[Math.PI / 2, 0, 0]}><torusGeometry args={[0.38, 0.08, 6, 14]} /><meshStandardMaterial color="#6a4a24" /></mesh>
       {/* a few loose peanuts on the floor */}
