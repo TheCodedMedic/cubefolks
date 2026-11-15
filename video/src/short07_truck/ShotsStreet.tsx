@@ -64,7 +64,7 @@ const tobyAct = (t: number) => {
   const r = K.reachArm(st(base, S.kid), -1, target);
   const ar = lerp(base.pose?.armR ?? 0, r.pose.armR ?? 0, k), ao = lerp(base.pose?.armROut ?? 0, r.pose.armROut ?? 0, k);
   const snap = M.headSnap(t, tk + 0.12, -1.15, 0.05).head ?? [0, 0];
-  return { ...base, pose: { ...base.pose, armR: lerp(ar, 1.05, back), armROut: lerp(ao, 0.05, back), head: [snap[0], lerp(-0.35 * k, 0.05, back)] } };
+  return { ...base, pose: { ...base.pose, armR: lerp(ar, 1.05, back), armROut: lerp(ao, 0.05, back), head: [snap[0], lerp(-0.35 * k, 0.05, back)] as [number, number] } };
 };
 
 // ---------------------------------------------------------------- cameras
