@@ -1,6 +1,6 @@
 // Short 07 street shots (lead): the truck at night. s01 (hook), s04-s05 (Toby gets a cone), s19-s21 (it stops at our
 // house), s35 (the loop into s01). Rig units; the street is Short 6's MyStreet (runs along x; our house HOME lot x = 0,
-// Toby lives next door at lot x = 32; near lane of the road z ~43.5).
+// Toby lives two doors down at lot x = 64 (TL); near lane of the road z ~43.5).
 import React from "react";
 import { MyStreet, STREET } from "../short06_blocky/Town";
 import { BlockLights, Sky, Grade } from "../blocky/Look";
@@ -14,7 +14,8 @@ import { Cone, HAND_FIST, Truck, TRUCK, truckCS, truckPt } from "./Props07";
 // ---------------------------------------------------------------- the truck's moves
 const LANE_Z = 43.5, YAW = -Math.PI / 2; // driving -x, the serving window faces our houses (-z)
 const STOP_X = 4;                         // "outside my window": in front of our house
-const TOBY_TRUCK_X = 30.5;                // parked at Toby's (lot 32): the window lands just right of his gate
+const TL = 64;                             // Toby's lot (two doors down: clear of the street's hydrant at x 22)
+const TOBY_TRUCK_X = TL - 1.5;             // parked at Toby's: the window lands just right of his gate
 /** Truck x for a roll that decelerates from x0 to x1 over [a, b] (stopping at b). */
 const roll = (t: number, x0: number, x1: number, a: number, b: number) => { const u = seg(t, a, b); return lerp(x0, x1, 1 - (1 - u) * (1 - u)); };
 const wheel = (x: number) => -x / 1.7;
@@ -32,11 +33,10 @@ const Night: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, chi
   <MyStreet time="night" />
   {children}
 </>;
-/** Street colliders near Toby's walk (lot 32): the picket fence beside his gate, the curb is a step (groundFn). */
+/** Street colliders near Toby's walk: the sidewalk and curb are steps (groundFn), the truck is solid. */
 const streetCS = (truckX: number): K.Box[] => [
-  K.box([32, 0.06, 32.5], [60, 0.12, 4], "sidewalk"),
-  K.box([32, 0.1, 37.75], [60, 0.2, 0.5], "curb"),
-  K.box([32 - 1.9 - 6.85, 1.5, 30], [13.7, 3, 0.4], "fence"), K.box([32 + 1.9 + 6.85, 1.5, 30], [13.7, 3, 0.4], "fence"),
+  K.box([TL, 0.06, 32.5], [60, 0.12, 4], "sidewalk"),
+  K.box([TL, 0.1, 37.75], [60, 0.2, 0.5], "curb"),
   ...truckCS([truckX, 0.03, LANE_Z], YAW),
 ];
 const ground = K.groundFn(streetCS(TOBY_TRUCK_X));
@@ -47,7 +47,7 @@ const solidCS = (truckX: number) => streetCS(truckX).filter((b) => b.name !== "s
 const WIN = () => truckPt([TOBY_TRUCK_X, 0.03, LANE_Z], YAW, TRUCK.window); // serving window centre (world)
 const FIST = () => truckPt([TOBY_TRUCK_X, 0.03, LANE_Z], YAW, HAND_FIST);
 const TOBY_STOP = (): V3 => [FIST()[0] + 1.15, 0.2, 37.5]; // the pale fist straight in front of his right shoulder
-const TOBY_PATH = (): V3[] => [[36.2, 0.12, 33.4], [33.0, 0.12, 33.6], [32.2, 0, 36.2], TOBY_STOP()];
+const TOBY_PATH = (): V3[] => { const e = TOBY_STOP(); return [[e[0] + 3.0, 0.12, 33.4], [e[0] + 0.2, 0.12, 33.6], [e[0] - 0.6, 0, 36.2], e]; };
 const TOBY_GO = () => E.last3 - 0.01 - M.walkDuration(TOBY_PATH(), { scale: S.kid });
 /** When Toby's fingers close on the cone (the hand-off), inside s05. */
 const tobyTook = () => { const [a, b] = span("s05_handoff"); return lerp(a, b, 0.62); };
@@ -91,7 +91,7 @@ export const SHOTS_STREET: Shot[] = [
         <TruckAt t={t} x={TOBY_TRUCK_X} lights={0.6} />
         <Ch look={TOBY} a={a} t={t} scale={S.kid} expr={t < E.last3 - 0.1 ? "smile" : "happy"} blinkSeed={3} cs={solidCS(TOBY_TRUCK_X)} />
       </Night>; },
-    cam: mv("s04_tobywalk", c([6, 4.4, 38.7], [32, 3.2, 35.6], 30), c([7.2, 4.3, 38.6], [32, 3.4, 35.9], 29)),
+    cam: mv("s04_tobywalk", c([TL - 26, 4.4, 38.7], [TL, 3.2, 35.6], 30), c([TL - 24.8, 4.3, 38.6], [TL, 3.4, 35.9], 29)),
     dom: () => <Grade time="night" />,
   }),
   // (5) "last week": close at the window: a pale hand comes out of the dark with a glowing cone; Toby's hand takes it
