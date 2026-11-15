@@ -294,7 +294,7 @@ export const GROCERY_CS: Box[] = [
   box([GX + AISLE_HW + 1.6 + 0.3, 4.5, 0], [3.6, 9, GZ1 - GZ0], "shelfR"),
 ];
 /** A shopping cart (local: handle toward -z), as a group. */
-export const Cart: React.FC<{ at: V3; yaw?: number }> = ({ at, yaw = 0 }) => {
+export const Cart: React.FC<{ at: V3; yaw?: number; scale?: number }> = ({ at, yaw = 0, scale = 0.72 }) => {
   const b = useBuilt("p09cart", (k) => {
     k.box("p09cart", [0, 3.2, 0], [3.0, 0.1, 4.4]);
     for (const sx of [-1, 1]) k.box("p09cart", [sx * 1.5, 4.2, 0], [0.08, 2.0, 4.4]);
@@ -305,7 +305,7 @@ export const Cart: React.FC<{ at: V3; yaw?: number }> = ({ at, yaw = 0 }) => {
     for (const [sx, sz] of [[-1, -2], [1, -2], [-1, 2], [1, 2]]) k.geo("tyre", new THREE.CylinderGeometry(0.35, 0.35, 0.25, 12), [sx * 1.3, 0.35, sz], new THREE.Euler(0, 0, Math.PI / 2));
     k.box("p09pB", [-0.5, 4.0, 0.6], [1.2, 1.4, 0.9]); k.box("p09pC", [0.6, 3.8, -0.8], [1.0, 1.0, 1.0]); k.box("p09pD", [0.4, 3.7, 1.2], [1.3, 0.8, 0.7]);
   });
-  return <group position={at} rotation={[0, yaw, 0]}><Render b={b} /></group>;
+  return <group position={at} rotation={[0, yaw, 0]} scale={scale}><Render b={b} /></group>;
 };
 /** A cereal box held in a hand (+y out of the fist). */
 export const CerealBox: React.FC = () => (

@@ -16,6 +16,8 @@ const preview = (() => { try { return !!(typeof window === "undefined" ? {} : ge
 export const SHOTS: Shot[] = preview ? PREVIEW : SHOTS09;
 export const POPS: PopSpec[] = [
   { kind: "icon", icon: "?", t0: at(5, "planning"), t1: at(5, "something.", 1, 0.5), x: 0.78, y: 0.2, size: 0.6, rot: 8 },
+  { kind: "word", text: "9:00", t0: at(3, "nine,"), t1: at(3, "Mr.", 1, -0.05), x: 0.5, y: 0.3, size: 0.9, rot: -4, color: "#ffffff", color2: "#2a2f45" },
+  { kind: "word", text: "9:00", t0: at(7, "Nine"), t1: at(7, "came,", 1, 0.3), x: 0.5, y: 0.3, size: 0.9, rot: 4, color: "#ffffff", color2: "#2a2f45" },
   { kind: "icon", icon: "heart", t0: at(16, "always"), t1: at(16, "come.", 1, 0.45), x: 0.5, y: 0.2, size: 0.75 },
 ];
 const HIGHLIGHT: string[] = ["blinks", "away", "nine", "three", "Mr.", "Bell", "back", "knee", "dark", "slippers", "coat", "scared", "always", "turn", "safe"];

@@ -1,0 +1,466 @@
+{
+ "end": 36.701,
+ "cuts": [
+  {
+   "id": "s01_hook",
+   "t0": 0,
+   "t1": 1.43,
+   "place": "bell_hall"
+  },
+  {
+   "id": "s02_nod",
+   "t0": 1.43,
+   "t1": 2.152,
+   "place": "street_night"
+  },
+  {
+   "id": "s03_store",
+   "t0": 2.152,
+   "t1": 3.85,
+   "place": "store"
+  },
+  {
+   "id": "s04_cereal",
+   "t0": 3.85,
+   "t1": 4.590000000000001,
+   "place": "store"
+  },
+  {
+   "id": "s05_path",
+   "t0": 4.590000000000001,
+   "t1": 5.287,
+   "place": "street_dusk"
+  },
+  {
+   "id": "s06_bellflash",
+   "t0": 5.287,
+   "t1": 7.61,
+   "place": "street_night"
+  },
+  {
+   "id": "s07_watch",
+   "t0": 7.61,
+   "t1": 8.691,
+   "place": "street_night"
+  },
+  {
+   "id": "s08_dadflash",
+   "t0": 8.691,
+   "t1": 9.889999999999999,
+   "place": "our_room"
+  },
+  {
+   "id": "s10_stairs",
+   "t0": 9.889999999999999,
+   "t1": 11.114,
+   "place": "our_room"
+  },
+  {
+   "id": "s11_couch",
+   "t0": 11.114,
+   "t1": 12.95,
+   "place": "our_room"
+  },
+  {
+   "id": "s12_clock",
+   "t0": 12.95,
+   "t1": 13.87,
+   "place": "our_room"
+  },
+  {
+   "id": "s13_dark",
+   "t0": 13.87,
+   "t1": 15.468,
+   "place": "street_night"
+  },
+  {
+   "id": "s14_again",
+   "t0": 15.468,
+   "t1": 16.815,
+   "place": "street_night"
+  },
+  {
+   "id": "s15_wave",
+   "t0": 16.815,
+   "t1": 17.85,
+   "place": "our_room"
+  },
+  {
+   "id": "s16_pov",
+   "t0": 17.85,
+   "t1": 18.659000000000002,
+   "place": "street_night"
+  },
+  {
+   "id": "s17_slippers",
+   "t0": 18.659000000000002,
+   "t1": 19.71,
+   "place": "street_night"
+  },
+  {
+   "id": "s17_stare",
+   "t0": 19.71,
+   "t1": 20.548000000000002,
+   "place": "street_night"
+  },
+  {
+   "id": "s18_look",
+   "t0": 20.548000000000002,
+   "t1": 21.67,
+   "place": "our_room"
+  },
+  {
+   "id": "s19_tiptoe",
+   "t0": 21.67,
+   "t1": 22.971,
+   "place": "our_room"
+  },
+  {
+   "id": "s20_coat",
+   "t0": 22.971,
+   "t1": 23.93,
+   "place": "bell_hall"
+  },
+  {
+   "id": "s21_cross",
+   "t0": 23.93,
+   "t1": 24.885,
+   "place": "street_night"
+  },
+  {
+   "id": "s22_open",
+   "t0": 24.885,
+   "t1": 25.57,
+   "place": "our_room"
+  },
+  {
+   "id": "s23_knock",
+   "t0": 25.57,
+   "t1": 26.491000000000003,
+   "place": "street_night"
+  },
+  {
+   "id": "s24_face",
+   "t0": 26.491000000000003,
+   "t1": 27.765,
+   "place": "our_room"
+  },
+  {
+   "id": "s25_past",
+   "t0": 27.765,
+   "t1": 28.73,
+   "place": "street_night"
+  },
+  {
+   "id": "s26_wake",
+   "t0": 28.73,
+   "t1": 29.462000000000003,
+   "place": "our_room"
+  },
+  {
+   "id": "s27_laugh",
+   "t0": 29.462000000000003,
+   "t1": 30.330000000000002,
+   "place": "our_room"
+  },
+  {
+   "id": "s28_switch",
+   "t0": 30.330000000000002,
+   "t1": 31.110000000000003,
+   "place": "our_room"
+  },
+  {
+   "id": "s29_next",
+   "t0": 31.110000000000003,
+   "t1": 32.449999999999996,
+   "place": "street_night"
+  },
+  {
+   "id": "s30_me",
+   "t0": 32.449999999999996,
+   "t1": 33.839,
+   "place": "our_room"
+  },
+  {
+   "id": "s31_nod",
+   "t0": 33.839,
+   "t1": 34.69,
+   "place": "street_night"
+  },
+  {
+   "id": "s32_home",
+   "t0": 34.69,
+   "t1": 36.701,
+   "place": "bell_hall"
+  }
+ ],
+ "events": [
+  {
+   "kind": "switch_click",
+   "t": -0.05,
+   "note": "our porch (hook) flash 1 on (seen from across the street)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 0.15999999999999998,
+   "note": "our porch (hook) flash 1 off (seen from across the street)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 0.37,
+   "note": "our porch (hook) flash 2 on (seen from across the street)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 0.58,
+   "note": "our porch (hook) flash 2 off (seen from across the street)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 0.7899999999999999,
+   "note": "our porch (hook) flash 3 on (seen from across the street)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 0.9999999999999999,
+   "note": "our porch (hook) flash 3 off (seen from across the street)"
+  },
+  {
+   "kind": "door_close",
+   "t": 2.072,
+   "note": "Mr. Bell's door shuts"
+  },
+  {
+   "kind": "cart_rattle",
+   "t": 3.11,
+   "note": "Dad lets go of the cart"
+  },
+  {
+   "kind": "steps_hurry_shop",
+   "t": 3.11,
+   "t1": 3.85,
+   "note": "Dad hurries off (store floor)"
+  },
+  {
+   "kind": "steps_hurry_path",
+   "t": 4.590000000000001,
+   "t1": 5.287,
+   "note": "Dad up our path, dusk"
+  },
+  {
+   "kind": "switch_click",
+   "t": 6.25,
+   "note": "Mr. Bell flash 1 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 6.49,
+   "note": "Mr. Bell flash 1 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 6.779999999999999,
+   "note": "Mr. Bell flash 2 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 7.02,
+   "note": "Mr. Bell flash 2 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 7.31,
+   "note": "Mr. Bell flash 3 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 7.55,
+   "note": "Mr. Bell flash 3 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 8.870000000000001,
+   "note": "Dad flash 1 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 9.040000000000001,
+   "note": "Dad flash 1 off (our hall, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 9.196818181818182,
+   "note": "Dad flash 2 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 9.366818181818182,
+   "note": "Dad flash 2 off (our hall, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 9.523636363636363,
+   "note": "Dad flash 3 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 9.693636363636363,
+   "note": "Dad flash 3 off (our hall, close)"
+  },
+  {
+   "kind": "snore",
+   "t": 12.53,
+   "t1": 22.971,
+   "note": "Dad snoring softly (only in our living room shots)"
+  },
+  {
+   "kind": "clock_tick",
+   "t": 12.95,
+   "t1": 13.87,
+   "note": "wall clock"
+  },
+  {
+   "kind": "clock_flip",
+   "t": 13.47,
+   "note": "8:59 -> 9:00 (a soft chime)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 15.63,
+   "note": "Mr. Bell again flash 1 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 15.89,
+   "note": "Mr. Bell again flash 1 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 16.1,
+   "note": "Mr. Bell again flash 2 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 16.360000000000003,
+   "note": "Mr. Bell again flash 2 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 16.57,
+   "note": "Mr. Bell again flash 3 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 16.830000000000002,
+   "note": "Mr. Bell again flash 3 off (his doorway, close)"
+  },
+  {
+   "kind": "tiptoe",
+   "t": 21.67,
+   "t1": 22.971,
+   "note": "ME tiptoes on wood"
+  },
+  {
+   "kind": "coat_whoosh",
+   "t": 23.75,
+   "note": "coat swung on"
+  },
+  {
+   "kind": "slipper_steps_fast",
+   "t": 23.889999999999997,
+   "t1": 24.885,
+   "note": "slippers slapping across the road"
+  },
+  {
+   "kind": "door_open",
+   "t": 25.185000000000002,
+   "note": "ME pulls our door open"
+  },
+  {
+   "kind": "knock_that_never_comes",
+   "t": 26.15,
+   "note": "the fist stops: silence / a tiny breath"
+  },
+  {
+   "kind": "piano_rise",
+   "t": 28.01,
+   "note": "warm piano rises (the turn: scared FOR Dad)"
+  },
+  {
+   "kind": "laugh_two_men",
+   "t": 29.562000000000005,
+   "t1": 30.330000000000002,
+   "note": "Dad and Mr. Bell laugh"
+  },
+  {
+   "kind": "switch_click",
+   "t": 31.23,
+   "note": "Mr. Bell next night flash 1 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 31.39,
+   "note": "Mr. Bell next night flash 1 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 31.53,
+   "note": "Mr. Bell next night flash 2 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 31.69,
+   "note": "Mr. Bell next night flash 2 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 31.830000000000002,
+   "note": "Mr. Bell next night flash 3 on (his doorway, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 31.990000000000002,
+   "note": "Mr. Bell next night flash 3 off (his doorway, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 32.57,
+   "note": "ME flash 1 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 32.72,
+   "note": "ME flash 1 off (our hall, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 32.86333333333334,
+   "note": "ME flash 2 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 33.013333333333335,
+   "note": "ME flash 2 off (our hall, close)"
+  },
+  {
+   "kind": "switch_click",
+   "t": 33.156666666666666,
+   "note": "ME flash 3 on (our hall, close)"
+  },
+  {
+   "kind": "switch_clack",
+   "t": 33.306666666666665,
+   "note": "ME flash 3 off (our hall, close)"
+  },
+  {
+   "kind": "question_pop",
+   "t": 33.701,
+   "note": "on-screen question pops in"
+  },
+  {
+   "kind": "switch_click",
+   "t": 35.31,
+   "note": "Mr. Bell switches his porch light off (goes home)"
+  }
+ ]
+}

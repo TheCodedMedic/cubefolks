@@ -29,8 +29,8 @@ export const InLot: React.FC<{ lot: LotId; children?: React.ReactNode }> = ({ lo
 export const DOOR_X = -3, FRONT_Z = 9, PORCH_Z = 15;
 /** The porch lamp (beside the door, left of it seen from the street) and the switch right under it. */
 export const LAMP_L: V3 = [DOOR_X - DOOR_HW - 1.05, F + 6.0, FRONT_Z + 0.45];
-/** The porch-light switch: inside, on the inner face of the front wall, just left of the door (seen from inside: right). */
-export const SWITCH_IN_L: V3 = [DOOR_X - DOOR_HW - 0.6, F + 3.7, FRONT_Z - 0.4 - 0.12 - 0.06];
+/** The porch-light switch: inside, on the inner face of the front wall, between the door and the big window. */
+export const SWITCH_IN_L: V3 = [DOOR_X + DOOR_HW + 0.65, F + 3.7, FRONT_Z - 0.4 - 0.12 - 0.06];
 export const SWITCH_OUT_L: V3 = SWITCH_IN_L;
 /** Door hinge (left jamb from the street) and the free edge. */
 export const HINGE_L: V3 = [DOOR_X - DOOR_HW + 0.27, F, FRONT_Z - 0.2];
