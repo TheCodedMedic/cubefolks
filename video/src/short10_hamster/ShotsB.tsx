@@ -60,15 +60,15 @@ const nightDom = () => <Grade time="interiorNight" />;
 /** Peanut's cage local floor height (bedding). */
 const PB = Pr.CAGE.base;
 /** Peanut's cage is drawn at 0.8: a hamster drawn in world coordinates near it uses this scale. */
-const HS = 0.85;
+const HS = 1.0;
 /** The tip-out spot on the bed (shots 16-18): the bag lies on the blanket, its pocket toward the camera side. */
-const BED_BAG: V3 = [-6.1, 2.03, -0.9];
+const BED_BAG: V3 = [-5.65, 2.03, -0.9];
 const BED_BAG_YAW = -1.0;
 /** ME beside the bed (shots 16-18). */
 const ME_BED: V3 = [-3.15, 0, -0.75];
 /** The backpack on the floor by Peanut's desk (shots 23-30): pocket toward the room's back-left (the shot-30 camera). */
 const HB: V3 = Pr.HOME_BAG;
-const HB_YAW = -2.58;
+const HB_YAW = -1.95;
 const HB_POCKET: V3 = add(HB, add(fwd(HB_YAW, 0.55), [0, 1.0, 0]));
 
 /** Sunflower shells tumbling from `from` to scattered spots around `to` (radius r), each starting at its own time. */
@@ -106,7 +106,7 @@ const CCS = [...CLASSROOM_CS, ...Pr.CAGE_CS, ...Pr.BAG_CS];
 const CCS_NOBAGS = [...CLASSROOM_CS, ...Pr.CAGE_CS];
 /** The recording set-up on desk 8: a stack of books with the phone, its back (camera) toward the cage. */
 const D8 = DESK(8);
-const STACK: V3 = [D8.desk[0] - 0.5, D8.desk[1], D8.desk[2] - 0.3];
+const STACK: V3 = [D8.desk[0] - 1.0, D8.desk[1], D8.desk[2] + 0.5];
 const STACK_YAW = Math.atan2(-(Pr.HOLE[0] - STACK[0]), -(Pr.HOLE[2] - STACK[2]));
 /** The phone's lens (world): the phone sits 1.54 up on the stack, 0.05 toward its screen side. */
 const LENS: V3 = add(STACK, add(fwd(STACK_YAW, -0.1), [0, 1.56, 0]));
@@ -138,7 +138,7 @@ const PhoneUI: React.FC<{ t: number; play?: number }> = ({ t, play }) => {
 };
 /** Cleanup kids in the classroom (the recording and Monday): one wipes the shelf by the cage, one sweeps. */
 const WIPE_AT: V3 = [16.4, 0, 0.9];
-const SWEEP_AT: V3 = [15.2, 0, 9.4];
+const SWEEP_AT: V3 = [12.2, 0, 8.4];
 const wiper = (t: number) => ({ position: WIPE_AT, yaw: PI / 2, pose: M.mix(M.idle(t, 4, 0.5), { armR: 1.25 + 0.12 * Math.sin(t * 9), armROut: 0.15 + 0.25 * Math.sin(t * 4.5), lean: 0.12, head: [0, 0.2] as [number, number] }) });
 const sweeper = (t: number) => ({ position: SWEEP_AT, yaw: PI / 2 + 0.5, pose: M.mix(M.idle(t, 7, 0.5), { armR: 0.7 + 0.3 * Math.sin(t * 6), armL: 0.5 + 0.3 * Math.sin(t * 6), twist: 0.25 * Math.sin(t * 6), lean: 0.15, head: [0, 0.25] as [number, number] }) });
 /** Sir Nibbles' path out of the hole and down into ME's pocket (the recording): u 0..1 over [a, b]. */
@@ -162,7 +162,7 @@ const s16 = mk("s16", {
     const u = lt("s16", t), [a, b] = span("s16"), D = b - a;
     const zip = c01(u / (D * 0.4)), tip = M.ease(c01((u - D * 0.45) / (D * 0.45))) * 0.85;
     const reach = M.env(t, a, Infinity, 0.15);
-    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.95 * reach + 0.25 * tip, armL: 0.8 * reach + 0.3 * tip, armROut: 0.12 * Math.sin(u * 14) * (1 - zip) * reach, lean: 0.18 * reach, head: [0, 0.32] });
+    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.95 * reach + 0.25 * tip, armL: 0.8 * reach + 0.3 * tip, armROut: 0.12 * Math.sin(u * 14) * (1 - zip) * reach, lean: 0.18 * reach, head: [0, 0.1] });
     const mouth = add(BED_BAG, add(fwd(BED_BAG_YAW, 1.1), [0, 0.25, 0]));
     return <>
       <Night focus={[-5, 0, -1]} />
@@ -171,7 +171,7 @@ const s16 = mk("s16", {
       <Ch look={ME} t={t} expr={u < D * 0.6 ? "smile" : "surprised"} cs={Pr.BEDROOM_CS} a={{ position: ME_BED, yaw: -1.3, pose }} />
     </>;
   },
-  cam: mv("s16", cam([-10.4, 5.6, 4.2], [-4.6, 2.9, -1.0], 40), cam([-10.0, 5.3, 3.6], [-4.7, 2.8, -1.0], 38)),
+  cam: mv("s16", cam([-11.2, 5.6, 3.0], [-4.3, 2.7, -0.9], 40), cam([-10.9, 5.4, 2.6], [-4.3, 2.7, -0.9], 38)),
   dom: nightDom,
 });
 // 17 (C) CLUE: the shells spill onto the bed from the tipped bag; ME stares down at them.
@@ -186,7 +186,7 @@ const s17 = mk("s17", {
       <Ch look={ME} t={t} expr="surprised" cs={Pr.BEDROOM_CS} a={{ position: ME_BED, yaw: -1.3, pose: M.mix(M.idle(t, 1, 0.4), { armR: 1.1, armL: 1.05, lean: 0.2, head: [0.1, 0.45] }, M.recoil(t, a + 0.35, a + 1.2)) }} />
     </>;
   },
-  cam: mv("s17", cam([-8.9, 4.0, 1.3], [-7.0, 2.35, -0.05], 40), cam([-8.6, 3.75, 1.0], [-7.05, 2.3, -0.1], 36)),
+  cam: mv("s17", cam([-8.3, 5.3, 3.3], [-6.9, 2.2, -0.3], 40), cam([-8.1, 5.0, 2.9], [-6.9, 2.2, -0.3], 38)),
   dom: nightDom,
 });
 // 18 (M) ME shakes head: "I never packed any." Shells and the bag in the foreground.
@@ -202,7 +202,7 @@ const s18 = mk("s18", {
       <Ch look={ME} t={t} expr="worried" cs={Pr.BEDROOM_CS} a={{ position: add(ME_BED, [0.35, 0, 0.2]), yaw, pose: M.mix(M.idle(t, 2, 0.5), M.headShake(t, at(11, "never") - 0.05, at(11, "any.") + 0.25), M.spread(t, at(11, "packed") - 0.1, at(11, "any.") + 0.5)) }} />
     </>;
   },
-  cam: mv("s18", cam([-8.6, 4.7, 3.0], [-4.1, 3.3, -0.8], 40), cam([-8.1, 4.6, 2.5], [-4.0, 3.35, -0.8], 38)),
+  cam: mv("s18", cam([-7.4, 5.7, 7.6], [-3.0, 3.0, -0.5], 40), cam([-7.0, 5.5, 7.0], [-3.0, 3.05, -0.5], 38)),
   dom: nightDom,
 });
 // 19 (MW) Peanut runs on her wheel in her cage on ME's desk.
@@ -210,7 +210,7 @@ const s19 = mk("s19", {
   scene: (t) => <>
     <Night focus={Pr.PCAGE_POS} wheel={-t * 7} peanut={<Pr.Hamster look={Pr.PEANUT} p={[-1.1, PB + 0.07, -0.35]} yaw={PI / 2} walk={t * 34} s={0.82} />} />
   </>,
-  cam: mv("s19", cam([3.6, 4.7, 1.2], [10.2, 3.9, -2.4], 40), cam([4.5, 4.6, 0.7], [10.2, 3.9, -2.4], 38)),
+  cam: mv("s19", cam([1.8, 5.8, 3.8], [10.2, 3.8, -2.2], 40), cam([2.6, 5.6, 3.2], [10.2, 3.8, -2.2], 38)),
   dom: nightDom,
 });
 // 20 (C) CLUE: a second nest of shredded paper in the corner, a shell on top; Peanut trots over and sniffs it.
@@ -227,11 +227,11 @@ const s20 = mk("s20", {
       </>} />
     </>;
   },
-  cam: mv("s20", cam([6.9, 4.9, -4.3], [9.9, 3.75, -3.15], 40), cam([7.3, 4.75, -4.1], [9.9, 3.75, -3.15], 38)),
+  cam: mv("s20", cam([9.2, 4.25, -7.6], [9.85, 3.55, -3.1], 40), cam([9.3, 4.15, -7.0], [9.85, 3.55, -3.1], 38)),
   dom: nightDom,
 });
 // 21 (MW) classroom, next Friday: ME props the phone on the book stack on desk 8, then points at the cage.
-const ME21: V3 = [0.1, 0, STACK[2] - 0.1];
+const ME21: V3 = [0.5, 0, 8.0];
 const s21 = mk("s21", {
   scene: (t) => {
     const [a, b] = span("s21"), D = b - a, u = t - a, placed = u > D * 0.42;
@@ -253,28 +253,29 @@ const s21 = mk("s21", {
       <Ch look={MAYA} t={t} cs={CLASSROOM_CS} others={[st({ position: ME21, yaw })]} blinkSeed={7} a={maya} />
     </>;
   },
-  cam: mv("s21", cam([11.5, 5.2, 2.2], [1.8, 3.1, 5.6], 40), cam([10.6, 5.0, 2.5], [1.8, 3.1, 5.6], 38)),
+  cam: mv("s21", cam([9.5, 7.4, 15.5], [0.9, 2.6, 8.2], 40), cam([9.0, 7.2, 14.8], [0.9, 2.6, 8.2], 38)),
 });
-// 22 (C) the phone screen, recording the cleanup: Maya slides the drawer out, a kid wipes, a kid sweeps. REC.
-const MAYA_DRAWER: V3 = [16.9, 0, Pr.HOLE[2] + 1.15];
+// 22 (C) the phone screen, recording the cleanup: Maya carries the food drawer off toward the sink (the hole now open),
+// a kid wipes the shelf, a kid sweeps. REC.
 const s22 = mk("s22", {
   scene: (t) => {
-    const [a, b] = span("s22"), D = b - a;
-    const dr = M.ease(c01((t - a - D * 0.25) / (D * 0.5)));
-    const myaw = M.yawTo(MAYA_DRAWER, [Pr.HOLE[0], 0, Pr.HOLE[2]]);
-    const maya = { position: MAYA_DRAWER, yaw: myaw, pose: M.mix(M.idle(t, 3, 0.4), { armR: 1.35 + 0.1 * dr, armL: 1.3 + 0.1 * dr, lean: 0.1 - 0.05 * dr, head: [0, 0.3] as [number, number] }) };
+    const [a] = span("s22");
+    const mw = M.walkPath([[16.2, 0, Pr.HOLE[2] + 0.2], [16.0, 0, 12.0]], t, a - 0.15, { scale: KID, gait: "stroll" });
+    const maya = { ...mw, pose: M.mix(mw.pose, { armR: 1.05, armL: 1.05, armROut: -0.12, armLOut: -0.12 }) };
+    const tray = add(mw.position, add(fwd(mw.yaw, 1.15), [0, 2.05, 0]));
     const w = wiper(t), s = sweeper(t);
     return <>
       <Lights focus={Pr.CAGE_POS} />
       <Classroom clock={2.23} />
-      <Pr.ClassCage drawer={dr} wheel={t * 2} tape={1}><Pr.Hamster look={Pr.NIBBLES} p={[0.3, Pr.CAGE.base, 0.2]} yaw={0.5} cheeks={0.6} /></Pr.ClassCage>
+      <Pr.ClassCage drawer={null} wheel={t * 2} tape={1} />
       <Pr.BagRow meOpen={1} />
+      <group position={tray} rotation={[0, mw.yaw, 0]}><Pr.DrawerTray /></group>
       <Ch look={MAYA} t={t} expr="smile" cs={CCS} others={[st(w), st(s)]} blinkSeed={7} a={maya} />
       <Ch look={KIDS[0]} t={t} cs={CCS} others={[st(maya), st(s)]} blinkSeed={1} a={w} />
       <Ch look={KIDS[2]} t={t} cs={CCS} others={[st(maya), st(w)]} blinkSeed={3} a={s} />
     </>;
   },
-  cam: (t) => recCam([18.0, 2.5, 4.6], 30, t),
+  cam: (t) => recCam([17.6, 2.6, 6.2], 30, t),
   dom: (t) => <PhoneUI t={t} />,
 });
 // 23 (MW) bedroom: ME sets the backpack on the floor by the desk, under Peanut's cage, and glances up at it.
@@ -285,14 +286,14 @@ const s23 = mk("s23", {
     const t0 = a + 0.05, down = M.ease(c01((t - t0) / (D * 0.45)));
     const bag: V3 = L3(add(ME23, add(fwd(M.yawTo(ME23, HB), 1.35), [0, 1.25, 0])), HB, down);
     const yaw = M.yawTo(ME23, HB);
-    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.9 * (1 - down) + 0.2, armL: 0.9 * (1 - down) + 0.2 }, M.pickUp(t, t0, D * 0.75), M.headSnap(t, a + D * 0.7, 0.5, -0.35));
+    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.9 * (1 - down) + 0.2, armL: 0.9 * (1 - down) + 0.2 }, M.pickUp(t, t0, D * 0.75), { head: [0, -0.22 * Math.sin(PI * c01((t - t0) / (D * 0.75)))] }, M.headSnap(t, a + D * 0.7, 0.5, -0.35));
     return <>
       <Night focus={[7.5, 0, -2]} wheel={t * 2} peanut={<Pr.Hamster look={Pr.PEANUT} p={[0.6, PB, 0.2]} yaw={-0.6} lookYaw={0.3 * Math.sin(t * 3)} />} />
       <Pr.Backpack p={bag} yaw={HB_YAW} color={Pr.ME_BAG.color} stripe={Pr.ME_BAG.stripe} open={0.6} />
       <Ch look={ME} t={t} expr={t > a + D * 0.7 ? "smirk" : "smile"} cs={Pr.BEDROOM_CS} a={{ position: ME23, yaw, pose }} />
     </>;
   },
-  cam: mv("s23", cam([-0.6, 5.3, 5.2], [7.3, 2.7, -2.4], 38), cam([0.2, 5.1, 4.6], [7.3, 2.7, -2.4], 36)),
+  cam: mv("s23", cam([3.4, 6.0, 8.8], [6.9, 2.4, -2.0], 38), cam([3.6, 5.8, 8.1], [6.9, 2.4, -2.0], 36)),
   dom: nightDom,
 });
 // 24 (M) Peanut's cage: the little side door is open; Peanut peeks out, sniffing; the bag waits below.
@@ -304,7 +305,7 @@ const s24 = mk("s24", {
       <Pr.Backpack p={HB} yaw={HB_YAW} color={Pr.ME_BAG.color} stripe={Pr.ME_BAG.stripe} open={0.6} />
     </>;
   },
-  cam: mv("s24", cam([6.6, 4.9, -8.6], [9.9, 3.6, -3.4], 40), cam([7.0, 4.7, -8.2], [9.9, 3.7, -3.5], 37)),
+  cam: mv("s24", cam([5.8, 5.1, -9.0], [9.9, 3.6, -3.4], 40), cam([6.2, 4.9, -8.7], [9.9, 3.65, -3.4], 38)),
   dom: nightDom,
 });
 // 25 (C) the clock: 11:59 -> 12:00 on "midnight".
@@ -329,7 +330,7 @@ const s26a = mk("s26a", {
       {void a}
     </>;
   },
-  cam: mv("s26a", cam(add(HB, add(fwd(HB_YAW, 3.6), [0.4, 1.9, 0])), add(HB, [0, 1.05, 0]), 40), cam(add(HB, add(fwd(HB_YAW, 3.1), [0.35, 1.8, 0])), add(HB, [0, 1.05, 0]), 38)),
+  cam: mv("s26a", cam(add(HB, add(fwd(HB_YAW, 5.5), [0.5, 2.6, 0])), add(HB, [0, 1.0, 0]), 40), cam(add(HB, add(fwd(HB_YAW, 4.9), [0.45, 2.4, 0])), add(HB, [0, 1.0, 0]), 38)),
   dom: nightDom,
 });
 // 26b (M) ME sits bolt upright in bed, head snapping toward the noise.
@@ -343,7 +344,7 @@ const s26b = mk("s26b", {
       <InBed t={t} up={Math.min(1, up)} expr={t > a + 0.1 ? "scared" : "blank"} pose={M.mix(M.headSnap(t, a + 0.16, 0.95, 0.05), { armL: 0.5 * up, armR: 0.4 * up })} />
     </>;
   },
-  cam: mv("s26b", cam([-4.8, 4.6, 1.2], [-8.0, 3.1, -5.0], 40), cam([-5.0, 4.5, 0.8], [-8.0, 3.3, -5.0], 38), 0.03),
+  cam: mv("s26b", cam([-4.3, 5.0, 2.8], [-8.0, 3.1, -5.0], 40), cam([-4.6, 4.9, 2.2], [-8.0, 3.2, -5.0], 38), 0.03),
   dom: nightDom,
 });
 // 27 (M) ME grabs the phone off the bed and presses play; the screen lights ME's face.
@@ -363,7 +364,7 @@ const s27 = mk("s27", {
       {g > 0.5 && <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={6} distance={3.5} decay={2} color="#9cc4ff" />}
     </>;
   },
-  cam: mv("s27", cam([-5.5, 4.3, 0.4], [-7.7, 3.3, -5.0], 40), cam([-6.0, 4.15, -0.3], [-7.8, 3.4, -5.0], 38)),
+  cam: mv("s27", cam([-5.0, 4.9, 2.2], [-7.8, 3.3, -5.0], 40), cam([-5.4, 4.7, 1.4], [-7.8, 3.4, -5.0], 38)),
   dom: nightDom,
 });
 // 28 (C) the recording: the drawer is out (Maya took it to the sink), Sir Nibbles pokes out of the drawer hole.
@@ -439,7 +440,7 @@ const s30 = mk("s30", {
       <Pr.Hamster look={Pr.NIBBLES} p={n.p} yaw={n.yaw} walk={n.walk} curl={n.curl} blink={n.curl} s={HS} cheeks={0.2} />
     </>;
   },
-  cam: mv("s30", cam([3.4, 5.0, -7.0], [8.5, 2.7, -2.1], 42), cam([4.0, 4.9, -6.6], [8.6, 2.8, -2.2], 40)),
+  cam: mv("s30", cam([-2.4, 5.6, -2.9], [8.6, 2.3, -2.1], 40), cam([-1.6, 5.5, -2.9], [8.6, 2.4, -2.1], 38)),
   dom: nightDom,
 });
 // 31 (M) ME, sitting up in bed with the phone, looks up from the screen toward Peanut's cage and slowly smirks.
@@ -455,7 +456,7 @@ const s31 = mk("s31", {
       <pointLight position={add(PHONE_HELD, [0, 0.1, -0.5])} intensity={6} distance={3.5} decay={2} color="#9cc4ff" />
     </>;
   },
-  cam: mv("s31", cam([-6.4, 4.3, -0.6], [-8.0, 3.85, -5.3], 40), cam([-6.8, 4.25, -1.4], [-8.0, 3.9, -5.3], 38)),
+  cam: mv("s31", cam([-5.6, 4.9, 1.6], [-8.0, 3.7, -5.3], 40), cam([-6.0, 4.8, 0.6], [-8.0, 3.75, -5.3], 38)),
   dom: nightDom,
 });
 // 32 (MW) Monday cleanup: the drawer is out, ME's bag below; Sir Nibbles climbs out of the pocket and back up into the hole.
@@ -477,7 +478,7 @@ const s32 = mk("s32", {
       <Ch look={KIDS[0]} t={t} cs={CCS} blinkSeed={1} a={w} />
     </>;
   },
-  cam: mv("s32", cam([13.2, 3.6, 8.9], [18.9, 1.9, 4.9], 36), cam([13.8, 3.4, 8.4], [18.9, 1.9, 4.9], 34)),
+  cam: mv("s32", cam([12.0, 4.0, 10.2], [18.9, 1.9, 4.9], 36), cam([12.6, 3.8, 9.6], [18.9, 1.9, 4.9], 34)),
 });
 // 33 (MW) Friday: ME sets the striped backpack down right beside the cage, pocket open, turns to the camera, smirks and winks.
 const ME33: V3 = [16.55, 0, Pr.HOLE[2]];
@@ -492,7 +493,7 @@ const s33 = mk("s33", {
     const tt = a + D * 0.48;
     const tr = M.turn(PI / 2, M.yawTo(ME33, CAM33), t, tt, 0.3);
     const wink = c01((t - (tt + 0.4)) / 0.12) * (1 - c01((t - (tt + 0.62)) / 0.12));
-    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.85 * (1 - down), armL: 0.85 * (1 - down) }, M.pickUp(t, a + 0.02, D * 0.62), M.point(t, tt + 0.3), { tilt: 0.16 * wink, head: [0, -0.04 * wink] });
+    const pose = M.mix(M.idle(t, 1, 0.4), { armR: 0.85 * (1 - down), armL: 0.85 * (1 - down) }, M.pickUp(t, a + 0.02, D * 0.62), { head: [0, -0.22 * Math.sin(PI * c01((t - a - 0.02) / (D * 0.62)))] }, M.point(t, tt + 0.3), { tilt: 0.16 * wink, head: [0, -0.04 * wink] });
     const maya = { position: MAYA_SINK, yaw: -0.4, pose: M.mix(M.idle(t, 3, 0.5), M.stir(t, a - 1, Infinity, 2.4)) };
     return <>
       <Lights focus={[17, 0, 4]} />
@@ -504,7 +505,7 @@ const s33 = mk("s33", {
       <Ch look={MAYA} t={t} cs={CLASSROOM_CS} blinkSeed={7} a={maya} />
     </>;
   },
-  cam: mv("s33", cam(CAM33, [17.6, 2.4, 4.9], 44), cam(add(CAM33, [-0.2, -0.3, 1.2]), [17.4, 2.5, 4.9], 42)),
+  cam: mv("s33", cam(CAM33, [17.3, 2.4, 4.9], 44), cam(add(CAM33, [-0.2, -0.3, 1.2]), [17.2, 2.5, 4.9], 42)),
 });
 // 34 (M) shot 1's angle: the empty cage, the wheel still turning, the door taped and padlocked. Ends on shot 1's first framing.
 const s34 = mk("s34", {
