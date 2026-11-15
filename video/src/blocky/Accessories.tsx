@@ -125,6 +125,19 @@ export const Hair: React.FC<{ look: Look }> = ({ look }) => {
           </group>
         </group>
       );
+    case "emo": { // a long side-swept fringe sweeping down across one side of the forehead, longer at the back and sides
+      return (
+        <group>
+          <TopCap color={c} r={0.57} h={0.24} />
+          <Shell color={c} r={0.565} yTop={0.6} yBot={-0.22} open={Math.PI * 0.72} />
+          {/* the sweep: a slab from the top-left down past the right eyebrow (stops above the eyes) */}
+          <mesh position={[0.1, 0.38, 0.47]} rotation={[0.2, 0, -0.32]} castShadow><boxGeometry args={[0.95, 0.24, 0.2]} />{mat(c)}</mesh>
+          <mesh position={[-0.3, 0.26, 0.47]} rotation={[0.15, 0.4, -0.2]} castShadow><boxGeometry args={[0.24, 0.42, 0.18]} />{mat(c)}</mesh>
+          {/* choppy layers at the nape */}
+          {[-0.3, 0, 0.3].map((x, i) => <mesh key={i} position={[x, -0.3, -0.48]} rotation={[0, 0, Math.PI / 4]} castShadow><boxGeometry args={[0.22, 0.22, 0.14]} />{mat(c)}</mesh>)}
+        </group>
+      );
+    }
     case "cap": // short hair showing below a cap (the cap itself comes from <Hat>)
       return (
         <group>
@@ -140,7 +153,7 @@ export const Hair: React.FC<{ look: Look }> = ({ look }) => {
 
 export const Hat: React.FC<{ look: Look }> = ({ look }) => {
   const kind = look.hat && look.hat !== "none" ? look.hat : look.hair === "cap" ? "cap" : "none";
-  const col = look.shirt ?? "#d23b3b";
+  const col = look.hatColor ?? look.shirt ?? "#d23b3b";
   if (kind === "cap") {
     return (
       <group position={[0, 0.48, 0]}>
@@ -186,3 +199,37 @@ export const Glasses: React.FC = () => (
     <mesh position={[0, 0.02, 0.555]}><boxGeometry args={[0.12, 0.025, 0.025]} /><meshStandardMaterial color="#151311" roughness={0.35} /></mesh>
   </group>
 );
+
+/** Extra accessories (look.acc): a big hair bow and over-ear headphones. Head-local, radius-0.5 head like the hair. */
+export const Extras: React.FC<{ look: Look }> = ({ look }) => {
+  const acc = look.acc ?? [];
+  const col = look.accColor ?? "#f28cb4";
+  const capOn = look.hat === "cap" || look.hair === "cap";
+  return (
+    <group>
+      {acc.includes("bow") && ( // two chunky loops and a knot, on top of the head to one side
+        <group position={[-0.28, 0.66, 0.05]} rotation={[0.1, 0, 0.35]}>
+          {[-1, 1].map((sx) => (
+            <mesh key={sx} position={[sx * 0.2, 0, 0]} rotation={[0, 0, sx * 0.35]} scale={[1, 0.75, 0.5]} castShadow>
+              <coneGeometry args={[0.2, 0.36, 4]} />{mat(col, 0.55)}
+            </mesh>
+          ))}
+          <mesh castShadow><boxGeometry args={[0.13, 0.15, 0.13]} />{mat(col, 0.55)}</mesh>
+        </group>
+      )}
+      {acc.includes("headphones") && ( // a band over the top (above a cap if there is one) and two cups over the ears
+        <group>
+          <mesh position={[0, capOn ? 0.26 : 0.2, 0]} rotation={[0, 0, 0]} castShadow>
+            <torusGeometry args={[capOn ? 0.68 : 0.62, 0.05, 10, 40, Math.PI]} />{mat("#1c1c22", 0.35)}
+          </mesh>
+          {[-1, 1].map((sx) => (
+            <group key={sx} position={[sx * 0.6, 0.12, 0]}>
+              <mesh rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[0.2, 0.2, 0.16, 24]} />{mat(col, 0.4)}</mesh>
+              <mesh position={[sx * 0.09, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[0.13, 0.13, 0.04, 20]} />{mat("#1c1c22", 0.4)}</mesh>
+            </group>
+          ))}
+        </group>
+      )}
+    </group>
+  );
+};

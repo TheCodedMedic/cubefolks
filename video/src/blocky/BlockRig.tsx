@@ -14,7 +14,7 @@ import { useCurrentFrame } from "remotion";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import type { Expr, Look, Pose, Walk } from "./types";
 import { makeFaceTexture } from "./BlockFace";
-import { Glasses, Hair, Hat } from "./Accessories";
+import { Extras, Glasses, Hair, Hat } from "./Accessories";
 
 const geoCache = new Map<string, THREE.BufferGeometry>();
 const rbox = (w: number, h: number, d: number, r = 0.08) => {
@@ -244,6 +244,7 @@ export const BlockChar: React.FC<BlockCharProps> = ({ look, expr = "smile", pose
                   <Hair look={look} />
                   <Hat look={look} />
                   {look.glasses && <Glasses />}
+                  <Extras look={look} />
                 </group>
               </group>
             </group>
