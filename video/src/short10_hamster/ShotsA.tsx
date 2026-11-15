@@ -245,7 +245,7 @@ export const SHOTS_A: Shot[] = [
     return <><Room drawer={m.drawer} tape={1} wheel={wheelSpin(t + 0.6)} bags meOpen={1} focus={P.HOLE} />
       {m.drawer === null && <CarriedTray handle={m.handle} yaw={m.trayYaw} />}
       {cast(t, [{ look: MAYA, a, expr: M.faceAt(t, "smile", "happy", E.maya4 + 0.2) }], CS({ bags: true }))}</>;
-  }, (t) => move(cam([14.4, 4.5, 12.0], [18.0, 2.7, 5.0], 40), cam([14.6, 4.45, 11.5], [18.0, 2.75, 5.0], 39), t, C.s06, C.s07)),
+  }, (t) => move(cam([15.0, 4.9, 14.2], [18.2, 2.6, 5.0], 38), cam([15.2, 4.85, 13.6], [18.2, 2.65, 5.0], 37), t, C.s06, C.s07)),
 
   // (7) "...drawer." / "We clean": Maya at the sink washing it, humming (eyes closed, head bobbing)
   mk("a07_sink", C.s07, C.s08, (t) => {
