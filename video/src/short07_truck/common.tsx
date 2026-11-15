@@ -196,4 +196,12 @@ export const notePulse = (t: number, t0: number) => { if (t < t0) return 0; cons
 /** True during the wrong note of a bar. */
 export const isWrong = (t: number, t0: number) => t >= t0 && ((jingleNote(t, t0) % 8) + 8) % 8 === WRONG_IN_BAR;
 
+/** The teacher's hum (b9-b10): one phrase grid for picture and sound, so the WRONG note lands exactly on the word "wrong".
+ *  Use notePulse(t, HUM_T0) for the hum beats (s15) and isWrong(t, HUM_T0) for the head tilt (s17). */
+export const HUM_T0 = E.wrong - (WRONG_IN_BAR + 8) * JINGLE_NOTE;
+/** Toby's jingle (b6): starts on "walked". */
+export const TOBY_T0 = E.walked;
+/** Mom: the song following her (b13-b15) and the full blast (b17). */
+export const MOM_T0 = E.mom13, BLAST_T0 = E.whole;
+
 export type { V3, CamS, Shot };

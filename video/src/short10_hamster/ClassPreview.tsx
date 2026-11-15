@@ -1,25 +1,23 @@
-// Preview shots of the shared classroom (review only).
+// Review-only preview shots of the classroom and Short 10 props (removed from SHOTS once real shots land).
 import React from "react";
 import type { Shot } from "../kit/core";
-import { BlockChar } from "../blocky/BlockRig";
-import { BlockLights } from "../blocky/Look";
-import { Classroom, DESK, TEACHER_SPOT, SHELF_FRONT, CLASSROOM_CS } from "../blocky/Classroom";
-import * as M from "../blocky/Motion";
-import { TOWNSFOLK } from "../blocky/MotionSheet";
+import { Classroom } from "../blocky/Classroom";
+import * as P from "./Props";
+import { Ch, Lights, ME, KID } from "./common";
 
-const Scene: React.FC<{ t: number }> = ({ t }) => <>
-  <BlockLights time="interior" focus={[0, 0, 0]} />
-  <Classroom door={0.6} />
-  {[0, 1, 2, 3, 4, 5, 7, 9].map((i, k) => { const d = DESK(i); return <BlockChar key={i} look={TOWNSFOLK[k + 1]} scale={0.82} position={[d.seat[0], M.seatedY(d.seat[1], 0.82), d.seat[2]]} yaw={d.yaw} pose={{ legL: Math.PI / 2, legR: Math.PI / 2, armL: 0.35, armR: 0.35 }} expr="smile" />; })}
-  <BlockChar look={TOWNSFOLK[12]} scale={1} position={TEACHER_SPOT} yaw={0} expr="smile" pose={{}} />
-  <BlockChar look={TOWNSFOLK[0]} scale={0.82} position={SHELF_FRONT} yaw={Math.PI / 2} expr="smile" pose={{}} />
+const Room: React.FC<{ drawer: number | null; t: number }> = ({ drawer, t }) => <>
+  <Lights focus={P.CAGE_POS} />
+  <Classroom />
+  <P.ClassCage drawer={drawer} wheel={t * 4}>{drawer === 0 && <P.Hamster look={P.NIBBLES} p={[0.2, P.CAGE.base, 0.3]} cheeks={1} />}</P.ClassCage>
+  <P.BagRow />
 </>;
-const mk = (id: string, t0: number, pos: [number, number, number], target: [number, number, number], fov = 50): Shot => ({ id, t0, t1: t0 + 1, scene: (t) => <Scene t={t} />, cam: () => ({ pos, target, fov }) });
+const mk = (id: string, t0: number, scene: (t: number) => React.ReactNode, pos: [number, number, number], target: [number, number, number], fov = 40): Shot => ({ id, t0, t1: t0 + 1, scene, cam: () => ({ pos, target, fov }) });
+const h = P.HOLE;
 export const PREVIEW: Shot[] = [
-  mk("back", 0, [6, 11, 17], [-2, 3, -8], 55),
-  mk("board", 1, [-2, 6, 2], [0, 6, -18], 55),
-  mk("shelf", 2, [2, 7, 2], [20, 2.5, 4], 50),
-  mk("windows", 3, [12, 7, 8], [-22, 5, -2], 55),
-  mk("drone", 4, [0, 40, 6], [0, 0, 0], 60),
+  mk("cage", 0, (t) => <Room drawer={0} t={t} />, [h[0] - 7, 4.6, h[2] - 1.5], [P.CAGE_CENTER[0], 3.2, P.CAGE_CENTER[2]], 40),
+  mk("hole", 1, (t) => <Room drawer={null} t={t} />, [h[0] - 5, 2.6, h[2] + 1.5], [h[0], 1.6, h[2]], 40),
+  mk("bags", 2, (t) => <><Room drawer={null} t={t} /><Ch look={ME} t={t} a={{ position: P.HOLE.map((v, i) => i === 0 ? v - 5 : i === 1 ? 0 : v - 2) as any, yaw: Math.PI / 2 }} /></>, [6, 6, h[2] + 6], [18, 2, h[2]], 45),
+  mk("bedroom", 3, () => <><Lights time="interiorNight" focus={[0, 0, -3]} practicalAt={[-3, 5, -8]} /><P.Bedroom peanutCage={<P.Cage color="#e86aa0" lock={false} tape={0} sideDoorOpen nest2><P.Hamster look={P.PEANUT} p={[0.6, P.CAGE.base, 0.2]} yaw={-0.6} /></P.Cage>} /><P.Backpack p={P.HOME_BAG} yaw={-Math.PI / 2} color={P.ME_BAG.color} stripe={P.ME_BAG.stripe} open={1} /></>, [-6, 7, 8], [4, 2.5, -2], 50),
+  mk("hamsters", 4, () => <><Lights focus={[0, 0, 0]} /><mesh rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[10, 10]} /><meshStandardMaterial color="#e9d9a8" /></mesh><P.Hamster look={P.NIBBLES} p={[-0.6, 0, 0]} yaw={0.4} cheeks={1} /><P.Hamster look={P.PEANUT} p={[0.6, 0, 0]} yaw={-0.4} /><P.Shells p={[0, 0, 1]} /><P.Nest p={[0, 0, -1]} /></>, [0, 1.6, 3.4], [0, 0.4, 0], 40),
 ];
-void CLASSROOM_CS;
+void KID;
