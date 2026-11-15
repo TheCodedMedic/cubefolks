@@ -1,0 +1,154 @@
+[
+ {
+  "index": 1,
+  "speaker": "R",
+  "start": 0.05,
+  "end": 3.169,
+  "gap_after": 0.08,
+  "text": "A truck with no speaker sings outside my window at 3 a.m. every night."
+ },
+ {
+  "index": 2,
+  "speaker": "R",
+  "start": 3.249,
+  "end": 5.129,
+  "gap_after": 0.08,
+  "text": "Mom says we never take its free ice cream."
+ },
+ {
+  "index": 3,
+  "speaker": "R",
+  "start": 5.209,
+  "end": 6.553,
+  "gap_after": 0.08,
+  "text": "Toby took one last week."
+ },
+ {
+  "index": 4,
+  "speaker": "R",
+  "start": 6.633,
+  "end": 9.293,
+  "gap_after": 0.08,
+  "text": "The next day, he held his cone all through lunch without taking a bite."
+ },
+ {
+  "index": 5,
+  "speaker": "R",
+  "start": 9.373,
+  "end": 11.171,
+  "gap_after": 0.08,
+  "text": "It didn't melt, even on the hot slide."
+ },
+ {
+  "index": 6,
+  "speaker": "R",
+  "start": 11.251,
+  "end": 13.179,
+  "gap_after": 0.08,
+  "text": "When he walked past me, I heard the truck's song."
+ },
+ {
+  "index": 7,
+  "speaker": "R",
+  "start": 13.259,
+  "end": 14.435,
+  "gap_after": 0.08,
+  "text": "There wasn't a truck anywhere."
+ },
+ {
+  "index": 8,
+  "speaker": "R",
+  "start": 14.515,
+  "end": 16.302,
+  "gap_after": 0.08,
+  "text": "A week later, my teacher had a cone too."
+ },
+ {
+  "index": 9,
+  "speaker": "R",
+  "start": 16.382,
+  "end": 18.757,
+  "gap_after": 0.08,
+  "text": "During our spelling test, she hummed the tune while she wrote."
+ },
+ {
+  "index": 10,
+  "speaker": "R",
+  "start": 18.837,
+  "end": 21.145,
+  "gap_after": 0.08,
+  "text": "She even hit the same wrong note the truck always hits."
+ },
+ {
+  "index": 11,
+  "speaker": "R",
+  "start": 21.225,
+  "end": 23.277,
+  "gap_after": 0.08,
+  "text": "Last night, the truck stopped outside our house."
+ },
+ {
+  "index": 12,
+  "speaker": "R",
+  "start": 23.357,
+  "end": 25.73,
+  "gap_after": 0.08,
+  "text": "The engine went quiet, but the song kept getting closer."
+ },
+ {
+  "index": 13,
+  "speaker": "R",
+  "start": 25.81,
+  "end": 28.189,
+  "gap_after": 0.08,
+  "text": "Mom opened my bedroom door holding two cones."
+ },
+ {
+  "index": 14,
+  "speaker": "R",
+  "start": 28.269,
+  "end": 29.169,
+  "gap_after": 0.08,
+  "text": "I backed away."
+ },
+ {
+  "index": 15,
+  "speaker": "R",
+  "start": 29.249,
+  "end": 30.286,
+  "gap_after": 0.08,
+  "text": "The music followed her."
+ },
+ {
+  "index": 16,
+  "speaker": "R",
+  "start": 30.366,
+  "end": 31.513,
+  "gap_after": 0.08,
+  "text": "Then she opened her mouth."
+ },
+ {
+  "index": 17,
+  "speaker": "R",
+  "start": 31.593,
+  "end": 33.497,
+  "gap_after": 0.08,
+  "text": "The whole truck song came out, bells and all."
+ },
+ {
+  "index": 18,
+  "speaker": "R",
+  "start": 33.577,
+  "end": 34.985,
+  "gap_after": 0.08,
+  "text": "She held the spare cone out to me."
+ },
+ {
+  "index": 19,
+  "speaker": "R",
+  "start": 35.065,
+  "end": 36.535,
+  "gap_after": 0.08,
+  "text": "I was supposed to be its next speaker."
+ }
+]

@@ -1,0 +1,146 @@
+[
+ {
+  "index": 1,
+  "speaker": "R",
+  "start": 0.05,
+  "end": 3.45,
+  "gap_after": 0.08,
+  "text": "An invisible elephant made my principal four hundred dollars in one lunch break."
+ },
+ {
+  "index": 2,
+  "speaker": "R",
+  "start": 3.53,
+  "end": 6.095,
+  "gap_after": 0.08,
+  "text": "My little brother started it by selling invisible pets at school."
+ },
+ {
+  "index": 3,
+  "speaker": "R",
+  "start": 6.175,
+  "end": 8.934,
+  "gap_after": 0.08,
+  "text": "Five dollars got you a leash, an empty box, and a certificate."
+ },
+ {
+  "index": 4,
+  "speaker": "R",
+  "start": 9.014,
+  "end": 10.16,
+  "gap_after": 0.08,
+  "text": "Kids lined up anyway."
+ },
+ {
+  "index": 5,
+  "speaker": "R",
+  "start": 10.24,
+  "end": 13.815,
+  "gap_after": 0.08,
+  "text": "Then Coach Miller climbed onto an invisible horse and rode straight into a real tree."
+ },
+ {
+  "index": 6,
+  "speaker": "R",
+  "start": 13.895,
+  "end": 16.663,
+  "gap_after": 0.08,
+  "text": "Soon kids were blocking the hallway to walk their invisible dogs."
+ },
+ {
+  "index": 7,
+  "speaker": "R",
+  "start": 16.743,
+  "end": 18.038,
+  "gap_after": 0.08,
+  "text": "That brought Principal Hayes over."
+ },
+ {
+  "index": 8,
+  "speaker": "R",
+  "start": 18.118,
+  "end": 19.725,
+  "gap_after": 0.08,
+  "text": "She only asked how much my brother had made."
+ },
+ {
+  "index": 9,
+  "speaker": "R",
+  "start": 19.805,
+  "end": 21.251,
+  "gap_after": 0.08,
+  "text": "Then she asked which pets were left."
+ },
+ {
+  "index": 10,
+  "speaker": "R",
+  "start": 21.331,
+  "end": 24.116,
+  "gap_after": 0.08,
+  "text": "Next morning, I saw a giant bag of peanuts outside her office."
+ },
+ {
+  "index": 11,
+  "speaker": "R",
+  "start": 24.196,
+  "end": 26.02,
+  "gap_after": 0.08,
+  "text": "My brother went in holding an empty leash."
+ },
+ {
+  "index": 12,
+  "speaker": "R",
+  "start": 26.1,
+  "end": 27.691,
+  "gap_after": 0.08,
+  "text": "He came out holding fifty dollars."
+ },
+ {
+  "index": 13,
+  "speaker": "R",
+  "start": 27.771,
+  "end": 29.432,
+  "gap_after": 0.08,
+  "text": "At lunch, she opened the gym doors."
+ },
+ {
+  "index": 14,
+  "speaker": "R",
+  "start": 29.512,
+  "end": 31.647,
+  "gap_after": 0.08,
+  "text": "Forty kids were waiting beside a tiny step stool."
+ },
+ {
+  "index": 15,
+  "speaker": "R",
+  "start": 31.727,
+  "end": 33.788,
+  "gap_after": 0.08,
+  "text": "She was selling elephant rides for ten dollars each."
+ },
+ {
+  "index": 16,
+  "speaker": "R",
+  "start": 33.868,
+  "end": 35.001,
+  "gap_after": 0.08,
+  "text": "My brother bought the first ticket."
+ },
+ {
+  "index": 17,
+  "speaker": "R",
+  "start": 35.081,
+  "end": 36.724,
+  "gap_after": 0.08,
+  "text": "He paid with the money she'd just given him."
+ },
+ {
+  "index": 18,
+  "speaker": "R",
+  "start": 36.804,
+  "end": 38.477,
+  "gap_after": 0.08,
+  "text": "That was the first ten dollars she made."
+ }
+]

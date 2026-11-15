@@ -1,0 +1,8 @@
+{
+  "title": "The Invisible Elephant",
+  "voice": {
+    "lead": 0.05,
+    "gap_default": 0.08,
+    "tail": 0.6
+  }
+}

@@ -1,0 +1,968 @@
+[
+{
+"i": 0,
+"word": "An",
+"start": 0.0,
+"end": 0.08
+},
+{
+"i": 1,
+"word": "invisible",
+"start": 0.08,
+"end": 0.4
+},
+{
+"i": 2,
+"word": "elephant",
+"start": 0.4,
+"end": 0.84
+},
+{
+"i": 3,
+"word": "made",
+"start": 0.84,
+"end": 1.14
+},
+{
+"i": 4,
+"word": "my",
+"start": 1.14,
+"end": 1.28
+},
+{
+"i": 5,
+"word": "principal",
+"start": 1.28,
+"end": 1.56
+},
+{
+"i": 6,
+"word": "four",
+"start": 1.56,
+"end": 2.16
+},
+{
+"i": 7,
+"word": "hundred",
+"start": 2.16,
+"end": 2.16
+},
+{
+"i": 8,
+"word": "dollars",
+"start": 2.16,
+"end": 2.16
+},
+{
+"i": 9,
+"word": "in",
+"start": 2.16,
+"end": 2.64
+},
+{
+"i": 10,
+"word": "one",
+"start": 2.64,
+"end": 2.8
+},
+{
+"i": 11,
+"word": "lunch",
+"start": 2.8,
+"end": 3.04
+},
+{
+"i": 12,
+"word": "break.",
+"start": 3.04,
+"end": 3.24
+},
+{
+"i": 13,
+"word": "My",
+"start": 3.54,
+"end": 3.64
+},
+{
+"i": 14,
+"word": "little",
+"start": 3.64,
+"end": 3.8
+},
+{
+"i": 15,
+"word": "brother",
+"start": 3.8,
+"end": 4.0
+},
+{
+"i": 16,
+"word": "started",
+"start": 4.0,
+"end": 4.26
+},
+{
+"i": 17,
+"word": "it",
+"start": 4.26,
+"end": 4.44
+},
+{
+"i": 18,
+"word": "by",
+"start": 4.44,
+"end": 4.56
+},
+{
+"i": 19,
+"word": "selling",
+"start": 4.56,
+"end": 4.8
+},
+{
+"i": 20,
+"word": "invisible",
+"start": 4.8,
+"end": 5.18
+},
+{
+"i": 21,
+"word": "pets",
+"start": 5.18,
+"end": 5.5
+},
+{
+"i": 22,
+"word": "at",
+"start": 5.5,
+"end": 5.64
+},
+{
+"i": 23,
+"word": "school.",
+"start": 5.64,
+"end": 5.86
+},
+{
+"i": 24,
+"word": "Five",
+"start": 6.125,
+"end": 6.46
+},
+{
+"i": 25,
+"word": "dollars",
+"start": 6.46,
+"end": 6.46
+},
+{
+"i": 26,
+"word": "got",
+"start": 6.46,
+"end": 6.88
+},
+{
+"i": 27,
+"word": "you",
+"start": 6.88,
+"end": 7.02
+},
+{
+"i": 28,
+"word": "a",
+"start": 7.02,
+"end": 7.08
+},
+{
+"i": 29,
+"word": "leash,",
+"start": 7.08,
+"end": 7.3
+},
+{
+"i": 30,
+"word": "an",
+"start": 7.52,
+"end": 7.58
+},
+{
+"i": 31,
+"word": "empty",
+"start": 7.58,
+"end": 7.78
+},
+{
+"i": 32,
+"word": "box,",
+"start": 7.78,
+"end": 8.08
+},
+{
+"i": 33,
+"word": "and",
+"start": 8.2,
+"end": 8.28
+},
+{
+"i": 34,
+"word": "a",
+"start": 8.28,
+"end": 8.36
+},
+{
+"i": 35,
+"word": "certificate.",
+"start": 8.36,
+"end": 8.62
+},
+{
+"i": 36,
+"word": "Kids",
+"start": 9.0,
+"end": 9.2
+},
+{
+"i": 37,
+"word": "lined",
+"start": 9.2,
+"end": 9.42
+},
+{
+"i": 38,
+"word": "up",
+"start": 9.42,
+"end": 9.58
+},
+{
+"i": 39,
+"word": "anyway.",
+"start": 9.58,
+"end": 9.78
+},
+{
+"i": 40,
+"word": "Then",
+"start": 10.26,
+"end": 10.4
+},
+{
+"i": 41,
+"word": "Coach",
+"start": 10.4,
+"end": 10.58
+},
+{
+"i": 42,
+"word": "Miller",
+"start": 10.58,
+"end": 10.76
+},
+{
+"i": 43,
+"word": "climbed",
+"start": 10.76,
+"end": 11.06
+},
+{
+"i": 44,
+"word": "onto",
+"start": 11.06,
+"end": 11.36
+},
+{
+"i": 45,
+"word": "an",
+"start": 11.36,
+"end": 11.44
+},
+{
+"i": 46,
+"word": "invisible",
+"start": 11.44,
+"end": 11.68
+},
+{
+"i": 47,
+"word": "horse",
+"start": 11.68,
+"end": 12.06
+},
+{
+"i": 48,
+"word": "and",
+"start": 12.06,
+"end": 12.24
+},
+{
+"i": 49,
+"word": "rode",
+"start": 12.24,
+"end": 12.38
+},
+{
+"i": 50,
+"word": "straight",
+"start": 12.38,
+"end": 12.7
+},
+{
+"i": 51,
+"word": "into",
+"start": 12.7,
+"end": 12.94
+},
+{
+"i": 52,
+"word": "a",
+"start": 12.94,
+"end": 13.08
+},
+{
+"i": 53,
+"word": "real",
+"start": 13.08,
+"end": 13.26
+},
+{
+"i": 54,
+"word": "tree.",
+"start": 13.26,
+"end": 13.54
+},
+{
+"i": 55,
+"word": "Soon",
+"start": 13.9,
+"end": 14.1
+},
+{
+"i": 56,
+"word": "kids",
+"start": 14.1,
+"end": 14.32
+},
+{
+"i": 57,
+"word": "were",
+"start": 14.32,
+"end": 14.5
+},
+{
+"i": 58,
+"word": "blocking",
+"start": 14.5,
+"end": 14.74
+},
+{
+"i": 59,
+"word": "the",
+"start": 14.74,
+"end": 14.92
+},
+{
+"i": 60,
+"word": "hallway",
+"start": 14.92,
+"end": 15.16
+},
+{
+"i": 61,
+"word": "to",
+"start": 15.16,
+"end": 15.36
+},
+{
+"i": 62,
+"word": "walk",
+"start": 15.36,
+"end": 15.54
+},
+{
+"i": 63,
+"word": "their",
+"start": 15.54,
+"end": 15.68
+},
+{
+"i": 64,
+"word": "invisible",
+"start": 15.68,
+"end": 15.96
+},
+{
+"i": 65,
+"word": "dogs.",
+"start": 15.96,
+"end": 16.34
+},
+{
+"i": 66,
+"word": "That",
+"start": 16.693,
+"end": 16.84
+},
+{
+"i": 67,
+"word": "brought",
+"start": 16.84,
+"end": 17.04
+},
+{
+"i": 68,
+"word": "Principal",
+"start": 17.04,
+"end": 17.34
+},
+{
+"i": 69,
+"word": "Hayes",
+"start": 17.34,
+"end": 17.7
+},
+{
+"i": 70,
+"word": "over.",
+"start": 17.7,
+"end": 17.84
+},
+{
+"i": 71,
+"word": "She",
+"start": 18.068,
+"end": 18.18
+},
+{
+"i": 72,
+"word": "only",
+"start": 18.18,
+"end": 18.34
+},
+{
+"i": 73,
+"word": "asked",
+"start": 18.34,
+"end": 18.54
+},
+{
+"i": 74,
+"word": "how",
+"start": 18.54,
+"end": 18.68
+},
+{
+"i": 75,
+"word": "much",
+"start": 18.68,
+"end": 18.82
+},
+{
+"i": 76,
+"word": "my",
+"start": 18.82,
+"end": 18.92
+},
+{
+"i": 77,
+"word": "brother",
+"start": 18.92,
+"end": 19.14
+},
+{
+"i": 78,
+"word": "had",
+"start": 19.14,
+"end": 19.28
+},
+{
+"i": 79,
+"word": "made.",
+"start": 19.28,
+"end": 19.48
+},
+{
+"i": 80,
+"word": "Then",
+"start": 19.76,
+"end": 19.88
+},
+{
+"i": 81,
+"word": "she",
+"start": 19.88,
+"end": 20.02
+},
+{
+"i": 82,
+"word": "asked",
+"start": 20.02,
+"end": 20.22
+},
+{
+"i": 83,
+"word": "which",
+"start": 20.22,
+"end": 20.36
+},
+{
+"i": 84,
+"word": "pets",
+"start": 20.36,
+"end": 20.6
+},
+{
+"i": 85,
+"word": "were",
+"start": 20.6,
+"end": 20.76
+},
+{
+"i": 86,
+"word": "left.",
+"start": 20.76,
+"end": 20.98
+},
+{
+"i": 87,
+"word": "Next",
+"start": 21.281,
+"end": 21.5
+},
+{
+"i": 88,
+"word": "morning,",
+"start": 21.5,
+"end": 21.74
+},
+{
+"i": 89,
+"word": "I",
+"start": 21.94,
+"end": 22.02
+},
+{
+"i": 90,
+"word": "saw",
+"start": 22.02,
+"end": 22.16
+},
+{
+"i": 91,
+"word": "a",
+"start": 22.16,
+"end": 22.32
+},
+{
+"i": 92,
+"word": "giant",
+"start": 22.32,
+"end": 22.52
+},
+{
+"i": 93,
+"word": "bag",
+"start": 22.52,
+"end": 22.72
+},
+{
+"i": 94,
+"word": "of",
+"start": 22.72,
+"end": 22.86
+},
+{
+"i": 95,
+"word": "peanuts",
+"start": 22.86,
+"end": 23.08
+},
+{
+"i": 96,
+"word": "outside",
+"start": 23.08,
+"end": 23.38
+},
+{
+"i": 97,
+"word": "her",
+"start": 23.38,
+"end": 23.58
+},
+{
+"i": 98,
+"word": "office.",
+"start": 23.58,
+"end": 23.82
+},
+{
+"i": 99,
+"word": "My",
+"start": 24.18,
+"end": 24.34
+},
+{
+"i": 100,
+"word": "brother",
+"start": 24.34,
+"end": 24.56
+},
+{
+"i": 101,
+"word": "went",
+"start": 24.56,
+"end": 24.74
+},
+{
+"i": 102,
+"word": "in",
+"start": 24.74,
+"end": 24.92
+},
+{
+"i": 103,
+"word": "holding",
+"start": 24.92,
+"end": 25.12
+},
+{
+"i": 104,
+"word": "an",
+"start": 25.12,
+"end": 25.28
+},
+{
+"i": 105,
+"word": "empty",
+"start": 25.28,
+"end": 25.48
+},
+{
+"i": 106,
+"word": "leash.",
+"start": 25.48,
+"end": 25.78
+},
+{
+"i": 107,
+"word": "He",
+"start": 26.08,
+"end": 26.2
+},
+{
+"i": 108,
+"word": "came",
+"start": 26.2,
+"end": 26.34
+},
+{
+"i": 109,
+"word": "out",
+"start": 26.34,
+"end": 26.5
+},
+{
+"i": 110,
+"word": "holding",
+"start": 26.5,
+"end": 26.7
+},
+{
+"i": 111,
+"word": "fifty",
+"start": 26.7,
+"end": 27.64
+},
+{
+"i": 112,
+"word": "dollars.",
+"start": 27.64,
+"end": 27.641
+},
+{
+"i": 113,
+"word": "At",
+"start": 27.721,
+"end": 27.82
+},
+{
+"i": 114,
+"word": "lunch,",
+"start": 27.82,
+"end": 28.06
+},
+{
+"i": 115,
+"word": "she",
+"start": 28.24,
+"end": 28.32
+},
+{
+"i": 116,
+"word": "opened",
+"start": 28.32,
+"end": 28.54
+},
+{
+"i": 117,
+"word": "the",
+"start": 28.54,
+"end": 28.68
+},
+{
+"i": 118,
+"word": "gym",
+"start": 28.68,
+"end": 28.84
+},
+{
+"i": 119,
+"word": "doors.",
+"start": 28.84,
+"end": 29.08
+},
+{
+"i": 120,
+"word": "Forty",
+"start": 29.462,
+"end": 29.74
+},
+{
+"i": 121,
+"word": "kids",
+"start": 29.74,
+"end": 30.0
+},
+{
+"i": 122,
+"word": "were",
+"start": 30.0,
+"end": 30.16
+},
+{
+"i": 123,
+"word": "waiting",
+"start": 30.16,
+"end": 30.32
+},
+{
+"i": 124,
+"word": "beside",
+"start": 30.32,
+"end": 30.56
+},
+{
+"i": 125,
+"word": "a",
+"start": 30.56,
+"end": 30.74
+},
+{
+"i": 126,
+"word": "tiny",
+"start": 30.74,
+"end": 30.92
+},
+{
+"i": 127,
+"word": "step",
+"start": 30.92,
+"end": 31.16
+},
+{
+"i": 128,
+"word": "stool.",
+"start": 31.16,
+"end": 31.44
+},
+{
+"i": 129,
+"word": "She",
+"start": 31.7,
+"end": 31.78
+},
+{
+"i": 130,
+"word": "was",
+"start": 31.78,
+"end": 31.9
+},
+{
+"i": 131,
+"word": "selling",
+"start": 31.9,
+"end": 32.08
+},
+{
+"i": 132,
+"word": "elephant",
+"start": 32.08,
+"end": 32.44
+},
+{
+"i": 133,
+"word": "rides",
+"start": 32.44,
+"end": 32.76
+},
+{
+"i": 134,
+"word": "for",
+"start": 32.76,
+"end": 32.88
+},
+{
+"i": 135,
+"word": "ten",
+"start": 32.88,
+"end": 33.18
+},
+{
+"i": 136,
+"word": "dollars",
+"start": 33.18,
+"end": 33.18
+},
+{
+"i": 137,
+"word": "each.",
+"start": 33.18,
+"end": 33.6
+},
+{
+"i": 138,
+"word": "My",
+"start": 33.84,
+"end": 33.92
+},
+{
+"i": 139,
+"word": "brother",
+"start": 33.92,
+"end": 34.12
+},
+{
+"i": 140,
+"word": "bought",
+"start": 34.12,
+"end": 34.34
+},
+{
+"i": 141,
+"word": "the",
+"start": 34.34,
+"end": 34.46
+},
+{
+"i": 142,
+"word": "first",
+"start": 34.46,
+"end": 34.64
+},
+{
+"i": 143,
+"word": "ticket.",
+"start": 34.64,
+"end": 34.86
+},
+{
+"i": 144,
+"word": "He",
+"start": 35.08,
+"end": 35.14
+},
+{
+"i": 145,
+"word": "paid",
+"start": 35.14,
+"end": 35.38
+},
+{
+"i": 146,
+"word": "with",
+"start": 35.38,
+"end": 35.54
+},
+{
+"i": 147,
+"word": "the",
+"start": 35.54,
+"end": 35.62
+},
+{
+"i": 148,
+"word": "money",
+"start": 35.62,
+"end": 35.78
+},
+{
+"i": 149,
+"word": "she'd",
+"start": 35.78,
+"end": 36.04
+},
+{
+"i": 150,
+"word": "just",
+"start": 36.04,
+"end": 36.18
+},
+{
+"i": 151,
+"word": "given",
+"start": 36.18,
+"end": 36.38
+},
+{
+"i": 152,
+"word": "him.",
+"start": 36.38,
+"end": 36.58
+},
+{
+"i": 153,
+"word": "That",
+"start": 36.8,
+"end": 36.96
+},
+{
+"i": 154,
+"word": "was",
+"start": 36.96,
+"end": 37.08
+},
+{
+"i": 155,
+"word": "the",
+"start": 37.08,
+"end": 37.2
+},
+{
+"i": 156,
+"word": "first",
+"start": 37.2,
+"end": 37.4
+},
+{
+"i": 157,
+"word": "ten",
+"start": 37.4,
+"end": 37.68
+},
+{
+"i": 158,
+"word": "dollars",
+"start": 37.68,
+"end": 37.68
+},
+{
+"i": 159,
+"word": "she",
+"start": 37.68,
+"end": 38.08
+},
+{
+"i": 160,
+"word": "made.",
+"start": 38.08,
+"end": 38.28
+}
+]

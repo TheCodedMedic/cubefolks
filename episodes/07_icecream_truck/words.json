@@ -1,0 +1,956 @@
+[
+{
+"i": 0,
+"word": "A",
+"start": 0.0,
+"end": 0.08
+},
+{
+"i": 1,
+"word": "truck",
+"start": 0.08,
+"end": 0.26
+},
+{
+"i": 2,
+"word": "with",
+"start": 0.26,
+"end": 0.42
+},
+{
+"i": 3,
+"word": "no",
+"start": 0.42,
+"end": 0.6
+},
+{
+"i": 4,
+"word": "speaker",
+"start": 0.6,
+"end": 0.92
+},
+{
+"i": 5,
+"word": "sings",
+"start": 0.92,
+"end": 1.18
+},
+{
+"i": 6,
+"word": "outside",
+"start": 1.18,
+"end": 1.5
+},
+{
+"i": 7,
+"word": "my",
+"start": 1.5,
+"end": 1.68
+},
+{
+"i": 8,
+"word": "window",
+"start": 1.68,
+"end": 1.94
+},
+{
+"i": 9,
+"word": "at",
+"start": 1.94,
+"end": 2.14
+},
+{
+"i": 10,
+"word": "3",
+"start": 2.14,
+"end": 2.52
+},
+{
+"i": 11,
+"word": "a.m.",
+"start": 2.52,
+"end": 2.52
+},
+{
+"i": 12,
+"word": "every",
+"start": 2.52,
+"end": 2.72
+},
+{
+"i": 13,
+"word": "night.",
+"start": 2.72,
+"end": 2.98
+},
+{
+"i": 14,
+"word": "Mom",
+"start": 3.22,
+"end": 3.38
+},
+{
+"i": 15,
+"word": "says",
+"start": 3.38,
+"end": 3.58
+},
+{
+"i": 16,
+"word": "we",
+"start": 3.58,
+"end": 3.74
+},
+{
+"i": 17,
+"word": "never",
+"start": 3.74,
+"end": 3.98
+},
+{
+"i": 18,
+"word": "take",
+"start": 3.98,
+"end": 4.22
+},
+{
+"i": 19,
+"word": "its",
+"start": 4.22,
+"end": 4.34
+},
+{
+"i": 20,
+"word": "free",
+"start": 4.34,
+"end": 4.52
+},
+{
+"i": 21,
+"word": "ice",
+"start": 4.52,
+"end": 4.72
+},
+{
+"i": 22,
+"word": "cream.",
+"start": 4.72,
+"end": 4.9
+},
+{
+"i": 23,
+"word": "Toby",
+"start": 5.159,
+"end": 5.38
+},
+{
+"i": 24,
+"word": "took",
+"start": 5.38,
+"end": 5.66
+},
+{
+"i": 25,
+"word": "one",
+"start": 5.66,
+"end": 5.86
+},
+{
+"i": 26,
+"word": "last",
+"start": 5.86,
+"end": 6.1
+},
+{
+"i": 27,
+"word": "week.",
+"start": 6.1,
+"end": 6.32
+},
+{
+"i": 28,
+"word": "The",
+"start": 6.583,
+"end": 6.66
+},
+{
+"i": 29,
+"word": "next",
+"start": 6.66,
+"end": 6.8
+},
+{
+"i": 30,
+"word": "day,",
+"start": 6.8,
+"end": 7.04
+},
+{
+"i": 31,
+"word": "he",
+"start": 7.04,
+"end": 7.2
+},
+{
+"i": 32,
+"word": "held",
+"start": 7.2,
+"end": 7.36
+},
+{
+"i": 33,
+"word": "his",
+"start": 7.36,
+"end": 7.48
+},
+{
+"i": 34,
+"word": "cone",
+"start": 7.48,
+"end": 7.72
+},
+{
+"i": 35,
+"word": "all",
+"start": 7.72,
+"end": 7.96
+},
+{
+"i": 36,
+"word": "through",
+"start": 7.96,
+"end": 8.1
+},
+{
+"i": 37,
+"word": "lunch",
+"start": 8.1,
+"end": 8.38
+},
+{
+"i": 38,
+"word": "without",
+"start": 8.38,
+"end": 8.56
+},
+{
+"i": 39,
+"word": "taking",
+"start": 8.56,
+"end": 8.84
+},
+{
+"i": 40,
+"word": "a",
+"start": 8.84,
+"end": 8.96
+},
+{
+"i": 41,
+"word": "bite.",
+"start": 8.96,
+"end": 9.1
+},
+{
+"i": 42,
+"word": "It",
+"start": 9.4,
+"end": 9.52
+},
+{
+"i": 43,
+"word": "didn't",
+"start": 9.52,
+"end": 9.76
+},
+{
+"i": 44,
+"word": "melt,",
+"start": 9.76,
+"end": 9.98
+},
+{
+"i": 45,
+"word": "even",
+"start": 10.14,
+"end": 10.28
+},
+{
+"i": 46,
+"word": "on",
+"start": 10.28,
+"end": 10.42
+},
+{
+"i": 47,
+"word": "the",
+"start": 10.42,
+"end": 10.52
+},
+{
+"i": 48,
+"word": "hot",
+"start": 10.52,
+"end": 10.64
+},
+{
+"i": 49,
+"word": "slide.",
+"start": 10.64,
+"end": 10.94
+},
+{
+"i": 50,
+"word": "When",
+"start": 11.28,
+"end": 11.38
+},
+{
+"i": 51,
+"word": "he",
+"start": 11.38,
+"end": 11.48
+},
+{
+"i": 52,
+"word": "walked",
+"start": 11.48,
+"end": 11.64
+},
+{
+"i": 53,
+"word": "past",
+"start": 11.64,
+"end": 11.84
+},
+{
+"i": 54,
+"word": "me,",
+"start": 11.84,
+"end": 12.06
+},
+{
+"i": 55,
+"word": "I",
+"start": 12.16,
+"end": 12.24
+},
+{
+"i": 56,
+"word": "heard",
+"start": 12.24,
+"end": 12.38
+},
+{
+"i": 57,
+"word": "the",
+"start": 12.38,
+"end": 12.48
+},
+{
+"i": 58,
+"word": "truck's",
+"start": 12.48,
+"end": 12.8
+},
+{
+"i": 59,
+"word": "song.",
+"start": 12.8,
+"end": 13.0
+},
+{
+"i": 60,
+"word": "There",
+"start": 13.22,
+"end": 13.3
+},
+{
+"i": 61,
+"word": "wasn't",
+"start": 13.3,
+"end": 13.5
+},
+{
+"i": 62,
+"word": "a",
+"start": 13.5,
+"end": 13.6
+},
+{
+"i": 63,
+"word": "truck",
+"start": 13.6,
+"end": 13.82
+},
+{
+"i": 64,
+"word": "anywhere.",
+"start": 13.82,
+"end": 14.06
+},
+{
+"i": 65,
+"word": "A",
+"start": 14.465,
+"end": 14.54
+},
+{
+"i": 66,
+"word": "week",
+"start": 14.54,
+"end": 14.68
+},
+{
+"i": 67,
+"word": "later,",
+"start": 14.68,
+"end": 14.94
+},
+{
+"i": 68,
+"word": "my",
+"start": 15.1,
+"end": 15.18
+},
+{
+"i": 69,
+"word": "teacher",
+"start": 15.18,
+"end": 15.36
+},
+{
+"i": 70,
+"word": "had",
+"start": 15.36,
+"end": 15.58
+},
+{
+"i": 71,
+"word": "a",
+"start": 15.58,
+"end": 15.66
+},
+{
+"i": 72,
+"word": "cone",
+"start": 15.66,
+"end": 15.86
+},
+{
+"i": 73,
+"word": "too.",
+"start": 15.86,
+"end": 16.08
+},
+{
+"i": 74,
+"word": "During",
+"start": 16.36,
+"end": 16.52
+},
+{
+"i": 75,
+"word": "our",
+"start": 16.52,
+"end": 16.66
+},
+{
+"i": 76,
+"word": "spelling",
+"start": 16.66,
+"end": 16.9
+},
+{
+"i": 77,
+"word": "test,",
+"start": 16.9,
+"end": 17.18
+},
+{
+"i": 78,
+"word": "she",
+"start": 17.32,
+"end": 17.44
+},
+{
+"i": 79,
+"word": "hummed",
+"start": 17.44,
+"end": 17.68
+},
+{
+"i": 80,
+"word": "the",
+"start": 17.68,
+"end": 17.76
+},
+{
+"i": 81,
+"word": "tune",
+"start": 17.76,
+"end": 18.0
+},
+{
+"i": 82,
+"word": "while",
+"start": 18.0,
+"end": 18.2
+},
+{
+"i": 83,
+"word": "she",
+"start": 18.2,
+"end": 18.36
+},
+{
+"i": 84,
+"word": "wrote.",
+"start": 18.36,
+"end": 18.52
+},
+{
+"i": 85,
+"word": "She",
+"start": 18.8,
+"end": 18.94
+},
+{
+"i": 86,
+"word": "even",
+"start": 18.94,
+"end": 19.12
+},
+{
+"i": 87,
+"word": "hit",
+"start": 19.12,
+"end": 19.24
+},
+{
+"i": 88,
+"word": "the",
+"start": 19.24,
+"end": 19.34
+},
+{
+"i": 89,
+"word": "same",
+"start": 19.34,
+"end": 19.52
+},
+{
+"i": 90,
+"word": "wrong",
+"start": 19.52,
+"end": 19.72
+},
+{
+"i": 91,
+"word": "note",
+"start": 19.72,
+"end": 19.92
+},
+{
+"i": 92,
+"word": "the",
+"start": 19.92,
+"end": 20.08
+},
+{
+"i": 93,
+"word": "truck",
+"start": 20.08,
+"end": 20.3
+},
+{
+"i": 94,
+"word": "always",
+"start": 20.3,
+"end": 20.62
+},
+{
+"i": 95,
+"word": "hits.",
+"start": 20.62,
+"end": 20.88
+},
+{
+"i": 96,
+"word": "Last",
+"start": 21.24,
+"end": 21.44
+},
+{
+"i": 97,
+"word": "night,",
+"start": 21.44,
+"end": 21.7
+},
+{
+"i": 98,
+"word": "the",
+"start": 21.84,
+"end": 21.9
+},
+{
+"i": 99,
+"word": "truck",
+"start": 21.9,
+"end": 22.1
+},
+{
+"i": 100,
+"word": "stopped",
+"start": 22.1,
+"end": 22.32
+},
+{
+"i": 101,
+"word": "outside",
+"start": 22.32,
+"end": 22.62
+},
+{
+"i": 102,
+"word": "our",
+"start": 22.62,
+"end": 22.84
+},
+{
+"i": 103,
+"word": "house.",
+"start": 22.84,
+"end": 23.06
+},
+{
+"i": 104,
+"word": "The",
+"start": 23.36,
+"end": 23.48
+},
+{
+"i": 105,
+"word": "engine",
+"start": 23.48,
+"end": 23.74
+},
+{
+"i": 106,
+"word": "went",
+"start": 23.74,
+"end": 23.92
+},
+{
+"i": 107,
+"word": "quiet,",
+"start": 23.92,
+"end": 24.28
+},
+{
+"i": 108,
+"word": "but",
+"start": 24.34,
+"end": 24.46
+},
+{
+"i": 109,
+"word": "the",
+"start": 24.46,
+"end": 24.56
+},
+{
+"i": 110,
+"word": "song",
+"start": 24.56,
+"end": 24.8
+},
+{
+"i": 111,
+"word": "kept",
+"start": 24.8,
+"end": 25.0
+},
+{
+"i": 112,
+"word": "getting",
+"start": 25.0,
+"end": 25.2
+},
+{
+"i": 113,
+"word": "closer.",
+"start": 25.2,
+"end": 25.5
+},
+{
+"i": 114,
+"word": "Mom",
+"start": 25.84,
+"end": 26.04
+},
+{
+"i": 115,
+"word": "opened",
+"start": 26.04,
+"end": 26.34
+},
+{
+"i": 116,
+"word": "my",
+"start": 26.34,
+"end": 26.52
+},
+{
+"i": 117,
+"word": "bedroom",
+"start": 26.52,
+"end": 26.76
+},
+{
+"i": 118,
+"word": "door",
+"start": 26.76,
+"end": 27.06
+},
+{
+"i": 119,
+"word": "holding",
+"start": 27.06,
+"end": 27.32
+},
+{
+"i": 120,
+"word": "two",
+"start": 27.32,
+"end": 27.6
+},
+{
+"i": 121,
+"word": "cones.",
+"start": 27.6,
+"end": 27.92
+},
+{
+"i": 122,
+"word": "I",
+"start": 28.219,
+"end": 28.36
+},
+{
+"i": 123,
+"word": "backed",
+"start": 28.36,
+"end": 28.58
+},
+{
+"i": 124,
+"word": "away.",
+"start": 28.58,
+"end": 28.8
+},
+{
+"i": 125,
+"word": "The",
+"start": 29.24,
+"end": 29.3
+},
+{
+"i": 126,
+"word": "music",
+"start": 29.3,
+"end": 29.56
+},
+{
+"i": 127,
+"word": "followed",
+"start": 29.56,
+"end": 29.9
+},
+{
+"i": 128,
+"word": "her.",
+"start": 29.9,
+"end": 30.12
+},
+{
+"i": 129,
+"word": "Then",
+"start": 30.316,
+"end": 30.5
+},
+{
+"i": 130,
+"word": "she",
+"start": 30.5,
+"end": 30.66
+},
+{
+"i": 131,
+"word": "opened",
+"start": 30.66,
+"end": 30.9
+},
+{
+"i": 132,
+"word": "her",
+"start": 30.9,
+"end": 31.06
+},
+{
+"i": 133,
+"word": "mouth.",
+"start": 31.06,
+"end": 31.3
+},
+{
+"i": 134,
+"word": "The",
+"start": 31.543,
+"end": 31.62
+},
+{
+"i": 135,
+"word": "whole",
+"start": 31.62,
+"end": 31.8
+},
+{
+"i": 136,
+"word": "truck",
+"start": 31.8,
+"end": 32.04
+},
+{
+"i": 137,
+"word": "song",
+"start": 32.04,
+"end": 32.26
+},
+{
+"i": 138,
+"word": "came",
+"start": 32.26,
+"end": 32.48
+},
+{
+"i": 139,
+"word": "out,",
+"start": 32.48,
+"end": 32.66
+},
+{
+"i": 140,
+"word": "bells",
+"start": 32.8,
+"end": 32.96
+},
+{
+"i": 141,
+"word": "and",
+"start": 32.96,
+"end": 33.12
+},
+{
+"i": 142,
+"word": "all.",
+"start": 33.12,
+"end": 33.34
+},
+{
+"i": 143,
+"word": "She",
+"start": 33.54,
+"end": 33.62
+},
+{
+"i": 144,
+"word": "held",
+"start": 33.62,
+"end": 33.78
+},
+{
+"i": 145,
+"word": "the",
+"start": 33.78,
+"end": 33.92
+},
+{
+"i": 146,
+"word": "spare",
+"start": 33.92,
+"end": 34.08
+},
+{
+"i": 147,
+"word": "cone",
+"start": 34.08,
+"end": 34.32
+},
+{
+"i": 148,
+"word": "out",
+"start": 34.32,
+"end": 34.52
+},
+{
+"i": 149,
+"word": "to",
+"start": 34.52,
+"end": 34.66
+},
+{
+"i": 150,
+"word": "me.",
+"start": 34.66,
+"end": 34.78
+},
+{
+"i": 151,
+"word": "I",
+"start": 35.06,
+"end": 35.2
+},
+{
+"i": 152,
+"word": "was",
+"start": 35.2,
+"end": 35.28
+},
+{
+"i": 153,
+"word": "supposed",
+"start": 35.28,
+"end": 35.48
+},
+{
+"i": 154,
+"word": "to",
+"start": 35.48,
+"end": 35.66
+},
+{
+"i": 155,
+"word": "be",
+"start": 35.66,
+"end": 35.74
+},
+{
+"i": 156,
+"word": "its",
+"start": 35.74,
+"end": 35.84
+},
+{
+"i": 157,
+"word": "next",
+"start": 35.84,
+"end": 36.04
+},
+{
+"i": 158,
+"word": "speaker.",
+"start": 36.04,
+"end": 36.3
+}
+]
