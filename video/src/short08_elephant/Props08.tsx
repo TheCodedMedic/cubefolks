@@ -234,12 +234,12 @@ export const Ticket: React.FC<{ n?: number; p?: V3; rot?: V3; k?: number }> = ({
   <group position={p} rotation={rot} scale={k}><Card s={[2.0, 1.0]} map={ticketTex(n)} back="#e8b81a" /></group>
 );
 /** A small ticket table by the stool (where she takes the money): 4 x 2, top 2.6, with a roll of tickets and the cash box. */
-export const TicketTable: React.FC<{ p?: V3; yaw?: number; cash?: number }> = ({ p, yaw = 0, cash = 0.3 }) => (
+export const TicketTable: React.FC<{ p?: V3; yaw?: number; cash?: number; roll?: boolean }> = ({ p, yaw = 0, cash = 0.3, roll = true }) => (
   <group position={p} rotation={[0, yaw, 0]}>
     <B p={[0, 2.5, 0]} s={[4, 0.2, 2]} c="#7a4e2c" />
     {[[-1.8, -0.8], [1.8, -0.8], [-1.8, 0.8], [1.8, 0.8]].map(([x, z], i) => <B key={i} p={[x, 1.2, z]} s={[0.2, 2.4, 0.2]} c="#5a3a20" />)}
     <group position={[-0.9, 2.6, 0]}><CashBox fill={cash} /></group>
-    <mesh position={[1.2, 3.0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[0.4, 0.4, 0.9, 16]} /><meshStandardMaterial color="#f2c81e" roughness={0.6} /></mesh>
+    {roll && <mesh position={[1.2, 3.0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow><cylinderGeometry args={[0.4, 0.4, 0.9, 16]} /><meshStandardMaterial color="#f2c81e" roughness={0.6} /></mesh>}
   </group>
 );
 export const ticketTableCS = (p: V3): Box[] => [box([p[0], 1.3, p[2]], [4, 2.6, 2], "ticketTable")];
