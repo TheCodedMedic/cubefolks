@@ -76,7 +76,7 @@ const listPoint = (u: number, v: number, out = 0): V3 => {
 const rowV = (i: number) => 1.2 - ((200 + i * 80) / 768) * 2.4;
 /** The cash box's spot on the stand (world, bottom centre: at BRO's right) and its scale. */
 const CASH_K = 0.72;
-const CASH_AT: V3 = [YARD_TABLE[0] - 1.0, TABLE.top, YARD_TABLE[2] - 0.85];
+const CASH_AT: V3 = [YARD_TABLE[0] - 1.75, TABLE.top, YARD_TABLE[2] - 0.85];
 const Stand: React.FC<{ cash?: boolean; fill?: number; boxes?: number; leashes?: number; certs?: number; glow?: number }> = ({ cash = true, fill = 0.5, boxes = 2, leashes = 2, certs = 3, glow = 0.12 }) => (
   <group position={YARD_TABLE}>
     <Bx p={[0, TABLE.top - 0.1, 0]} s={[TABLE.w, 0.2, TABLE.d]} c="#e8e4da" />
@@ -113,8 +113,8 @@ const Yard: React.FC<{ focus: V3; children?: React.ReactNode }> = ({ focus, chil
 /** BRO's spot behind the middle of the stand (at its back edge, so his short arms reach the table). */
 const BRO_T: V3 = [YARD_TABLE[0], 0, YARD_TABLE[2] - 2.4];
 /** Customers come to the stand's right END and face BRO across it (so the front camera sees both faces). */
-const CUST_END: V3 = [YARD_TABLE[0] + TABLE.w / 2 + 0.85, 0, YARD_TABLE[2] + 0.1];
-const CUST_YAW = -Math.PI / 2 + 0.3;
+const CUST_END: V3 = [YARD_TABLE[0] + TABLE.w / 2 + 1.3, 0, YARD_TABLE[2] + 0.1];
+const CUST_YAW = -Math.PI / 2 + 0.6;
 /** The stand's front camera (the customers' side, a touch right), framing BRO and the right end. */
 const standCam = (d: number, h: number, tgt: V3, fov: number) => c(add(tgt, [0.9, h, d]), tgt, fov);
 const STAND_MID: V3 = [YARD_TABLE[0] + 1.9, 2.7, YARD_TABLE[2] + 0.2];
@@ -131,10 +131,10 @@ const s03: Shot = mk("s03_yard", {
     const [t0] = span("s03_yard");
     const j = M.jump(t, E.started - 0.05, 0.45, 0.42);
     const bro = at0(BRO_T, 0.1, M.mix(M.wave(t, t0 - 0.3, Infinity, 1, 1.25), M.wave(t, t0 - 0.2, Infinity, -1, 1.1), M.scale(j.pose, 0.3)));
-    const kA = M.walkPath([[-3, 0, 16], [2.4, 0, 11.2]], t, t0 - 0.9, { scale: S.kid, gait: "stroll", yaw1: Math.PI - 0.2 });
+    const kA = M.walkPath([[-6, 0, 6.5], [0.2, 0, 8.4]], t, t0 - 0.6, { scale: S.kid, gait: "stroll", yaw1: Math.PI - 0.2 });
     const kAp = M.mix(kA.pose, M.headSnap(t, E.brother2 + 0.1, 0.9, 0, Infinity));
-    const kB = M.walkPath([[16, 0, -6], [-8, 0, -9]], t, t0 - 1.0, { scale: S.kid, gait: "walk" });
-    const kC = M.walkPath([[15, 0, 15], [9.2, 0, 10.4]], t, t0 - 0.8, { scale: S.kid, gait: "walk", yaw1: -2.4 });
+    const kB = M.walkPath([[14, 0, -3], [-6, 0, -5]], t, t0 - 1.6, { scale: S.kid, gait: "walk" });
+    const kC = M.walkPath([[14, 0, 4.5], [8.4, 0, 7.6]], t, t0 - 0.7, { scale: S.kid, gait: "walk", yaw1: -1.9 });
     const kCp = M.mix(kC.pose, M.point(t, E.started + 0.15, Infinity, 0.2, 1));
     const A = { ...kA, pose: kAp }, B = kB, C = { ...kC, pose: kCp };
     return <Yard focus={[YARD_TABLE[0], 2, YARD_TABLE[2]]}>
@@ -145,8 +145,8 @@ const s03: Shot = mk("s03_yard", {
       <Ch look={KIDS[3]} a={C} t={t} scale={S.kid} expr="happy" blinkSeed={4} cs={YCS} others={[st(A, S.kid), st(bro, S.bro)]} />
     </Yard>;
   },
-  cam: mv("s03_yard", c([YARD_TABLE[0] + 2.4, 5.0, YARD_TABLE[2] + 19.0], [YARD_TABLE[0] - 0.2, 2.3, YARD_TABLE[2] + 2.0], 42),
-    c([YARD_TABLE[0] + 2.0, 4.7, YARD_TABLE[2] + 17.2], [YARD_TABLE[0] - 0.2, 2.3, YARD_TABLE[2] + 2.0], 41)),
+  cam: mv("s03_yard", c([YARD_TABLE[0] + 0.4, 4.4, YARD_TABLE[2] + 13.5], [YARD_TABLE[0] + 0.1, 2.6, YARD_TABLE[2] - 0.5], 42),
+    c([YARD_TABLE[0] + 0.4, 4.2, YARD_TABLE[2] + 12.2], [YARD_TABLE[0] + 0.1, 2.6, YARD_TABLE[2] - 0.5], 41)),
 });
 
 // s04_pets: M. BRO holds an empty leash up proudly (the collar is empty); kids at the end of the stand lean in, squint,
@@ -156,14 +156,14 @@ const s04: Shot = mk("s04_pets", {
     const [t0] = span("s04_pets");
     const up = M.snap(M.seg(t, E.selling - 0.12, E.selling + 0.12));
     const pres = M.env(t, E.pets2 - 0.1, Infinity, 0.2);
-    const bro = at0(add(BRO_T, [0, 0, -0.4]), 0.45, M.mix(M.idle(t, 1, 0.5), { armR: 0.25 + 1.4 * up, armROut: -0.05, lean: -0.06 * up, head: [-0.35 * up, -0.12 * up] },
+    const bro = at0(add(BRO_T, [0, 0, -0.4]), 0.25, M.mix(M.idle(t, 1, 0.5), { armR: 0.25 + 1.4 * up, armROut: -0.05, lean: -0.06 * up, head: [-0.2 * up, -0.12 * up] },
       { armL: 1.6 * M.ease(M.seg(pres, 0.5, 1)), armLOut: 0.6 * Math.min(1, pres * 2.5) }));
     const collar: V3 = [YARD_TABLE[0] + 1.2, 3.4, YARD_TABLE[2] - 0.6];
     const k1p = CUST_END, k2p: V3 = [CUST_END[0] + 1.2, 0, CUST_END[2] - 2.2], k3p: V3 = [CUST_END[0] + 2.9, 0, CUST_END[2] + 1.3];
-    const k1 = at0(k1p, M.yawTo(k1p, collar) + 0.25, M.mix(M.idle(t, 5, 0.4), M.leanIn(t, E.selling + 0.25, Infinity, -0.15), M.headShake(t, E.pets2, E.pets2 + 0.75, 1.6)));
-    const k2 = at0(k2p, M.yawTo(k2p, collar) + 0.3, M.mix(M.idle(t, 6, 0.4), M.leanIn(t, E.selling + 0.45, Infinity, -0.2), { tilt: 0.25 * M.env(t, E.pets2 + 0.1) }));
+    const k1 = at0(k1p, M.yawTo(k1p, collar) + 0.7, M.mix(M.idle(t, 5, 0.4), M.leanIn(t, E.selling + 0.25, Infinity, -0.15), M.headShake(t, E.pets2, E.pets2 + 0.75, 1.6)));
+    const k2 = at0(k2p, M.yawTo(k2p, collar) + 0.6, M.mix(M.idle(t, 6, 0.4), M.leanIn(t, E.selling + 0.45, Infinity, -0.2), { tilt: 0.25 * M.env(t, E.pets2 + 0.1) }));
     const j3 = M.jump(t, E.pets2 - 0.1, 0.9, 0.5);
-    const k3 = at0(k3p, M.yawTo(k3p, collar) + 0.4, M.mix(M.idle(t, 7, 0.4), j3.pose));
+    const k3 = at0(k3p, M.yawTo(k3p, collar) + 0.7, M.mix(M.idle(t, 7, 0.4), j3.pose));
     return <Yard focus={[YARD_TABLE[0], 2.5, YARD_TABLE[2]]}>
       <Stand />
       <Ch look={BRO} a={bro} t={t} scale={S.bro} expr={M.faceAt(t, "grin", "happy", E.selling)} hold={{ R: <Leash reach={2.5} drop={1.0} sway={0.15 * Math.sin((t - t0) * 9)} /> }} cs={YCS} />
@@ -172,7 +172,7 @@ const s04: Shot = mk("s04_pets", {
       <Ch look={KIDS[6]} a={k3} t={t} scale={S.kid} lift={j3.lift} expr="surprised" blinkSeed={6} cs={YCS} others={[st(k1, S.kid), st(k2, S.kid)]} noFeet={j3.lift > 0} />
     </Yard>;
   },
-  cam: mv("s04_pets", standCam(16.5, 1.4, add(STAND_MID, [0.4, 0, 0.5]), 40), standCam(15.2, 1.3, add(STAND_MID, [0.4, 0, 0.5]), 40)),
+  cam: mv("s04_pets", standCam(15.2, 2.9, add(STAND_MID, [0.2, 0.3, 0.3]), 40), standCam(14.2, 2.7, add(STAND_MID, [0.2, 0.3, 0.3]), 40)),
 });
 
 // ================================================================================================ beat 3
@@ -220,7 +220,7 @@ const s05: Shot = mk("s05_sale", {
         hold={holding ? { R: <Leash reach={2.4} drop={0.9} sway={0.1 * Math.sin(t * 7)} /> } : t < tSlap ? { R: <HeldBillA v={5} k={0.6} /> } : undefined} />
     </Yard>;
   },
-  cam: mv("s05_sale", standCam(15.0, 1.1, STAND_MID, 40), standCam(13.8, 1.0, STAND_MID, 40)),
+  cam: mv("s05_sale", standCam(13.8, 2.7, add(STAND_MID, [0.4, 0.1, 0]), 40), standCam(12.8, 2.5, add(STAND_MID, [0.4, 0.1, 0]), 40)),
 });
 
 // s06_cert: CLOSE. The kid spins round to the camera holding the certificate up in both hands: gold star, 1 INVISIBLE DOG.
@@ -506,7 +506,7 @@ const HAYES_LEAN = 0.6;
 const hayesLean = (t: number) => {
   const w = M.walkPath([[HAYES_T[0] + 4.0, 0, HAYES_T[2] - 4.5], HAYES_T], t, P(8) - 1.3, { gait: "walk", yaw1: HAYES_YAW });
   const ln = M.env(t, E.asked8 - 0.25, Infinity, 0.3);
-  const base: ActLike = { ...w, pose: M.mix(w.pose, { lean: HAYES_LEAN * ln, head: [0, -0.45 * ln] }) };
+  const base: ActLike = { ...w, pose: M.mix(w.pose, { lean: HAYES_LEAN * ln, head: [0, -0.15 * ln] }) };
   if (ln <= 0) return base;
   // both palms planted on the end of the table (facing -x her left hand is on the +z side)
   const xE = YARD_TABLE[0] + TABLE.w / 2 - 0.3;
@@ -521,14 +521,14 @@ const s16: Shot = mk("s16_lean", {
   scene: (t) => {
     const h = hayesLean(t);
     const look = M.env(t, E.asked8 - 0.1, Infinity, 0.2);
-    const bro = at0(BRO_T, 0.45, M.mix(M.idle(t, 1, 0.4 * (1 - look)), { head: [0.2 * look, -0.38 * look], lean: -0.1 * look }));
+    const bro = at0(BRO_T, 0.3, M.mix(M.idle(t, 1, 0.4 * (1 - look)), { head: [0.45 * look, -0.38 * look], lean: -0.1 * look }));
     return <Yard focus={[YARD_TABLE[0], 2.5, YARD_TABLE[2]]}>
       <Stand />
       <Ch look={HAYES} a={h} t={t} expr={M.talk(t, hayesWords, "blank")} cs={YCS} others={[st(bro, S.bro)]} />
       <Ch look={BRO} a={bro} t={t} scale={S.bro} expr={M.faceAt(t, "happy", "grin", E.asked8 + 0.05)} blinkSeed={1} cs={YCS} others={[st(h, 1)]} />
     </Yard>;
   },
-  cam: mv("s16_lean", standCam(17.0, 1.4, add(STAND_MID, [0.6, 0.6, 0]), 40), standCam(15.8, 1.3, add(STAND_MID, [0.6, 0.6, 0]), 40)),
+  cam: mv("s16_lean", c([0.2, 5.0, 21.5], [6.0, 3.1, 5.4], 40), c([0.6, 4.8, 20.2], [6.0, 3.1, 5.4], 40)),
 });
 
 // s17_cashup: close on BRO. He hauls his cash box up to her with a big nervous grin (sweat drop, fast blinks, a nod).
@@ -564,7 +564,7 @@ const HAYES_L: V3 = [YARD_TABLE[0] - TABLE.w / 2 - 1.75, 0, YARD_TABLE[2] + 1.0]
 const HAYES_L_YAW = Math.PI / 2 - 0.5;
 const LIST_N = (): V3 => { const n = new THREE.Vector3(0, 0, 1).applyEuler(LIST_ROT); return [n.x, 0, n.z]; };
 const LIST_CAM = (d: number): CamS => { const lc = listPoint(0, 0), n = LIST_N(), p: V3 = [n[2], 0, -n[0]];
-  const tg: V3 = [lc[0] - p[0] * 0.55 + n[0] * 0.3, 3.3, lc[2] - p[2] * 0.55 + n[2] * 0.3]; return c(add(tg, [n[0] * d, 0.8, n[2] * d]), tg, 34); };
+  const tg: V3 = [lc[0] - p[0] * 1.1 + n[0] * 0.3, 3.4, lc[2] - p[2] * 1.1 + n[2] * 0.3]; return c(add(tg, [n[0] * d, 0.8, n[2] * d]), tg, 34); };
 const s18: Shot = mk("s18_list", {
   scene: (t) => {
     const [t0] = span("s18_list");
@@ -586,7 +586,7 @@ const s18: Shot = mk("s18_list", {
       <Ch look={BRO} a={bro} t={t} scale={S.bro} expr="worried" cs={YCS} others={[st(h, 1)]} />
     </Yard>;
   },
-  cam: (t) => mv("s18_list", LIST_CAM(14.2), LIST_CAM(13.2))(t),
+  cam: (t) => mv("s18_list", LIST_CAM(17.6), LIST_CAM(16.8))(t),
 });
 
 export const SHOTS_A: Shot[] = [s03, s04, s05, s06, s07, s08, s09, s10, s11, s12, s13, s14, s15, s16, s17, s18];
