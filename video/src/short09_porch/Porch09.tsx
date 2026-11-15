@@ -6,7 +6,7 @@
 // lamp, a switch or a door on either house.
 import React, { useMemo } from "react";
 import * as THREE from "three";
-import { BlockLights, Sky } from "../blocky/Look";
+import { BlockLights, Sky, LIGHTS } from "../blocky/Look";
 import type { Look } from "../blocky/types";
 import { rigBoxes, type CharState } from "../blocky/Collide";
 import { DOOR_HW, Kit, doorSlab, Render, STREET, useBuilt, canvasTex } from "./Town09";
@@ -87,7 +87,7 @@ export const PorchLamp: React.FC<{ lot: LotId; on: number; power?: number }> = (
       {on > 0.01 && <>
         <mesh material={gm} position={[x, y, z + 0.45]} scale={[5.5 * power, 5.5 * power, 1]} renderOrder={6}><planeGeometry args={[1, 1]} /></mesh>
         <mesh material={pm} position={[DOOR_X - 1, F + 0.05, FRONT_Z + 3]} rotation={[-Math.PI / 2, 0, 0]} scale={[13 * power, 9 * power, 1]} renderOrder={5}><planeGeometry args={[1, 1]} /></mesh>
-        <pointLight color="#ffc77e" intensity={on * 90 * power} distance={26} decay={1.6} position={[x + 0.4, y - 0.4, z + 1.0]} />
+        <pointLight color="#ffc77e" intensity={on * 55 * power} distance={26} decay={1.6} position={[x + 0.4, y - 0.4, z + 1.0]} />
       </>}
     </InLot>
   );
@@ -129,8 +129,15 @@ export const doorKnob = (open: number, inside: boolean): V3 => {
 // ---------------------------------------------------------------- lights
 /** Lights for a shot: "night" street (moonlit blue, no baked practical), "dusk", "inNight" (a dim room at night: cool
  *  ambient, warm lamp pools added by the set), "store" (a bright shop). */
+// A darker night than the kit's: deep blue, a dim moon, a clean face fill, so the porch lamps and lit windows pop.
+// (A new key in the shared LIGHTS table, added here at load; the kit file is untouched. envKind "room" keeps the probe off
+// the SKY table, which has no "night09".)
+(LIGHTS as any).night09 = {
+  hemiSky: "#3e5596", hemiGround: "#141826", hemi: 0.3, key: "sun", keyColor: "#9db4ff", key_: 0.38, keyDir: [0.4, 0.75, 0.5],
+  fill: 0.5, fillColor: "#d6e0ff", env: 0.1, envKind: "room", envHorizon: "#14204a", haze: { color: "#0c1532", near: 40, far: 170 },
+};
 export const Lights09: React.FC<{ time: "night" | "dusk" | "inNight" | "inWarm" | "store"; focus: V3; fill?: number }> = ({ time, focus, fill = 1 }) => {
-  if (time === "night") return <><Sky time="night" /><BlockLights time="night" focus={focus} practical={false} fill={fill} shadowSpan={40} /></>;
+  if (time === "night") return <><Sky time="night" /><BlockLights time={"night09" as any} focus={focus} practical={false} fill={fill} shadowSpan={40} /></>;
   if (time === "dusk") return <><Sky time="dusk" /><BlockLights time="dusk" focus={focus} fill={fill} /></>;
   if (time === "store") return <BlockLights time="interior" focus={focus} fill={fill} />;
   return <><Sky time="night" /><BlockLights time="interiorNight" focus={focus} fill={fill * (time === "inWarm" ? 1.1 : 0.9)} /></>;

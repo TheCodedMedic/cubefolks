@@ -33,17 +33,20 @@ export const DRAWER = { x: 0.9, w: 1.1, y0: 0.12, h: 0.42, len: 1.5 } as const;
 /** The door on the front (local): x0..x1, y0..y1. The seam (the door's free edge) is at x1. */
 export const CAGE_DOOR = { x0: -1.5, x1: -0.3, y0: 1.2, y1: 2.5 } as const;
 
-const barsTex = (n: number, color: string) => cached(`bars${n}${color}`, () => {
+const barsTex = (n: number, color: string, bw = 5) => cached(`bars${n}${color}${bw}`, () => {
   const t = canv(256, 256, (g) => {
     g.clearRect(0, 0, 256, 256); g.fillStyle = color;
-    for (let k = 0; k < n; k++) g.fillRect(Math.round((k / n) * 256), 0, 5, 256);
+    for (let k = 0; k < n; k++) g.fillRect(Math.round((k / n) * 256), 0, bw, 256);
     g.fillRect(0, 0, 256, 6); g.fillRect(0, 250, 256, 6);
   });
   t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
 });
 /** A plane of wire bars (transparent between them). */
+/** Thin-bar mode for close-ups (Short 10 lead): set by a Cage's `barW`. */
+const BarW = React.createContext(5);
 const Bars: React.FC<{ p: V3; w: number; h: number; r?: V3; color?: string; density?: number }> = ({ p, w, h, r, color = "#d8dde2", density = 6 }) => {
-  const t = React.useMemo(() => { const x = barsTex(16, color).clone(); x.needsUpdate = true; x.repeat.set((w * density) / 16, 1); return x; }, [w, color, density]);
+  const bw = React.useContext(BarW);
+  const t = React.useMemo(() => { const x = barsTex(16, color, bw).clone(); x.needsUpdate = true; x.repeat.set((w * density) / 16, 1); return x; }, [w, color, density, bw]);
   return <mesh position={p} rotation={r}><planeGeometry args={[w, h]} /><meshStandardMaterial map={t} transparent alphaTest={0.4} side={THREE.DoubleSide} metalness={0.5} roughness={0.35} /></mesh>;
 };
 
@@ -62,11 +65,20 @@ export type CageProps = {
   sideDoorOpen?: boolean;
   /** draw the second nest of shredded paper (Peanut's cage) */
   nest2?: boolean;
+  /** bar width in texture px (default 5); 2 for close-ups through the bars */
+  barW?: number;
+  /** Peanut's first nest (by the hut, back-right corner) */
+  nest1?: boolean;
+  /** hide the swung-open side door panel (a clue close-up where it would sit in front of the nest) */
+  hideSideDoor?: boolean;
+  /** scale of the second nest (default 1) */
+  nestScale?: number;
   /** children drawn in the cage's local frame (a hamster inside: y = CAGE.base is the bedding floor) */
   children?: React.ReactNode;
 };
 /** The cage in its own frame (origin bottom centre, front +z). */
-export const Cage: React.FC<CageProps> = ({ drawer = 0, wheel = 0, tape = 1, lock = true, color = "#3f8fd0", sideDoorOpen = false, nest2 = false, children }) => {
+export const Cage: React.FC<CageProps> = ({ barW = 5, ...p }) => <BarW.Provider value={barW}><CageInner {...p} /></BarW.Provider>;
+const CageInner: React.FC<CageProps> = ({ drawer = 0, wheel = 0, tape = 1, lock = true, color = "#3f8fd0", sideDoorOpen = false, nest2 = false, nest1 = false, nestScale = 1, hideSideDoor = false, children }) => {
   const { w, d, base, h } = CAGE, plastic = col(color, 0.35);
   const hx0 = DRAWER.x - DRAWER.w / 2, hx1 = DRAWER.x + DRAWER.w / 2;
   const dz = drawer === null ? null : c01(drawer) * DRAWER.len;
@@ -95,7 +107,7 @@ export const Cage: React.FC<CageProps> = ({ drawer = 0, wheel = 0, tape = 1, loc
     {!sideDoorOpen && <Bars p={[-w / 2 + 0.05, base + (h - base) / 2, 0]} w={d} h={h - base} r={[0, Math.PI / 2, 0]} />}
     {sideDoorOpen && <>
       <Bars p={[-w / 2 + 0.05, base + (h - base) / 2 + 0.45, 0]} w={d} h={h - base - 0.9} r={[0, Math.PI / 2, 0]} />
-      <group position={[-w / 2 + 0.05, base, d / 2 - 0.2]} rotation={[0, -1.9, 0]}><Bars p={[0, 0.45, -0.7]} w={1.4} h={0.9} r={[0, Math.PI / 2, 0]} color="#f0c0d0" /></group>
+      {!hideSideDoor && <group position={[-w / 2 + 0.05, base, d / 2 - 0.2]} rotation={[0, -1.9, 0]}><Bars p={[0, 0.45, -0.7]} w={1.4} h={0.9} r={[0, Math.PI / 2, 0]} color="#f0c0d0" /></group>}
     </>}
     <Bars p={[w / 2 - 0.05, base + (h - base) / 2, 0]} w={d} h={h - base} r={[0, Math.PI / 2, 0]} />
     <Bars p={[0, h, 0]} w={w} h={d} r={[Math.PI / 2, 0, 0]} />
@@ -129,7 +141,8 @@ export const Cage: React.FC<CageProps> = ({ drawer = 0, wheel = 0, tape = 1, loc
     </group>
     <group position={[1.2, base, -0.4]}><Bx p={[0, 0.35, 0]} s={[1.0, 0.7, 0.9]} m={col("#e86a4a", 0.6)} /><Bx p={[0, 0.25, 0.45]} s={[0.45, 0.45, 0.04]} m={col("#2a1a12", 0.9)} c={false} /></group>
     <group position={[w / 2 - 0.2, base + 1.3, -0.3]}><mesh rotation={[0, 0, 0.15]}><cylinderGeometry args={[0.16, 0.16, 0.9, 16]} /><meshStandardMaterial color="#bfe4ff" transparent opacity={0.7} roughness={0.1} /></mesh></group>
-    {nest2 && <Nest p={[-w / 2 + 0.6, base, d / 2 - 0.6]} />}
+    {nest2 && <Nest p={[-w / 2 + 0.6, base, d / 2 - 0.6]} s={nestScale} glow={nestScale !== 1} />}
+    {nest1 && <Nest p={[0.6, base, -d / 2 + 0.45]} s={0.8} tint="#d8c08a" shell={false} />}
     {children}
   </group>;
 };
@@ -232,9 +245,9 @@ export const Shells: React.FC<{ p: V3; r?: number; n?: number; seed?: number; sp
   })}
 </group>;
 /** A nest of shredded paper (a mound of white/cream strips), with a shell on top. */
-export const Nest: React.FC<{ p: V3; s?: number }> = ({ p, s = 1 }) => <group position={p} scale={s}>
-  {Array.from({ length: 26 }, (_, k) => <Bx key={k} p={[(rnd(k + 5) - 0.5) * 0.8, 0.05 + rnd(k + 1) * 0.28, (rnd(k + 15) - 0.5) * 0.8]} s={[0.4, 0.04, 0.09]} r={[rnd(k) * 0.8, rnd(k + 2) * 3, rnd(k + 4) * 0.8]} m={col(k % 3 ? "#f6f2e6" : "#e8dcc0", 1)} c={false} />)}
-  <group position={[0.15, 0.36, 0.05]} rotation={[0, 0.6, 0]}><Bx p={[0, 0, 0]} s={[0.15, 0.05, 0.075]} m={col("#2c2a2a", 0.6)} c={false} /><Bx p={[0, 0.026, 0]} s={[0.13, 0.01, 0.02]} m={col("#e8e4d8", 0.6)} c={false} /></group>
+export const Nest: React.FC<{ p: V3; s?: number; tint?: string; shell?: boolean; glow?: boolean }> = ({ p, s = 1, tint, shell = true, glow = false }) => <group position={p} scale={s}>
+  {Array.from({ length: 26 }, (_, k) => <Bx key={k} p={[(rnd(k + 5) - 0.5) * 0.8, 0.05 + rnd(k + 1) * 0.28, (rnd(k + 15) - 0.5) * 0.8]} s={[0.4, 0.04, 0.09]} r={[rnd(k) * 0.8, rnd(k + 2) * 3, rnd(k + 4) * 0.8]} m={col(tint ?? (k % 3 ? "#f6f2e6" : "#e8dcc0"), 1, !glow ? {} : { emissive: new THREE.Color("#fff6e0"), emissiveIntensity: 0.18 })} c={false} />)}
+  {shell && <group position={[0.15, 0.36, 0.05]} rotation={[0, 0.6, 0]}><Bx p={[0, 0, 0]} s={[0.15, 0.05, 0.075]} m={col("#2c2a2a", 0.6)} c={false} /><Bx p={[0, 0.026, 0]} s={[0.13, 0.01, 0.02]} m={col("#e8e4d8", 0.6)} c={false} /></group>}
 </group>;
 /** Held: a magnifying glass (in the hand frame: +z down the arm, +y out of the palm). */
 export const Magnifier: React.FC = () => <group>

@@ -66,11 +66,11 @@ const sc3 = (v: V3, k: number): V3 => [v[0] * k, v[1] * k, v[2] * k];
 const lookAt = (from: V3, yaw: number, to: V3, lim = 1.2) => Math.max(-lim, Math.min(lim, M.dAng(yaw, M.yawTo(from, to))));
 
 // ───────────────────────────── the room ─────────────────────────────
-type RoomOpts = { drawer?: number | null; tape?: number; wheel?: number; bags?: boolean; meOpen?: number; board?: string; door?: number; focus?: V3; hamster?: React.ReactNode; clock?: number; ceiling?: boolean };
-const Room: React.FC<RoomOpts> = ({ drawer = 0, tape = 1, wheel = 0, bags = false, meOpen = 1, board = "Friday!", door = 0, focus = P.CAGE_CENTER, hamster, clock = 10.17, ceiling = true }) => <>
+type RoomOpts = { barW?: number; drawer?: number | null; tape?: number; wheel?: number; bags?: boolean; meOpen?: number; board?: string; door?: number; focus?: V3; hamster?: React.ReactNode; clock?: number; ceiling?: boolean };
+const Room: React.FC<RoomOpts> = ({ barW = 5, drawer = 0, tape = 1, wheel = 0, bags = false, meOpen = 1, board = "Friday!", door = 0, focus = P.CAGE_CENTER, hamster, clock = 10.17, ceiling = true }) => <>
   <Lights focus={focus} />
   <Classroom door={door} boardText={board} clock={clock} ceiling={ceiling} />
-  <P.ClassCage drawer={drawer} wheel={wheel} tape={tape} lock>{hamster}</P.ClassCage>
+  <P.ClassCage barW={barW} drawer={drawer} wheel={wheel} tape={tape} lock>{hamster}</P.ClassCage>
   {bags && <P.BagRow meOpen={meOpen} />}
 </>;
 const CS = (o: { bags?: boolean; door?: number; stool?: boolean } = {}): K.Box[] => [...CLASSROOM_CS, ...P.CAGE_CS, ...(o.bags ? P.BAG_CS : []), ...(o.door !== undefined ? doorCS(o.door) : []), ...(o.stool ? [STOOL_CS] : [])];
@@ -177,7 +177,7 @@ export const SHOTS_A: Shot[] = [
     a.pose = M.mix(a.pose, { head: [head * 0.6, -0.05] });
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t + 0.6)} focus={tapePt(0, 0.5)} /><Stool />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "smirk", E.door1 - 0.05) }], CS({ stool: true }))}</>;
-  }, (t) => move(cam([15.2, 5.0, -2.2], [18.6, 4.0, 3.9], 36), cam([15.5, 4.95, -1.6], [18.6, 4.0, 3.9], 35), t, C.s02, C.s03)),
+  }, (t) => move(cam([12.4, 5.4, -5.6], [18.3, 3.5, 4.4], 38), cam([12.8, 5.35, -5.0], [18.3, 3.5, 4.4], 37), t, C.s02, C.s03)),
 
   // (3) "Maya has the spare key": Maya at her desk swings the key on its lanyard, turns back with a smirk
   mk("a03_key", C.s03, C.s04, (t) => {
@@ -263,11 +263,11 @@ export const SHOTS_A: Shot[] = [
 
   // (8) "We clean his cage every Friday and Monday": high over the cage corner: one kid wipes, one sweeps, ME sets his bag down
   mk("a08_clean", C.s08, C.s09, (t) => {
-    const wiper: Act = { position: [17.85, 0, -1.6], yaw: PI / 2, pose: M.mix(M.stir(t, C.s08 - 0.5, Infinity, 1.8), { armL: 0.3 }) };
+    const wiper: Act = { position: [17.2, 0, 9.2], yaw: PI / 2 + 0.9, pose: M.mix(M.stir(t, C.s08 - 0.5, Infinity, 1.8), { armL: 0.3 }) };
     const sw = Math.sin((t - C.s08) * 6);
-    const sweeper: Act = { position: [13.4 + 0.15 * sw, 0, 3.6], yaw: PI / 2 + 0.5, walk: { phase: (t - C.s08) * 6, amount: 0.25 }, pose: { armR: 0.75 + 0.18 * sw, armL: 0.75 + 0.18 * sw, armROut: 0, armLOut: 0, lean: 0.12, head: [0, 0.2] } };
-    const meP: V3 = [16.35, 0, 4.9];
-    const me: Act = { position: meP, yaw: PI / 2, pose: M.mix(M.pickUp(t, C.s08 - 0.1, 1.0), M.idle(t, 5, 0.5)) };
+    const sweeper: Act = { position: [12.4 + 0.15 * sw, 0, 2.2], yaw: PI / 2 + 0.5, walk: { phase: (t - C.s08) * 6, amount: 0.25 }, pose: { armR: 0.75 + 0.18 * sw, armL: 0.75 + 0.18 * sw, armROut: 0, armLOut: 0, lean: 0.12, head: [0, 0.2] } };
+    const meP: V3 = [15.85, 0, 4.9];
+    const me: Act = { position: meP, yaw: PI / 2 + 0.55, pose: M.mix(M.pickUp(t, C.s08 - 0.1, 1.0), M.idle(t, 5, 0.5)) };
     const mh = SINK_TRAY(t);
     let maya: Act = { position: [SINK[0], 0, SINK[2]], yaw: 0, pose: { armL: 1.5, armR: 1.5 } };
     maya = reach(maya, KID, add(mh, [-0.88, 0, 0.3]), add(mh, [0.88, 0, 0.3]));
@@ -279,7 +279,7 @@ export const SHOTS_A: Shot[] = [
         { look: ME, a: me, expr: "smile" },
         { look: MAYA, a: maya, expr: "happy", seed: 13 },
       ], CS({ bags: true }))}</>;
-  }, (t) => move(cam([8.8, 11.6, -3.4], [17.6, 1.6, 4.6], 46), cam([9.4, 11.4, -2.6], [17.8, 1.6, 4.8], 45), t, C.s08, C.s09)),
+  }, (t) => move(cam([17.2, 11.0, -12.6], [15.4, 1.8, 4.4], 44), cam([17.0, 10.8, -12.0], [15.4, 1.8, 4.6], 43), t, C.s08, C.s09)),
 
   // (9) CLUE "with our backpacks lined up beside it": the row; ME's striped bag right under the drawer hole, pocket open
   mk("a09_bags", C.s09, C.s10, (t) => {
@@ -309,7 +309,7 @@ export const SHOTS_A: Shot[] = [
   // (11) "he's always back inside": Sir Nibbles, cheeks full, turns and looks right at us
   mk("a11_cheeks", C.s11, C.s12, (t) => {
     const ly = -0.55 + 0.55 * M.ease(M.seg(t, E.back6 - 0.1, E.back6 + 0.15));
-    return <Room drawer={0} tape={1} wheel={0} board="Monday!" clock={8.5} focus={P.cagePoint([0.35, 1, 0.5])} hamster={<Nibbles t={t} lookYaw={ly} />} />;
+    return <Room barW={1.5} drawer={0} tape={1} wheel={0} board="Monday!" clock={8.5} focus={P.cagePoint([0.35, 1, 0.5])} hamster={<Nibbles t={t} lookYaw={ly} />} />;
   }, (t) => move(cam([15.6, 4.1, 4.7], [20.2, 3.4, 4.35], 32), cam([16.1, 4.05, 4.6], [20.2, 3.4, 4.35], 31), t, C.s11, C.s12)),
 
   // (12) "My tape never broke": the tape still on; ME's jaw drops
@@ -343,7 +343,7 @@ export const SHOTS_A: Shot[] = [
   // (15) "Nothing.": ME turns to us and shrugs
   mk("a15_nothing", C.s15, C.end, (t) => {
     const pos: V3 = [17.2, 0, 7.4], camP: V3 = [10.6, 4.6, 11.4];
-    const tr = M.turn(2.55, M.yawTo(pos, camP), t, C.s15 + 0.05, 0.35);
+    const tr = M.turn(2.55, M.yawTo(pos, camP), t, C.s15 - 0.45, 0.35);
     const a: Act = { position: pos, yaw: tr.yaw, walk: tr.walk, pose: M.mix(M.shrug(t, E.nothing - 0.05, C.end + 0.5), M.idle(t, 6, 0.5), { armR: 0.3 * (1 - M.seg(t, C.s15, C.s15 + 0.3)) }) };
     return <><Room drawer={0} tape={1} wheel={wheelSpin(t)} board="Monday!" clock={8.5} focus={pos} hamster={<Nibbles t={t} lookYaw={-0.4} />} />
       {cast(t, [{ look: ME, a, expr: M.faceAt(t, "worried", "blank", E.nothing), hold: { R: <P.Magnifier /> } }], CS())}</>;

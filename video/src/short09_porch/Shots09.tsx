@@ -47,6 +47,7 @@ const CUTS: [string, number][] = [
   ["s24_face", P(14)],                      // b14 not angry: worried
   ["s25_past", P(15)],                      // b15 he looks past ME, hand on his chest: scared
   ["s26_wake", at(15, "happened") - K],     // Dad wakes and waves: relief
+  ["s26b_relief", at(15, "to", 1, -0.04)],   // Mr. Bell sees Dad is fine: worry melts into a smile
   ["s27_laugh", P(16)],                     // b16 the two men laugh on the couch
   ["s28_switch", at(16, "meant") - K],      // our switch, ME's hand near it (CLUE)
   ["s29_next", at(16, "always") - K],       // next night: Mr. Bell flashes first (CLUE)
@@ -308,9 +309,9 @@ const SHOTS_RAW: Shot[] = [
       if (t > g - 0.25 && t < on) pose = M.mix(pose, reachArm(st(base), 1, hook).pose);
       if (t >= on) pose = M.mix(pose, { armL: -0.5 * M.env(t, on, on + 0.35, 0.1, 0.12), armR: -0.5 * M.env(t, on, on + 0.35, 0.1, 0.12), armLOut: 0.3, armROut: 0.3, head: [0, -0.1] });
       const a: A = { ...base, pose };
-      return <World t={t} bellCut bellDoor={0.3} bell={1} inside="bell" coat={t < g} focus={B([-5, F, 4])}>
+      return <World t={t} bellCut bellDoor={0} bell={1} inside="bell" coat={t < g} focus={B([-5, F, 4])}>
         <C look={t < on ? BELL : BELL_COAT} t={t} a={a} cs={CS_BELLCUT} allow={["coatStand"]} expr="worried" wear={["slippers"]} blinkSeed={2}
-          hold={t >= g && t < on ? { L: <mesh position={[0, 1.6, 0]}><boxGeometry args={[1.4, 3.6, 0.5]} /><meshStandardMaterial color="#2e3a52" roughness={0.9} /></mesh> } : undefined} />
+          hold={t >= g && t < on ? { L: <mesh position={[0, 0.9, 0.3]}><boxGeometry args={[1.1, 2.2, 0.4]} /><meshStandardMaterial color="#3d4c6c" roughness={0.9} /></mesh> } : undefined} />
       </World>; },
     cam: mv("s20_coat", c(B([-0.6, 6.3, 7.4]), B([-6.4, 4.0, 3.6]), 44), c(B([-0.8, 6.25, 7.0]), B([-6.4, 4.0, 3.6]), 43)),
   }),
@@ -346,9 +347,9 @@ const SHOTS_RAW: Shot[] = [
   }),
   // (25) not angry: worried. Seen from inside, warm hall light on his face; ME's head a sliver at the bottom
   mk("s24_face", {
-    scene: (t) => <World t={t} homeCut inside="home" our={0} ourDoor={0.75} focus={[-3, F, 9]} room={{ hall: 1, lamp: 0 }}>
+    scene: (t) => <World t={t} homeCut inside="home" our={0} ourDoor={0.97} focus={[-3, F, 9]} room={{ hall: 1, lamp: 0 }}>
       <C look={BELL_COAT} t={t} a={{ position: [DOOR_X + 0.2, F, 12.6], yaw: Math.PI, pose: M.mix(M.idle(t, 3, 0.4), M.headShake(t, at(14, "angry"), at(14, "angry") + 0.6, 3)) }} cs={CS_HOMECUT} expr="worried" wear={["slippers"]} blinkSeed={2} />
-      <C look={ME} s={KS} t={t} a={{ position: [DOOR_X + 1.5, F, 6.6], yaw: -0.15, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
+      <C look={ME} s={KS} t={t} a={{ position: [DOOR_X + 2.4, F, 6.4], yaw: -0.15, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
     </World>,
     cam: mv("s24_face", c([DOOR_X - 0.9, 6.3, 2.6], [DOOR_X + 0.2, 5.2, 12.6], 28), c([DOOR_X - 0.85, 6.25, 3.3], [DOOR_X + 0.2, 5.2, 12.6], 27)),
   }),
@@ -356,9 +357,9 @@ const SHOTS_RAW: Shot[] = [
   mk("s25_past", {
     scene: (t) => { const [a0] = span("s25_past");
       const pose = M.mix(M.idle(t, 3, 0.3), { armL: 1.38 * M.env(t, a0 + 0.1), armLOut: -0.33 * M.env(t, a0 + 0.1), head: [0.45 * M.env(t, a0 + 0.05), -0.05], lean: 0.08 * M.env(t, a0 + 0.1) });
-      return <World t={t} homeCut our={0} ourDoor={0.75} focus={[-3, F, 11]} room={{ hall: 1, lamp: 0 }}>
+      return <World t={t} homeCut our={0} ourDoor={0.97} focus={[-3, F, 11]} room={{ hall: 1, lamp: 0 }}>
         <C look={BELL_COAT} t={t} a={{ position: [DOOR_X + 0.2, F, 11.4], yaw: Math.PI, pose }} cs={CS_HOMECUT} expr="scared" wear={["slippers"]} blinkSeed={2} />
-        <C look={ME} s={KS} t={t} a={{ position: [DOOR_X - 0.8, F, 7.0], yaw: 0.15, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
+        <C look={ME} s={KS} t={t} a={{ position: [DOOR_X - 1.7, F, 7.0], yaw: 0.25, pose: M.idle(t, 7, 0.4) }} cs={CS_HOMECUT} expr="worried" blinkSeed={1} />
       </World>; },
     cam: mv("s25_past", c([DOOR_X - 2.2, 5.0, 16.6], [DOOR_X + 0.4, 4.9, 10.6], 36), c([DOOR_X - 2.0, 5.0, 16.0], [DOOR_X + 0.4, 4.9, 10.6], 35)),
   }),
@@ -370,6 +371,15 @@ const SHOTS_RAW: Shot[] = [
         <C look={DAD} t={t} a={a} cs={CS_HOMECUT} expr={t < a0 + 0.15 ? "surprised" : "happy"} blink={t < a0 + 0.05 ? 1 : undefined} wear={["brace"]} blinkSeed={5} />
       </World>; },
     cam: mv("s26_wake", c([2.4, 5.6, 2.4], [7.4, 4.4, 0.6], 40), c([2.8, 5.5, 2.2], [7.4, 4.4, 0.6], 39)),
+  }),
+  // (27b) Mr. Bell in our doorway sees Dad waving: the worry drops out of his shoulders, a smile
+  mk("s26b_relief", {
+    scene: (t) => { const [a0] = span("s26b_relief"); const u = io(seg(t, a0 + 0.05, a0 + 0.3));
+      const pose = M.mix(M.idle(t, 3, 0.3), { armL: 1.38 * (1 - u), armLOut: -0.33 * (1 - u), lean: 0.08 * (1 - u) - 0.04 * u, head: [0.45 * (1 - u), -0.05 + 0.1 * u], roll: 0.02 * u });
+      return <World t={t} homeCut inside="home" our={0} ourDoor={0.97} focus={[-3, F, 9]} room={{ hall: 1, lamp: 1 }}>
+        <C look={BELL_COAT} t={t} a={{ position: [DOOR_X + 0.2, F, 11.4], yaw: Math.PI, pose }} cs={CS_HOMECUT} expr={u < 0.4 ? "worried" : "happy"} wear={["slippers"]} blinkSeed={2} />
+      </World>; },
+    cam: mv("s26b_relief", c([-4.0, 6.2, 1.6], [DOOR_X + 0.2, 5.3, 11.4], 25), c([-3.95, 6.15, 2.4], [DOOR_X + 0.2, 5.3, 11.4], 24)),
   }),
   // (28) the two men laugh on the couch
   mk("s27_laugh", {
@@ -461,9 +471,9 @@ const CAMS: Record<string, (t: number) => CamS> = {
   s18_look: mv("s18_look", c([8.2, 5.6, 8.0], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 44), c([8.0, 5.55, 7.8], [WIN_L[0] - 0.3, 4.2, FRONT_Z - 2.6], 43)),
   s20_coat: mv("s20_coat", c(B([2.4, 6.4, 0.2]), B([-6.0, 4.0, 4.4]), 40), c(B([2.0, 6.3, 0.5]), B([-6.0, 4.0, 4.4]), 39)),
   s22_open: mv("s22_open", c([6.2, 6.0, -2.2], [-1.4, 4.0, 7.4], 42), c([5.8, 5.95, -1.8], [-1.4, 4.0, 7.4], 41)),
-  s23_knock: mv("s23_knock", c([6.6, 5.6, 13.6], [-2.6, 4.4, 11.4], 40), c([6.2, 5.6, 13.6], [-2.6, 4.4, 11.4], 39)),
+  s23_knock: mv("s23_knock", c([3.4, 6.0, 13.9], [-2.6, 4.6, 11.4], 40), c([3.1, 6.0, 13.9], [-2.6, 4.6, 11.4], 39)),
   s24_face: mv("s24_face", c([-4.0, 6.3, 0.8], [DOOR_X + 0.2, 5.5, 12.6], 25), c([-3.95, 6.25, 1.6], [DOOR_X + 0.2, 5.5, 12.6], 24)),
-  s25_past: mv("s25_past", c([1.6, 6.9, 2.0], [DOOR_X + 0.2, 5.4, 11.4], 28), c([1.5, 6.85, 2.6], [DOOR_X + 0.2, 5.4, 11.4], 27)),
+  s25_past: mv("s25_past", c([-2.5, 6.9, 2.0], [DOOR_X + 0.1, 5.4, 11.4], 28), c([-2.5, 6.85, 2.5], [DOOR_X + 0.2, 5.4, 11.4], 27)),
   s26_wake: mv("s26_wake", c([-1.0, 6.0, 1.8], [7.4, 4.0, 0.9], 36), c([-0.4, 5.9, 1.7], [7.4, 4.0, 0.9], 35)),
   s27_laugh: mv("s27_laugh", c([-2.6, 6.0, -1.2], [7.4, 4.0, -1.2], 42), c([-2.0, 5.9, -1.2], [7.4, 4.0, -1.2], 41)),
   s28_switch: (t) => { const w = sw0(); return mv("s28_switch", c(add(w, [-6.2, 0.5, -6.6]), add(w, [0.0, -1.2, -0.8]), 30), c(add(w, [-5.8, 0.45, -6.2]), add(w, [0.0, -1.0, -0.8]), 29))(t); },
@@ -528,6 +538,6 @@ export const PLACE09: Record<string, "street_night" | "street_dusk" | "store" | 
   s12_clock: "our_room", s13_dark: "street_night", s14_again: "street_night", s15_wave: "our_room", s16_pov: "street_night",
   s17_slippers: "street_night", s17_stare: "street_night", s18_look: "our_room", s19_tiptoe: "our_room", s20_coat: "bell_hall",
   s21_cross: "street_night", s22_open: "our_room", s23_knock: "street_night", s24_face: "our_room", s25_past: "street_night",
-  s26_wake: "our_room", s27_laugh: "our_room", s28_switch: "our_room", s29_next: "street_night", s30_me: "our_room",
+  s26_wake: "our_room", s26b_relief: "our_room", s27_laugh: "our_room", s28_switch: "our_room", s29_next: "street_night", s30_me: "our_room",
   s31_nod: "street_night", s32_home: "bell_hall",
 };
